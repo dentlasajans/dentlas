@@ -68,7 +68,7 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
-          {['Projeler', 'Servisler', 'Ajans', 'İletişim'].map((item, i) => (
+          {['Servisler', 'Projeler', 'Ekibimiz', 'Galeri', 'İletişim'].map((item, i) => (
             <motion.a 
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -105,10 +105,10 @@ const Navbar = () => {
             className="md:hidden glass border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Hizmetler', 'Projeler', 'Hakkımızda', 'İletişim'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-display" onClick={() => setIsMenuOpen(false)}>{item}</a>
+              {['Servisler', 'Projeler', 'Ekibimiz', 'Galeri', 'İletişim'].map((item) => (
+                <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-bold" onClick={() => setIsMenuOpen(false)}>{item}</a>
               ))}
-              <button className="bg-brand text-dark p-4 rounded-xl font-bold">TEKLİF AL</button>
+              <button className="bg-white text-black p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all">TEKLİF AL</button>
             </div>
           </motion.div>
         )}
@@ -133,7 +133,7 @@ const SectionHeading = ({ children, subtitle }: { children: ReactNode, subtitle?
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="text-4xl md:text-6xl font-display font-bold tracking-tight"
+      className="text-4xl md:text-6xl font-extrabold tracking-tight"
     >
       {children}
     </motion.h2>
@@ -170,7 +170,7 @@ const ProjectCard = ({ title, category, image, size = 'small' }: { title: string
     <img src={image} alt={title} className="w-full h-full object-cover aspect-video group-hover:scale-110 transition-transform duration-700" />
     <div className="absolute bottom-0 left-0 p-8 z-20">
       <p className="text-brand text-xs uppercase tracking-widest font-bold mb-2">{category}</p>
-      <h3 className="text-2xl font-display font-bold">{title}</h3>
+      <h3 className="text-2xl font-bold">{title}</h3>
       <motion.div 
         className="mt-4 flex items-center gap-2 text-white/0 group-hover:text-white/100 transition-all"
       >
@@ -180,6 +180,49 @@ const ProjectCard = ({ title, category, image, size = 'small' }: { title: string
     </div>
   </motion.div>
 );
+
+const TeamCard = ({ name, role, image, delay }: { name: string, role: string, image: string, delay: number }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay }}
+    className="group"
+  >
+    <div className="relative overflow-hidden rounded-3xl mb-6 aspect-[4/5]">
+      <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+      <img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+      <div className="absolute bottom-0 left-0 w-full p-6 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+        <div className="flex gap-3">
+          <a href="#" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:text-brand transition-colors text-white"><Linkedin size={16} /></a>
+          <a href="#" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:text-brand transition-colors text-white"><Twitter size={16} /></a>
+        </div>
+      </div>
+    </div>
+    <h3 className="text-xl font-bold tracking-tight mb-1">{name}</h3>
+    <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black opacity-80">{role}</p>
+  </motion.div>
+);
+
+const GalleryItem = ({ image, delay, size = 'small' }: { image: string, delay: number, size?: 'small'|'large'|'tall'|'wide' }) => {
+  let cssClass = "";
+  if (size === 'large') cssClass = "md:col-span-2 md:row-span-2";
+  else if (size === 'tall') cssClass = "md:row-span-2";
+  else if (size === 'wide') cssClass = "md:col-span-2";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay }}
+      className={`relative overflow-hidden rounded-2xl group cursor-pointer ${cssClass}`}
+    >
+      <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 mix-blend-overlay" />
+      <img src={image} alt="Gallery item" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 min-h-[250px]" />
+    </motion.div>
+  );
+};
 
 // --- Main App Component ---
 
@@ -349,6 +392,82 @@ export default function App() {
               category="Kampanya"
               image="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section id="ekibimiz" className="py-40 px-6">
+        <div className="max-w-7xl mx-auto">
+          <SectionHeading subtitle="YARATICI EKİP">Geleceği Kuran <br /> İnsanlar.</SectionHeading>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <TeamCard 
+              name="Ahmet Yılmaz" 
+              role="Kurucu & Stratejist" 
+              image="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600" 
+              delay={0} 
+            />
+            <TeamCard 
+              name="Zeynep Kaya" 
+              role="Kreatif Direktör" 
+              image="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600" 
+              delay={0.1} 
+            />
+            <TeamCard 
+              name="Caner Demir" 
+              role="Dijital Pazarlama Uzmanı" 
+              image="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600" 
+              delay={0.2} 
+            />
+            <TeamCard 
+              name="Elif Şahin" 
+              role="Sosyal Medya Yöneticisi" 
+              image="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600" 
+              delay={0.3} 
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="galeri" className="py-32 px-6 bg-brand/[0.02]">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-brand text-xs uppercase tracking-[0.3em] font-bold mb-4"
+              >
+                STÜDYO & GALERİ
+              </motion.p>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-4xl md:text-6xl font-extrabold tracking-tight"
+              >
+                Kamera Arkası.
+              </motion.h2>
+            </div>
+            <motion.button 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="border border-white/10 text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white/5 transition-all"
+            >
+              TÜMÜNÜ GÖR
+            </motion.button>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px] md:auto-rows-[300px]">
+            <GalleryItem image="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" delay={0.0} size="large" />
+            <GalleryItem image="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600" delay={0.1} />
+            <GalleryItem image="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=600" delay={0.2} />
+            <GalleryItem image="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600" delay={0.3} size="wide" />
+            <GalleryItem image="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600" delay={0.4} />
           </div>
         </div>
       </section>
