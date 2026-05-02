@@ -15,20 +15,25 @@ export const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-4 glass !border-b-white/5' : 'py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <motion.div 
+        <motion.a 
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 cursor-pointer"
         >
           <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-8 sm:h-10 lg:h-12 w-auto -translate-y-0.5 lg:-translate-y-1" />
           <div className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tighter">
             Dentlas <span className="font-light opacity-80">Ajans</span>
           </div>
-        </motion.div>
+        </motion.a>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          {['Servisler', 'Projeler', 'Araçlar', 'Ekibimiz', 'Galeri', 'İletişim'].map((item, i) => (
+          {['Servisler', 'Projeler', 'Araçlar', 'Referanslar', 'Hakkımda', 'Galeri', 'İletişim'].map((item, i) => (
             <motion.a 
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -65,7 +70,7 @@ export const Navbar = () => {
             className="lg:hidden glass border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Servisler', 'Projeler', 'Araçlar', 'Ekibimiz', 'Galeri', 'İletişim'].map((item) => (
+              {['Servisler', 'Projeler', 'Araçlar', 'Referanslar', 'Hakkımda', 'Galeri', 'İletişim'].map((item) => (
                 <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-bold" onClick={() => setIsMenuOpen(false)}>{item}</a>
               ))}
               <button className="bg-white text-black p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all">TEKLİF AL</button>

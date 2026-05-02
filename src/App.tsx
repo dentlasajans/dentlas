@@ -6,7 +6,8 @@ import { Stats } from './components/sections/Stats';
 import { Servisler } from './components/sections/Servisler';
 import { Projeler } from './components/sections/Projeler';
 import { TasarimAraclari } from './components/sections/TasarimAraclari';
-import { Ekibimiz } from './components/sections/Ekibimiz';
+import { Hakkimda } from './components/sections/Hakkimda';
+import { Referanslar } from './components/sections/Referanslar';
 import { Galeri } from './components/sections/Galeri';
 import { Iletisim } from './components/sections/Iletisim';
 import { Footer } from './components/Footer';
@@ -30,7 +31,8 @@ export default function App() {
       <Servisler />
       <Projeler />
       <TasarimAraclari />
-      <Ekibimiz />
+      <Referanslar />
+      <Hakkimda />
       <Galeri />
       <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
       

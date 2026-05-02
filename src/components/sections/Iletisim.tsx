@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { MessageSquare, Globe } from 'lucide-react';
+import { MessageSquare, Globe, Phone, Instagram } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => void }) => {
@@ -19,8 +19,26 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                   <MessageSquare size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-widest">E-posta Gönderin</p>
-                  <p className="text-base md:text-lg font-medium break-all md:break-normal">hello@dentlasajans.com</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-widest">E-posta</p>
+                  <a href="mailto:info@dentlasajans.com" className="text-base md:text-lg font-medium break-all md:break-normal hover:text-brand transition-colors">info@dentlasajans.com</a>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-12 h-12 glass rounded-xl flex items-center justify-center text-brand group-hover:scale-110 transition-transform">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-white uppercase tracking-widest">Telefon</p>
+                  <a href="tel:+905522438468" className="text-base md:text-lg font-medium hover:text-brand transition-colors">0 552 243 84 68</a>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 group cursor-pointer">
+                <div className="w-12 h-12 glass rounded-xl flex items-center justify-center text-brand group-hover:scale-110 transition-transform">
+                  <Instagram size={20} />
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-white uppercase tracking-widest">Instagram</p>
+                  <a href="https://instagram.com/dentlasajans" target="_blank" rel="noopener noreferrer" className="text-base md:text-lg font-medium hover:text-brand transition-colors">@dentlasajans</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">
@@ -28,8 +46,8 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                   <Globe size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-widest">Ofisimizi Ziyaret Edin</p>
-                  <p className="text-base md:text-lg font-medium">Maslak No:1, İstanbul</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-widest">Adres</p>
+                  <p className="text-base font-medium max-w-[200px] leading-snug">Mehmet Akif Ersoy Mah. Aksaray Merkez 68100</p>
                 </div>
               </div>
             </div>
