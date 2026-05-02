@@ -6,7 +6,7 @@ export const Footer = ({ setIsKvkkOpen, setIsPrivacyOpen }: { setIsKvkkOpen: (va
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
         <div className="flex flex-col items-center md:items-start gap-6">
           <div className="flex items-center gap-4">
-            <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-10 md:h-12 w-auto opacity-90" />
+            <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-10 md:h-12 w-auto opacity-90 -translate-y-0.5 md:-translate-y-1" />
             <div className="text-xl md:text-2xl font-bold tracking-tighter">
               Dentlas <span className="font-light opacity-50">Ajans</span>
             </div>

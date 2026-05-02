@@ -15,7 +15,7 @@ export const AnimatedBackground = () => {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand/50 blur-[120px] mix-blend-screen"
+        className="absolute top-[-10%] left-[-20%] w-[500px] h-[500px] md:w-[50vw] md:h-[50vw] rounded-full bg-brand/50 blur-[80px] md:blur-[120px] mix-blend-screen"
       />
       <motion.div 
         animate={{
@@ -30,7 +30,7 @@ export const AnimatedBackground = () => {
           ease: "easeInOut",
           delay: 2
         }}
-        className="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-purple-900/40 blur-[150px] mix-blend-screen"
+        className="absolute bottom-[-10%] right-[-20%] w-[600px] h-[600px] md:w-[60vw] md:h-[60vw] rounded-full bg-purple-900/40 blur-[100px] md:blur-[150px] mix-blend-screen"
       />
       <motion.div 
         animate={{
@@ -45,7 +45,7 @@ export const AnimatedBackground = () => {
           ease: "easeInOut",
           delay: 5
         }}
-        className="absolute top-[20%] right-[20%] w-[40vw] h-[40vw] rounded-full bg-blue-600/30 blur-[100px] mix-blend-screen"
+        className="absolute top-[20%] md:right-[20%] -right-[10%] w-[400px] h-[400px] md:w-[40vw] md:h-[40vw] rounded-full bg-blue-600/30 blur-[80px] md:blur-[100px] mix-blend-screen"
       />
       
       {/* Şeffaf Firma Logosu */}

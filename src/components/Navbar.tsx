@@ -20,15 +20,15 @@ export const Navbar = () => {
           animate={{ opacity: 1, x: 0 }}
           className="flex items-center gap-3"
         >
-          <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-10 md:h-12 w-auto" />
-          <div className="text-xl md:text-2xl font-bold tracking-tighter hidden sm:block">
+          <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-8 sm:h-10 lg:h-12 w-auto -translate-y-0.5 lg:-translate-y-1" />
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tighter">
             Dentlas <span className="font-light opacity-80">Ajans</span>
           </div>
         </motion.div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          {['Servisler', 'Projeler', 'Ekibimiz', 'Galeri', 'İletişim'].map((item, i) => (
+        <div className="hidden lg:flex items-center gap-6 xl:gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+          {['Servisler', 'Projeler', 'Araçlar', 'Ekibimiz', 'Galeri', 'İletişim'].map((item, i) => (
             <motion.a 
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -50,7 +50,7 @@ export const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="lg:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -62,10 +62,10 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-b border-white/10 overflow-hidden"
+            className="lg:hidden glass border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Servisler', 'Projeler', 'Ekibimiz', 'Galeri', 'İletişim'].map((item) => (
+              {['Servisler', 'Projeler', 'Araçlar', 'Ekibimiz', 'Galeri', 'İletişim'].map((item) => (
                 <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-bold" onClick={() => setIsMenuOpen(false)}>{item}</a>
               ))}
               <button className="bg-white text-black p-4 rounded-xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all">TEKLİF AL</button>

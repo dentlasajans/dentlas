@@ -5,6 +5,7 @@ import { Hero } from './components/sections/Hero';
 import { Stats } from './components/sections/Stats';
 import { Servisler } from './components/sections/Servisler';
 import { Projeler } from './components/sections/Projeler';
+import { TasarimAraclari } from './components/sections/TasarimAraclari';
 import { Ekibimiz } from './components/sections/Ekibimiz';
 import { Galeri } from './components/sections/Galeri';
 import { Iletisim } from './components/sections/Iletisim';
@@ -28,6 +29,7 @@ export default function App() {
       <Stats />
       <Servisler />
       <Projeler />
+      <TasarimAraclari />
       <Ekibimiz />
       <Galeri />
       <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
