@@ -3,13 +3,7 @@ import { Twitter, Linkedin } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 const TeamCard = ({ name, role, image, delay }: { name: string, role: string, image: string, delay: number }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay }}
-    className="group"
-  >
+  <div className="group">
     <div className="relative overflow-hidden rounded-3xl mb-6 aspect-[4/5]">
       <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
       <img src={image} alt={name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -22,7 +16,7 @@ const TeamCard = ({ name, role, image, delay }: { name: string, role: string, im
     </div>
     <h3 className="text-xl font-bold tracking-tight mb-1">{name}</h3>
     <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black opacity-80">{role}</p>
-  </motion.div>
+  </div>
 );
 
 export const Ekibimiz = () => {

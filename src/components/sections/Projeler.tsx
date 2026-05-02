@@ -4,9 +4,6 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 const ProjectCard = ({ title, category, image, size = 'small' }: { title: string, category: string, image: string, size?: 'small' | 'large' }) => (
   <motion.div 
-    initial={{ opacity: 0, scale: 0.95 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    viewport={{ once: true }}
     whileHover={{ scale: 1.02 }}
     className={`relative group overflow-hidden rounded-3xl cursor-pointer ${size === 'large' ? 'md:col-span-2 md:row-span-2' : ''}`}
   >
@@ -15,12 +12,12 @@ const ProjectCard = ({ title, category, image, size = 'small' }: { title: string
     <div className="absolute bottom-0 left-0 p-8 z-20">
       <p className="text-brand text-xs uppercase tracking-widest font-bold mb-2">{category}</p>
       <h3 className="text-2xl font-bold">{title}</h3>
-      <motion.div 
+      <div 
         className="mt-4 flex items-center gap-2 text-white/0 group-hover:text-white/100 transition-all"
       >
         <span>Detayları Gör</span>
         <ArrowRight size={16} />
-      </motion.div>
+      </div>
     </div>
   </motion.div>
 );

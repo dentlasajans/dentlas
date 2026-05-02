@@ -4,12 +4,8 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 const ServiceCard = ({ icon: Icon, title, description, delay }: { icon: any, title: string, description: string, delay: number }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ delay }}
     whileHover={{ y: -5 }}
-    className="p-10 glass rounded-2xl border border-white/5 hover:border-brand transition-all group"
+    className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand transition-all group"
   >
     <div className="text-brand mb-6 text-sm font-black tracking-widest flex items-center gap-3">
       <span className="opacity-40">{(delay * 10 + 1).toString().padStart(2, '0')}</span>

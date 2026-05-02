@@ -6,7 +6,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
   return (
     <section id="iletişim" className="py-32 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
             <SectionHeading subtitle="İLETİŞİM">Hazırsanız <br /> Başlayalım.</SectionHeading>
             <p className="text-white text-lg font-light mb-12">
@@ -20,7 +20,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white uppercase tracking-widest">E-posta Gönderin</p>
-                  <p className="text-lg font-medium">hello@dentlasajans.com</p>
+                  <p className="text-base md:text-lg font-medium break-all md:break-normal">hello@dentlasajans.com</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">
@@ -29,18 +29,13 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white uppercase tracking-widest">Ofisimizi Ziyaret Edin</p>
-                  <p className="text-lg font-medium">Maslak No:1, İstanbul</p>
+                  <p className="text-base md:text-lg font-medium">Maslak No:1, İstanbul</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="p-12 glass rounded-3xl border-white/5"
-          >
+          <div className="p-6 sm:p-8 md:p-12 glass rounded-3xl border-white/5">
             <form className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-3">
@@ -75,7 +70,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 BAŞLAYALIM
               </button>
             </form>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
