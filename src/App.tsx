@@ -58,9 +58,12 @@ const Navbar = () => {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center"
+          className="flex items-center gap-3"
         >
           <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-10 md:h-12 w-auto" />
+          <div className="text-xl md:text-2xl font-bold tracking-tighter hidden sm:block">
+            Dentlas <span className="font-light opacity-80">Ajans</span>
+          </div>
         </motion.div>
 
         {/* Desktop Menu */}
@@ -199,7 +202,7 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="inline-block px-4 py-1.5 glass rounded-full text-brand text-[8px] font-black tracking-[0.3em] mb-10 uppercase"
             >
-              AI Driven Strategy
+              Yapay Zeka Odaklı Strateji
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
@@ -416,10 +419,13 @@ export default function App() {
       <footer className="py-20 px-6 border-t border-white/5 bg-dark">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
           <div className="flex flex-col items-center md:items-start gap-6">
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
               <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-10 md:h-12 w-auto opacity-90" />
+              <div className="text-xl md:text-2xl font-bold tracking-tighter">
+                Dentlas <span className="font-light opacity-50">Ajans</span>
+              </div>
             </div>
-            <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.2em]">© 2024 Dentlas Ajans. ALL RIGHTS RESERVED.</p>
+            <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.2em]">© 2024 Dentlas Ajans. TÜM HAKLARI SAKLIDIR.</p>
           </div>
 
           <div className="flex gap-6">
