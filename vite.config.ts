@@ -6,7 +6,7 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    base: '/dentlas/', // GitHub Pages repo ismiyle uyumlu yol ayarı
+    base: '/', // Özel alan adı (custom domain) kullanıldığı için '/' olmalı
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
