@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { Linkedin, Instagram } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 export const Hakkimda = () => {
@@ -12,18 +11,13 @@ export const Hakkimda = () => {
           <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-[280px] sm:max-w-xs mx-auto lg:mx-0 w-full">
             <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10" />
             <img 
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600" 
+              src="https://res.cloudinary.com/dejx0brol/image/upload/v1777882709/20250615_001859_0000_hdtdmt.png" 
               alt="Himmet Muhammed KILIÇ" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
             />
             <div className="absolute bottom-0 left-0 w-full p-8 z-20">
-              <h3 className="text-3xl font-bold tracking-tight mb-2">Himmet Muhammed KILIÇ</h3>
-              <p className="text-brand text-sm uppercase tracking-[0.2em] font-black opacity-80 mb-6">Kurucu & Kreatif Stratejist</p>
-              
-              <div className="flex gap-4">
-                <a href="#" className="w-12 h-12 glass rounded-full flex items-center justify-center hover:text-brand transition-colors text-white hover:bg-white/10"><Linkedin size={20} /></a>
-                <a href="https://instagram.com/dentlasajans" target="_blank" rel="noopener noreferrer" className="w-12 h-12 glass rounded-full flex items-center justify-center hover:text-brand transition-colors text-white hover:bg-white/10"><Instagram size={20} /></a>
-              </div>
+              <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Himmet Muhammed KILIÇ</h3>
+              <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black opacity-80">Kurucu</p>
             </div>
           </div>
           
