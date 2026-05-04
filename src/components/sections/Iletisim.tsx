@@ -1,8 +1,41 @@
 import { motion } from 'motion/react';
 import { MessageSquare, Globe, Phone, Instagram } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
+import { useState } from 'react';
 
 export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => void }) => {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStatus('sending');
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/himmetmuhammedk@gmail.com', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 5000);
+      }
+    } catch (error) {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
   return (
     <section id="iletişim" className="py-32 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
@@ -54,20 +87,22 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
           </div>
 
           <div className="p-6 sm:p-8 md:p-12 glass rounded-3xl border-white/5">
-            <form className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_subject" value="Dentlas Ajans Yeni İletişim Formu Mesajı" />
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-[0.2em] font-black text-white">İsim</label>
-                  <input type="text" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="İsminiz..." />
+                  <label htmlFor="isim" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">İsim</label>
+                  <input id="isim" name="Isim" type="text" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="İsminiz..." required />
                 </div>
                 <div className="space-y-3">
-                  <label className="text-[10px] uppercase tracking-[0.2em] font-black text-white">E-posta</label>
-                  <input type="email" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="E-posta adresiniz..." />
+                  <label htmlFor="eposta" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">E-posta</label>
+                  <input id="eposta" name="Eposta" type="email" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="E-posta adresiniz..." required />
                 </div>
               </div>
               <div className="space-y-3">
-                <label className="text-[10px] uppercase tracking-[0.2em] font-black text-white">Mesajınız</label>
-                <textarea rows={4} className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all resize-none placeholder:opacity-30" placeholder="Projeniz hakkında kısa bir bilgi..."></textarea>
+                <label htmlFor="mesaj" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">Mesajınız</label>
+                <textarea id="mesaj" name="Mesaj" rows={4} className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all resize-none placeholder:opacity-30" placeholder="Projeniz hakkında kısa bir bilgi..." required></textarea>
               </div>
               
               <div className="flex items-start gap-3">
@@ -84,8 +119,15 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </label>
               </div>
 
-              <button type="submit" className="w-full bg-white text-black p-6 rounded-full font-black text-[10px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl">
-                BAŞLAYALIM
+              <button 
+                type="submit" 
+                disabled={status === 'sending'}
+                className="w-full bg-white text-black p-6 rounded-full font-black text-[10px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl disabled:opacity-50 disabled:hover:scale-100"
+              >
+                {status === 'idle' && 'BAŞLAYALIM'}
+                {status === 'sending' && 'GÖNDERİLİYOR...'}
+                {status === 'success' && 'BAŞARIYLA GÖNDERİLDİ!'}
+                {status === 'error' && 'BİR HATA OLUŞTU, TEKRAR DENEYİN'}
               </button>
             </form>
           </div>

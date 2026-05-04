@@ -15,12 +15,12 @@
   body {
     background-color: var(--color-dark);
     color: white;
-    font-family: var(--font-sans);
+    font-family: "Poppins", sans-serif;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-sans); /* Theme uses Inter for everything including headers but with high weight */
+    font-family: "Poppins", sans-serif;
   }
 }
 
