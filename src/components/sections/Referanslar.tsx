@@ -1,56 +1,148 @@
-import { motion } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, Check } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
-const ReferenceCard = ({ name, image, sector }: { name: string, image: string, sector: string }) => (
+const references = [
+  {
+    name: "Nenessa Hotel",
+    sector: "Turizm & Otelcilik",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1777882176/logo_beyaz_jfwaxk.png",
+    description: "Nenessa Hotel markasının dijital dünyadaki varlığını güçlendirmek için stratejik adımlar attık. Kurumsal kimlik tasarımı, sosyal medya yönetimi ve reklam kampanyaları ile marka bilinirliğini artırdık.",
+    features: ["Kurumsal Kimlik", "Sosyal Medya Yönetimi", "Performans Reklamları", "Fotoğraf & Video Çekimi"]
+  },
+  {
+    name: "Çok Yakında",
+    sector: "Yeni Proje",
+    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
+    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"]
+  },
+  {
+    name: "Çok Yakında",
+    sector: "Yeni Proje",
+    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
+    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"]
+  },
+  {
+    name: "Çok Yakında",
+    sector: "Yeni Proje",
+    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
+    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"]
+  }
+];
+
+const ReferenceCard = ({ name, logo, sector, onClick }: { name: string, logo?: string, sector: string, onClick: () => void }) => (
   <motion.div 
     whileHover={{ scale: 1.05 }}
-    className="relative group overflow-hidden rounded-3xl cursor-pointer aspect-square bg-white/5 flex items-center justify-center p-8 border border-white/5 hover:border-brand/50 transition-all"
+    onClick={onClick}
+    className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-6 sm:p-8 border border-white/5 hover:border-brand/30 transition-all cursor-pointer"
   >
-    <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent opacity-80 z-10" />
-    <img src={image} alt={name} className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-40 group-hover:opacity-60" />
-    <div className="relative z-20 flex flex-col items-center text-center">
-      <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white">{name}</h3>
+    <div className="w-32 h-32 mb-6 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
+      {logo ? (
+        <img src={logo} alt={name} className="max-w-full max-h-full object-contain drop-shadow-lg" />
+      ) : (
+        <div className="w-16 h-16 rounded-full border border-white/20 border-dashed" />
+      )}
+    </div>
+    <div className="flex flex-col items-center text-center">
+      <h3 className="text-xl md:text-2xl font-bold mb-1 text-white">{name}</h3>
       <p className="text-brand text-[10px] uppercase tracking-widest font-bold">{sector}</p>
     </div>
   </motion.div>
 );
 
 export const Referanslar = () => {
+  const [selectedRef, setSelectedRef] = useState<any | null>(null);
+
+  const handleOpenModal = (item: any) => {
+    setSelectedRef(item);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRef(null);
+    document.body.style.overflow = '';
+  };
+
   return (
     <section id="referanslar" className="py-24 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="GÜVENENLER">Referanslarımız.</SectionHeading>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          <ReferenceCard 
-            name="Nenessa Hotel"
-            sector="Turizm & Otelcilik"
-            image="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800"
-          />
-          {/* Gelecekte eklenecek referanslar için yer tutucular */}
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-8 border border-white/5 border-dashed hover:border-brand/30 transition-all"
-          >
-            <span className="text-white/20 font-bold mb-2">Çok Yakında</span>
-            <span className="text-brand/40 text-[10px] uppercase tracking-widest font-bold">Yeni Proje</span>
-          </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-8 border border-white/5 border-dashed hover:border-brand/30 transition-all"
-          >
-            <span className="text-white/20 font-bold mb-2">Çok Yakında</span>
-            <span className="text-brand/40 text-[10px] uppercase tracking-widest font-bold">Yeni Proje</span>
-          </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.05 }}
-            className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-8 border border-white/5 border-dashed hover:border-brand/30 transition-all"
-          >
-            <span className="text-white/20 font-bold mb-2">Çok Yakında</span>
-            <span className="text-brand/40 text-[10px] uppercase tracking-widest font-bold">Yeni Proje</span>
-          </motion.div>
+          {references.map((item, index) => (
+            <ReferenceCard 
+              key={index}
+              name={item.name}
+              sector={item.sector}
+              logo={item.logo}
+              onClick={() => handleOpenModal(item)}
+            />
+          ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedRef && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleCloseModal}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            />
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-lg glass border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl overflow-hidden"
+            >
+              <button 
+                onClick={handleCloseModal}
+                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white z-20"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex items-center gap-6 mb-8 relative z-10">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/5 flex items-center justify-center p-3 border border-white/5 shadow-inner">
+                  {selectedRef.logo ? (
+                    <img src={selectedRef.logo} alt={selectedRef.name} className="max-w-full max-h-full object-contain" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full border border-white/20 border-dashed" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight leading-tight">{selectedRef.name}</h3>
+                  <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black">{selectedRef.sector}</p>
+                </div>
+              </div>
+
+              <div className="space-y-8 relative z-10">
+                <p className="text-white/80 leading-relaxed font-light">
+                  {selectedRef.description}
+                </p>
+
+                <div>
+                  <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-white/50 mb-4 pb-4 border-b border-white/5">Çalışma Kapsamı</h4>
+                  <ul className="grid sm:grid-cols-2 gap-3">
+                    {selectedRef.features.map((feature: string, idx: number) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm text-white/80">
+                        <div className="mt-0.5 text-brand bg-brand/10 p-0.5 rounded-full min-w-[16px]">
+                          <Check size={12} strokeWidth={3} />
+                        </div>
+                        <span className="font-medium">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

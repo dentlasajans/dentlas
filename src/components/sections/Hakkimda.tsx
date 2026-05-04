@@ -9,7 +9,7 @@ export const Hakkimda = () => {
         <SectionHeading subtitle="BEN KİMİM?">Geleceği Kuran <br /> Tasarımcı.</SectionHeading>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-md mx-auto lg:mx-0 w-full">
+          <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-[280px] sm:max-w-xs mx-auto lg:mx-0 w-full">
             <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent z-10" />
             <img 
               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600" 

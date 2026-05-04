@@ -32,8 +32,8 @@ export default function App() {
       <Projeler />
       <TasarimAraclari />
       <Referanslar />
-      <Hakkimda />
       <Galeri />
+      <Hakkimda />
       <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
       
       <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
