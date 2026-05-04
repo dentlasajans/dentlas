@@ -35,18 +35,18 @@ const ReferenceCard = ({ name, logo, sector, onClick }: { name: string, logo?: s
   <motion.div 
     whileHover={{ scale: 1.05 }}
     onClick={onClick}
-    className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-6 sm:p-8 border border-white/5 hover:border-brand/30 transition-all cursor-pointer"
+    className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 border border-white/5 hover:border-brand/30 transition-all cursor-pointer w-full"
   >
-    <div className="w-32 h-32 mb-6 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
+    <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 mb-3 sm:mb-6 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
       {logo ? (
         <img src={logo} alt={name} className="max-w-full max-h-full object-contain drop-shadow-lg" />
       ) : (
-        <div className="w-16 h-16 rounded-full border border-white/20 border-dashed" />
+        <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-full border border-white/20 border-dashed" />
       )}
     </div>
-    <div className="flex flex-col items-center text-center">
-      <h3 className="text-xl md:text-2xl font-bold mb-1 text-white">{name}</h3>
-      <p className="text-brand text-[10px] uppercase tracking-widest font-bold">{sector}</p>
+    <div className="flex flex-col items-center text-center w-full">
+      <h3 className="text-sm sm:text-xl md:text-2xl font-bold mb-1 text-white truncate w-full">{name}</h3>
+      <p className="text-brand text-[8px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest font-bold truncate w-full">{sector}</p>
     </div>
   </motion.div>
 );
