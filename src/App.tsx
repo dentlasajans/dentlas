@@ -9,6 +9,7 @@ import { TasarimAraclari } from './components/sections/TasarimAraclari';
 import { Hakkimda } from './components/sections/Hakkimda';
 import { Referanslar } from './components/sections/Referanslar';
 import { Galeri } from './components/sections/Galeri';
+import { Blog } from './components/sections/Blog';
 import { Iletisim } from './components/sections/Iletisim';
 import { Footer } from './components/Footer';
 import { KVKKModal } from './components/modals/KVKKModal';
@@ -34,6 +35,7 @@ export default function App() {
       <Referanslar />
       <Galeri />
       <Hakkimda />
+      <Blog />
       <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
       
       <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
