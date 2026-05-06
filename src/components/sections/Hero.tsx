@@ -111,20 +111,20 @@ export const Hero = () => {
             {/* Glowing sphere base */}
             <motion.div 
               animate={{ 
-                scale: [1, 1.15, 1],
-                opacity: [0.2, 0.4, 0.2]
+                scale: [1, 1.1, 1],
+                opacity: [0.2, 0.3, 0.2]
               }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute w-40 h-40 md:w-64 md:h-64 bg-brand/20 rounded-full blur-3xl z-0"
+              transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+              className="absolute w-40 h-40 md:w-64 md:h-64 bg-brand/20 rounded-full blur-2xl z-0 will-change-transform"
             />
 
             {/* Typography element */}
             <motion.div
-              animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute z-20 flex items-center justify-center"
+              animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              className="absolute z-20 flex items-center justify-center will-change-transform"
             >
-              <div className="text-[120px] md:text-[200px] font-serif italic font-bold text-white/[0.03] tracking-tighter leading-none" style={{ textShadow: '0 0 60px rgba(255,255,255,0.05)' }}>
+              <div className="text-[120px] md:text-[200px] font-serif italic font-bold text-white/[0.03] tracking-tighter leading-none" style={{ textShadow: '0 0 30px rgba(255,255,255,0.02)' }}>
                 Aa
               </div>
             </motion.div>
@@ -134,7 +134,7 @@ export const Hero = () => {
               animate={{ rotateX: [60, 60], rotateZ: [0, 360] }}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
               style={{ transformStyle: "preserve-3d" }}
-              className="absolute w-64 h-64 md:w-[400px] md:h-[400px] border border-white/5 rounded-[2rem] z-10 bg-white/[0.01] backdrop-blur-[1px] will-change-transform"
+              className="absolute w-64 h-64 md:w-[400px] md:h-[400px] border border-white/5 rounded-[2rem] z-10 bg-white/[0.01] will-change-transform"
             />
 
             {/* Floating Layer/Canvas 2 (Bezier visualization) */}

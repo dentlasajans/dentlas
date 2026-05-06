@@ -14,6 +14,7 @@ export const Hakkimda = () => {
               src="https://res.cloudinary.com/dejx0brol/image/upload/v1777882709/20250615_001859_0000_hdtdmt.png" 
               alt="Himmet Muhammed KILIÇ" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+              loading="lazy"
             />
             <div className="absolute bottom-0 left-0 w-full p-8 z-20">
               <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Himmet Muhammed KILIÇ</h3>

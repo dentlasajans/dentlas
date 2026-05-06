@@ -75,7 +75,7 @@ const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
     className="w-full p-3 md:p-6 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center gap-2 md:gap-4 hover:-translate-y-2 cursor-pointer"
   >
     <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-      <img src={tool.icon} alt={tool.name} className="w-8 h-8 md:w-10 md:h-10 opacity-80 group-hover:opacity-100 transition-opacity" />
+      <img src={tool.icon} alt={tool.name} className="w-8 h-8 md:w-10 md:h-10 opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
     </div>
     <div className="w-full">
       <h3 className="font-bold text-[11px] md:text-base text-white mb-1 group-hover:text-brand transition-colors leading-tight truncate">{tool.name}</h3>

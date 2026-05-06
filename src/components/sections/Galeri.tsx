@@ -34,7 +34,7 @@ const GalleryItem = ({ src, type }: { src: string, type: 'image' | 'video' }) =>
       transition={{ duration: 0.3 }}
       className={`relative overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-white/5`}
     >
-      <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
       <img src={src} alt="Galeri" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
       
       {type === 'video' && (
