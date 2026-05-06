@@ -165,21 +165,37 @@ const TopicGraphic = ({ type }: { type: string }) => {
   }
 }
 
-const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string, onClick: () => void }) => (
-  <motion.div 
-    whileHover={{ y: -5 }}
-    onClick={onClick}
-    className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand transition-all group flex flex-col items-center text-center cursor-pointer"
-  >
-    <div className="text-brand mb-6 text-sm font-black tracking-widest flex items-center justify-center w-16 h-16 rounded-full bg-white/5 group-hover:bg-brand/20 transition-colors">
-      <Icon size={32} />
-    </div>
-    <h3 className="text-lg md:text-xl font-bold tracking-tight text-white">{title}</h3>
-  </motion.div>
-);
+const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string, onClick: () => void }) => {
+  const itemVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100 } }
+  };
+
+  return (
+    <motion.div 
+      variants={itemVariant}
+      whileHover={{ y: -5, boxShadow: "0 0 20px rgba(59, 130, 246, 0.15)" }}
+      onClick={onClick}
+      className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer"
+    >
+      <div className="text-white group-hover:text-brand mb-6 text-sm font-black tracking-widest flex items-center justify-center w-16 h-16 rounded-full bg-white/5 group-hover:bg-brand/10 transition-all group-hover:scale-110">
+        <Icon size={32} />
+      </div>
+      <h3 className="text-lg md:text-xl font-bold tracking-tight text-white/80 group-hover:text-white transition-colors">{title}</h3>
+    </motion.div>
+  );
+};
 
 export const Servisler = () => {
   const [selectedService, setSelectedService] = useState<any | null>(null);
+
+  const containerVariant = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
 
   const handleOpenModal = (service: any) => {
     setSelectedService(service);
@@ -192,11 +208,17 @@ export const Servisler = () => {
   };
 
   return (
-    <section id="servisler" className="py-40 px-6">
+    <section id="servisler" className="py-40 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="HİZMETLERİM">Sınırları <br /> Ortadan Kaldırın.</SectionHeading>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <motion.div 
+          variants={containerVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+        >
           {services.map((service, index) => (
             <ServiceCard 
               key={index}
@@ -205,7 +227,7 @@ export const Servisler = () => {
               onClick={() => handleOpenModal(service)}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <AnimatePresence>

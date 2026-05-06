@@ -32,7 +32,7 @@ export const Navbar = () => {
         </motion.a>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
           {['Servisler', 'Projeler', 'Araçlar', 'Referanslar', 'Galeri', 'Hakkımda', 'Blog', 'İletişim'].map((item, i) => (
             <motion.a 
               key={item}
@@ -40,10 +40,10 @@ export const Navbar = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="relative group py-1 text-white/80 hover:text-white transition-all hover:-translate-y-0.5"
+              className="relative group py-1 text-white/70 hover:text-white transition-all hover:-translate-y-0.5"
             >
               {item}
-              <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-brand shadow-[0_0_10px_rgba(59,130,246,0.8)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </motion.a>
           ))}
         </div>

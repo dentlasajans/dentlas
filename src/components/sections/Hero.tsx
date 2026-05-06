@@ -1,28 +1,57 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 
-const HoverTextLine = ({ text, highlighted = false }: { text: string; highlighted?: boolean }) => (
-  <span className="relative inline-block w-fit">
-    <span className={`relative z-10 transition-all duration-500 ${highlighted ? 'text-brand text-glow' : ''}`}>
-      {text}
-    </span>
-    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-visible z-20">
-      <text 
-        x="50%" 
-        y="50%" 
-        dominantBaseline="central"
-        textAnchor="middle"
-        fill="none" 
-        className={`${highlighted ? 'stroke-white' : 'stroke-brand'} animate-border-slide`} 
-        strokeWidth="2" 
-        strokeDasharray="20 40"
-        style={{ fontSize: 'inherit', fontFamily: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit' }}
-      >
-        {text}
-      </text>
-    </svg>
-  </span>
-);
+const HoverTextLine = ({ text, highlighted = false, delayIndex = 0 }: { text: string; highlighted?: boolean, delayIndex?: number }) => {
+  const container = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.05, delayChildren: delayIndex * 0.2 },
+    },
+  };
+
+  const letterAnim = {
+    hidden: { opacity: 0, y: 50, rotateX: -90 },
+    visible: { opacity: 1, y: 0, rotateX: 0, transition: { type: 'spring', damping: 12, stiffness: 100 } },
+  };
+
+  return (
+    <motion.span 
+      className="relative inline-block w-fit group"
+      variants={container}
+      initial="hidden"
+      animate="visible"
+      style={{ perspective: 400 }}
+    >
+      <span className={`relative z-10 transition-all duration-500 inline-block ${highlighted ? 'text-brand text-glow' : ''}`}>
+        {text.split('').map((char, index) => (
+          <motion.span 
+            key={index} 
+            variants={letterAnim} 
+            className="inline-block origin-bottom"
+          >
+            {char === ' ' ? '\u00A0' : char}
+          </motion.span>
+        ))}
+      </span>
+      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-visible z-20">
+        <text 
+          x="50%" 
+          y="50%" 
+          dominantBaseline="central"
+          textAnchor="middle"
+          fill="none" 
+          className={`${highlighted ? 'stroke-white' : 'stroke-brand'} animate-border-slide`} 
+          strokeWidth="2" 
+          strokeDasharray="20 40"
+          style={{ fontSize: 'inherit', fontFamily: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit' }}
+        >
+          {text}
+        </text>
+      </svg>
+    </motion.span>
+  );
+};
 
 export const Hero = () => {
   const { scrollYProgress } = useScroll();
@@ -34,22 +63,19 @@ export const Hero = () => {
       <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
         <motion.div style={{ scale, opacity }} className="flex flex-col items-start md:items-start text-left">
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-block px-4 py-1.5 glass rounded-full text-brand text-[8px] font-black tracking-[0.3em] mb-8 md:mb-10 uppercase"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', damping: 20 }}
+            className="inline-block px-4 py-1.5 glass rounded-full text-brand text-[8px] font-black tracking-[0.3em] mb-8 md:mb-10 uppercase relative overflow-hidden group"
           >
-            Yapay Zeka Odaklı Strateji
+            <span className="relative z-10">Yapay Zeka Odaklı Strateji</span>
+            <div className="absolute inset-0 bg-brand/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
           </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="group inline-block text-6xl sm:text-[72px] md:text-[84px] lg:text-[104px] font-extrabold tracking-[-0.04em] leading-[0.85] mb-8 md:mb-10 cursor-default"
-          >
-            <HoverTextLine text="Markanı" /> <br />  
-            <HoverTextLine text="Öne" highlighted={true} /> <br /> 
-            <HoverTextLine text="Çıkar" />
-          </motion.h1>
+          <div className="inline-block text-6xl sm:text-[72px] md:text-[84px] lg:text-[104px] font-extrabold tracking-[-0.04em] leading-[0.85] mb-8 md:mb-10 cursor-default">
+            <HoverTextLine text="Markanı" delayIndex={0} /> <br />  
+            <HoverTextLine text="Öne" highlighted={true} delayIndex={1} /> <br /> 
+            <HoverTextLine text="Çıkar" delayIndex={2} />
+          </div>
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,7 +134,7 @@ export const Hero = () => {
               animate={{ rotateX: [60, 60], rotateZ: [0, 360] }}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
               style={{ transformStyle: "preserve-3d" }}
-              className="absolute w-64 h-64 md:w-[400px] md:h-[400px] border border-white/5 rounded-[2rem] z-10 bg-white/[0.01] backdrop-blur-[1px]"
+              className="absolute w-64 h-64 md:w-[400px] md:h-[400px] border border-white/5 rounded-[2rem] z-10 bg-white/[0.01] backdrop-blur-[1px] will-change-transform"
             />
 
             {/* Floating Layer/Canvas 2 (Bezier visualization) */}
@@ -116,15 +142,15 @@ export const Hero = () => {
               animate={{ rotateX: [60, 60], rotateZ: [45, 405], z: [0, 40, 0] }}
               transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
               style={{ transformStyle: "preserve-3d" }}
-              className="absolute w-48 h-48 md:w-[300px] md:h-[300px] border border-brand/30 rounded-2xl z-20 flex items-center justify-center bg-brand/[0.01]"
+              className="absolute w-48 h-48 md:w-[300px] md:h-[300px] border border-brand/30 rounded-2xl z-20 hidden md:flex items-center justify-center bg-brand/[0.01] will-change-transform"
             >
                <svg viewBox="0 0 100 100" className="w-full h-full opacity-60 absolute inset-0">
-                 <path d="M 20 80 C 20 20, 80 20, 80 80" fill="none" stroke="currentColor" className="text-brand drop-shadow-[0_0_5px_#B2FF05]" strokeWidth="0.5" />
+                 <path d="M 20 80 C 20 20, 80 20, 80 80" fill="none" stroke="currentColor" className="text-brand drop-shadow-[0_0_5px_#3B82F6]" strokeWidth="0.5" />
                  <path d="M 20 80 C 20 20, 80 20, 80 80" fill="none" stroke="transparent" strokeWidth="4" />
                  <circle cx="20" cy="80" r="2.5" fill="white" className="drop-shadow-[0_0_5px_white]" />
                  <circle cx="80" cy="80" r="2.5" fill="white" className="drop-shadow-[0_0_5px_white]" />
-                 <rect x="18.5" y="18.5" width="3" height="3" fill="currentColor" className="text-brand shadow-[0_0_5px_#B2FF05]" />
-                 <rect x="78.5" y="18.5" width="3" height="3" fill="currentColor" className="text-brand shadow-[0_0_5px_#B2FF05]" />
+                 <rect x="18.5" y="18.5" width="3" height="3" fill="currentColor" className="text-brand shadow-[0_0_5px_#3B82F6]" />
+                 <rect x="78.5" y="18.5" width="3" height="3" fill="currentColor" className="text-brand shadow-[0_0_5px_#3B82F6]" />
                  <line x1="20" y1="80" x2="20" y2="20" stroke="currentColor" className="text-white/20" strokeWidth="0.5" strokeDasharray="2 2" />
                  <line x1="80" y1="80" x2="80" y2="20" stroke="currentColor" className="text-white/20" strokeWidth="0.5" strokeDasharray="2 2" />
                </svg>
@@ -135,18 +161,18 @@ export const Hero = () => {
               animate={{ rotateX: [60, 60], rotateZ: [-30, 330], z: [20, 60, 20] }}
               transition={{ duration: 75, repeat: Infinity, ease: "linear" }}
               style={{ transformStyle: "preserve-3d" }}
-              className="absolute w-56 h-56 md:w-[350px] md:h-[350px] border border-white/10 rounded-full z-15 border-dashed border-[1.5px]"
+              className="absolute w-56 h-56 md:w-[350px] md:h-[350px] border border-white/10 rounded-full z-15 border-dashed border-[1.5px] hidden lg:block will-change-transform"
             />
 
             {/* CMYK / RGB Blobs for Colors */}
-            <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none">
-              <motion.div animate={{ scale: [1, 1.2, 1], y: [-20, 0, -20], x: [-10, 0, -10] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute -mt-20 -ml-20">
+            <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none hidden md:flex">
+              <motion.div animate={{ scale: [1, 1.2, 1], y: [-20, 0, -20], x: [-10, 0, -10] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute -mt-20 -ml-20 will-change-transform">
                  <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-[#00FFFF] mix-blend-screen blur-[24px] opacity-30" />
               </motion.div>
-              <motion.div animate={{ scale: [1, 1.3, 1], y: [0, -30, 0], x: [20, 0, 20] }} transition={{ duration: 7, repeat: Infinity, delay: 1, ease: "easeInOut" }} className="absolute mt-10 ml-24">
+              <motion.div animate={{ scale: [1, 1.3, 1], y: [0, -30, 0], x: [20, 0, 20] }} transition={{ duration: 7, repeat: Infinity, delay: 1, ease: "easeInOut" }} className="absolute mt-10 ml-24 will-change-transform">
                  <div className="w-12 h-12 md:w-20 md:h-20 rounded-full bg-[#FF00FF] mix-blend-screen blur-[20px] opacity-30" />
               </motion.div>
-              <motion.div animate={{ scale: [0.9, 1.2, 0.9], x: [-20, 10, -20], y: [20, 0, 20] }} transition={{ duration: 6, repeat: Infinity, delay: 2, ease: "easeInOut" }} className="absolute mt-24 -ml-12">
+              <motion.div animate={{ scale: [0.9, 1.2, 0.9], x: [-20, 10, -20], y: [20, 0, 20] }} transition={{ duration: 6, repeat: Infinity, delay: 2, ease: "easeInOut" }} className="absolute mt-24 -ml-12 will-change-transform">
                  <div className="w-14 h-14 md:w-24 md:h-24 rounded-full bg-[#FFFF00] mix-blend-screen blur-[20px] opacity-40" />
               </motion.div>
             </div>
@@ -163,7 +189,7 @@ export const Hero = () => {
             <motion.div
                animate={{ x: [0, 40, -20, 0], y: [0, -40, 20, 0] }}
                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute z-40 transform -rotate-12"
+               className="absolute z-40 transform -rotate-12 hidden md:block will-change-transform"
             >
                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">
                  <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" fill="rgba(0,0,0,0.5)" />

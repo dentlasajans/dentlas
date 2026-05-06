@@ -13,26 +13,37 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ title, category, image, onClick }: { title: string, category: string, image: string, onClick: () => void }) => (
-  <motion.div 
-    whileHover={{ scale: 1.02 }}
-    onClick={onClick}
-    className="relative group overflow-hidden rounded-3xl cursor-pointer"
-  >
-    <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/40 to-transparent opacity-60 z-10" />
-    <img src={image} alt={title} className="w-full h-full object-cover aspect-square group-hover:scale-110 transition-transform duration-700 bg-white/5" />
-    <div className="absolute bottom-0 left-0 p-8 z-20">
-      <p className="text-brand text-xs uppercase tracking-widest font-bold mb-2">{category}</p>
-      <h3 className="text-2xl font-bold text-white">{title}</h3>
-      <div 
-        className="mt-4 flex items-center gap-2 text-white/0 group-hover:text-white/100 transition-all text-white"
-      >
-        <span>Detayları Gör</span>
-        <ArrowRight size={16} />
+const ProjectCard = ({ title, category, image, onClick, index }: { title: string, category: string, image: string, onClick: () => void, index: number }) => {
+  const itemVariant = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, delay: index * 0.1 } }
+  };
+
+  return (
+    <motion.div 
+      variants={itemVariant}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
+      whileHover={{ scale: 1.02 }}
+      onClick={onClick}
+      className="relative group overflow-hidden rounded-3xl cursor-pointer shadow-lg hover:shadow-2xl transition-shadow"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-10 opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+      <img src={image} alt={title} className="w-full h-full object-cover aspect-square group-hover:scale-110 group-hover:rotate-1 transition-transform duration-700 bg-white/5" loading="lazy" />
+      <div className="absolute bottom-0 left-0 p-8 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+        <p className="text-brand text-[10px] uppercase tracking-[0.3em] font-black mb-3">{category}</p>
+        <h3 className="text-3xl font-extrabold text-white mb-2">{title}</h3>
+        <div 
+          className="mt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 transition-all duration-500 text-white font-medium"
+        >
+          <span className="border-b border-brand border-dashed pb-1">Projeyi İncele</span>
+          <ArrowRight size={18} className="text-brand" />
+        </div>
       </div>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 export const Projeler = () => {
   const [selectedProject, setSelectedProject] = useState<any | null>(null);
@@ -56,6 +67,7 @@ export const Projeler = () => {
           {projects.map((project, idx) => (
             <ProjectCard 
               key={idx}
+              index={idx}
               title={project.title}
               category={project.category}
               image={project.image}

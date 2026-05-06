@@ -41,7 +41,7 @@ const BlogCard = ({ post, onClick }: { post: any, onClick: () => void }) => (
   >
     <div className="relative aspect-video overflow-hidden">
       <div className="absolute inset-0 bg-dark/20 group-hover:bg-transparent transition-colors z-10" />
-      <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+      <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
       <div className="absolute top-4 left-4 z-20">
         <span className="bg-dark/80 backdrop-blur-md text-white text-[10px] uppercase tracking-widest font-bold px-3 py-1.5 rounded-full border border-white/10">
           {post.category}

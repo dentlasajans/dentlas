@@ -1,4 +1,5 @@
 import { Instagram, Phone, MessageCircle } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const Footer = ({ setIsKvkkOpen, setIsPrivacyOpen }: { setIsKvkkOpen: (val: boolean) => void, setIsPrivacyOpen: (val: boolean) => void }) => {
   return (
@@ -11,16 +12,16 @@ export const Footer = ({ setIsKvkkOpen, setIsPrivacyOpen }: { setIsKvkkOpen: (va
               Dentlas <span className="font-light opacity-50">Ajans</span>
             </div>
           </div>
-          <p className="text-white text-[10px] font-bold tracking-[0.2em]">© 2025 Dentlas Ajans. Secured by KasperskyLab. Tüm Hakları Saklıdır.</p>
+          <p className="text-white/60 text-[10px] font-bold tracking-[0.2em]">© 2026 Dentlas Ajans. Secured by KasperskyLab. Tüm Hakları Saklıdır.</p>
         </div>
 
         <div className="flex gap-6">
-          <a href="https://instagram.com/dentlasajans" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:text-brand transition-colors" aria-label="Instagram"><Instagram size={20} /></a>
-          <a href="https://wa.me/905522438468" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:text-green-500 transition-colors" aria-label="WhatsApp"><MessageCircle size={20} /></a>
-          <a href="tel:+905522438468" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:text-brand transition-colors" aria-label="Telefon"><Phone size={20} /></a>
+          <motion.a whileHover={{ y: -5, scale: 1.1 }} href="https://instagram.com/dentlasajans" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-gradient-to-tr hover:from-yellow-500 hover:via-pink-500 hover:to-purple-500 hover:border-transparent transition-all" aria-label="Instagram"><Instagram size={20} className="group-hover:text-white" /></motion.a>
+          <motion.a whileHover={{ y: -5, scale: 1.1 }} href="https://wa.me/905522438468" target="_blank" rel="noopener noreferrer" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-[#25D366] hover:border-transparent transition-all" aria-label="WhatsApp"><MessageCircle size={20} className="group-hover:text-white" /></motion.a>
+          <motion.a whileHover={{ y: -5, scale: 1.1 }} href="tel:+905522438468" className="w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-brand hover:border-transparent transition-all" aria-label="Telefon"><Phone size={20} className="group-hover:text-white hover:text-black" /></motion.a>
         </div>
 
-        <div className="flex gap-8 text-xs uppercase tracking-widest font-bold text-white">
+        <div className="flex gap-8 text-xs uppercase tracking-widest font-bold text-white/50">
           <button onClick={() => setIsKvkkOpen(true)} className="hover:text-brand transition-colors text-left uppercase tracking-widest font-bold">KVKK</button>
           <button onClick={() => setIsPrivacyOpen(true)} className="hover:text-brand transition-colors text-left uppercase tracking-widest font-bold">Gizlilik</button>
           <a href="#" className="hover:text-brand">SSS</a>

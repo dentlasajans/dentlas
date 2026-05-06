@@ -92,17 +92,17 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
               <input type="hidden" name="_subject" value="Dentlas Ajans Yeni İletişim Formu Mesajı" />
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                  <label htmlFor="isim" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">İsim</label>
-                  <input id="isim" name="Isim" type="text" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="İsminiz..." required />
+                  <label htmlFor="isim" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">İsim</label>
+                  <input id="isim" name="Isim" type="text" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" placeholder="İsminiz..." required />
                 </div>
                 <div className="space-y-3">
-                  <label htmlFor="eposta" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">E-posta</label>
-                  <input id="eposta" name="Eposta" type="email" className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all placeholder:opacity-30" placeholder="E-posta adresiniz..." required />
+                  <label htmlFor="eposta" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">E-posta</label>
+                  <input id="eposta" name="Eposta" type="email" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" placeholder="E-posta adresiniz..." required />
                 </div>
               </div>
               <div className="space-y-3">
-                <label htmlFor="mesaj" className="text-[10px] uppercase tracking-[0.2em] font-black text-white">Mesajınız</label>
-                <textarea id="mesaj" name="Mesaj" rows={4} className="w-full bg-white/[0.02] border border-white/10 rounded-xl p-5 focus:border-brand focus:outline-none transition-all resize-none placeholder:opacity-30" placeholder="Projeniz hakkında kısa bir bilgi..." required></textarea>
+                <label htmlFor="mesaj" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">Mesajınız</label>
+                <textarea id="mesaj" name="Mesaj" rows={4} className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all resize-none placeholder:opacity-30" placeholder="Projeniz hakkında kısa bir bilgi..." required></textarea>
               </div>
               
               <div className="flex items-start gap-3">
@@ -122,7 +122,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
               <button 
                 type="submit" 
                 disabled={status === 'sending'}
-                className="w-full bg-white text-black p-6 rounded-full font-black text-[10px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-2xl disabled:opacity-50 disabled:hover:scale-100"
+                className="w-full bg-brand text-black p-6 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] hover:bg-[#60a5fa] transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] disabled:opacity-50 disabled:hover:scale-100"
               >
                 {status === 'idle' && 'BAŞLAYALIM'}
                 {status === 'sending' && 'GÖNDERİLİYOR...'}

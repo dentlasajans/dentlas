@@ -14,6 +14,7 @@ import { Iletisim } from './components/sections/Iletisim';
 import { Footer } from './components/Footer';
 import { KVKKModal } from './components/modals/KVKKModal';
 import { PrivacyModal } from './components/modals/PrivacyModal';
+import { CustomCursor } from './components/CustomCursor';
 
 export default function App() {
   const [isKvkkOpen, setIsKvkkOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen">
+      <CustomCursor />
       <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
       <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
       

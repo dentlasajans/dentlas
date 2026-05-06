@@ -50,11 +50,11 @@ const GalleryItem = ({ src, type }: { src: string, type: 'image' | 'video' }) =>
 
 export const Galeri = () => {
   const [activeTab, setActiveTab] = useState<'image' | 'video'>('image');
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const handleTabChange = (tab: 'image' | 'video') => {
     setActiveTab(tab);
-    setVisibleCount(6);
+    setVisibleCount(8);
   };
 
   return (
@@ -93,7 +93,7 @@ export const Galeri = () => {
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <motion.div layout className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           <AnimatePresence mode="popLayout">
             {activeTab === 'image' && images.slice(0, visibleCount).map((src, index) => (
                <GalleryItem 
@@ -116,7 +116,7 @@ export const Galeri = () => {
         {((activeTab === 'image' && visibleCount < images.length) || (activeTab === 'video' && visibleCount < videos.length)) && (
           <div className="mt-12 flex justify-center">
             <button 
-              onClick={() => setVisibleCount(prev => prev + 6)}
+              onClick={() => setVisibleCount(prev => prev + 8)}
               className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold text-sm tracking-widest uppercase hover:bg-white/5 hover:border-brand/50 transition-all"
             >
               Daha Fazla Göster
