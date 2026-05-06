@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 export const Footer = ({ setIsKvkkOpen, setIsPrivacyOpen }: { setIsKvkkOpen: (val: boolean) => void, setIsPrivacyOpen: (val: boolean) => void }) => {
   return (
-    <footer className="py-8 px-6 border-t border-white/5 bg-dark">
+    <footer className="py-8 pb-24 md:pb-8 px-6 border-t border-white/5 bg-dark">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col items-center md:items-start gap-4">
           <div className="flex items-center gap-4">

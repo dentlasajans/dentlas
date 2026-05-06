@@ -3,9 +3,9 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 export const Hakkimda = () => {
   return (
-    <section id="hakkımda" className="py-40 px-6">
+    <section id="hakkımızda" className="py-40 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading subtitle="BEN KİMİM?">Geleceği Kuran <br /> Tasarımcı.</SectionHeading>
+        <SectionHeading subtitle="BİZ KİMİZ?">Geleceği Tasarlayan <br /> Ekibimiz.</SectionHeading>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-[280px] sm:max-w-xs mx-auto lg:mx-0 w-full">
@@ -29,13 +29,13 @@ export const Hakkimda = () => {
             className="flex flex-col gap-6 text-white/70"
           >
             <p className="text-xl md:text-2xl leading-relaxed text-white">
-              Her markanın anlatılmaya değer bir hikayesi vardır. Ben bu hikayeleri en etkili görsel ve stratejik dille buluşturmak için çalışıyorum.
+              Her markanın anlatılmaya değer bir hikayesi vardır. Biz, bu hikayeleri en etkili görsel ve stratejik dille dijital dünyaya entegre etmek için çalışıyoruz.
             </p>
             <p className="leading-relaxed">
-              Uzun yıllara dayanan dijital medya tecrübem ile sosyal medya yönetiminden profesyonel fotoğrafçılığa, grafik tasarımdan reklam yönetimine kadar markanızın tüm dijital ihtiyaçlarına 360 derece çözümler üretiyorum.
+              Dentlas Ajans olarak, sosyal medya yönetiminden web geliştirmeye, grafik tasarımdan video kurguya kadar markanızın tüm dijital ihtiyaçlarına 360 derece yenilikçi çözümler üretiyoruz.
             </p>
             <p className="leading-relaxed">
-              Nenessa Hotel gibi değerli markalarla yürüttüğümüz başarılı projeler, vizyonumuzun en iyi yansımalarından biridir. Sizin markanızı da bir sonraki seviyeye taşımak için buradayım.
+              Sektördeki tecrübemiz ve dinamik yapımızla, Nenessa Hotel gibi değerli markalarla yürüttüğümüz başarılı projeler vizyonumuzun birer kanıtıdır. Sizin markanızı da bir sonraki seviyeye taşımak için buradayız.
             </p>
           </motion.div>
         </div>

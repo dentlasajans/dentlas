@@ -14,6 +14,12 @@
   font-family: "Poppins", sans-serif !important;
 }
 
+*:not(input):not(textarea) {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
 @media (min-width: 769px) {
   *:not(input):not(textarea) {
     cursor: none !important;

@@ -72,14 +72,14 @@ const tools = [
 const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
   <div 
     onClick={onClick}
-    className="w-full p-3 md:p-6 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center gap-2 md:gap-4 hover:-translate-y-2 cursor-pointer"
+    className="w-full p-4 md:p-6 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center gap-3 md:gap-4 hover:-translate-y-2 cursor-pointer h-full"
   >
-    <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-      <img src={tool.icon} alt={tool.name} className="w-8 h-8 md:w-10 md:h-10 opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
+    <div className="w-14 h-14 md:w-20 md:h-20 shrink-0 rounded-xl md:rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+      <img src={tool.icon} alt={tool.name} className="w-10 h-10 md:w-12 md:h-12 opacity-80 group-hover:opacity-100 transition-opacity" loading="lazy" />
     </div>
-    <div className="w-full">
-      <h3 className="font-bold text-[11px] md:text-base text-white mb-1 group-hover:text-brand transition-colors leading-tight truncate">{tool.name}</h3>
-      <p className="text-[8px] md:text-[10px] uppercase tracking-wider text-white/50 font-bold truncate">{tool.category}</p>
+    <div className="w-full flex-1 flex flex-col justify-center">
+      <h3 className="font-bold text-xs md:text-[15px] text-white mb-1.5 group-hover:text-brand transition-colors leading-tight line-clamp-2">{tool.name}</h3>
+      <p className="text-[9px] md:text-[11px] uppercase tracking-wider text-white/50 font-bold line-clamp-2 mt-auto">{tool.category}</p>
     </div>
   </div>
 );
@@ -134,7 +134,7 @@ export const TasarimAraclari = () => {
             >
               <button 
                 onClick={handleCloseModal}
-                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white"
               >
                 <X size={20} />
               </button>

@@ -68,7 +68,7 @@ export const Hero = () => {
             transition={{ type: 'spring', damping: 20 }}
             className="inline-block px-4 py-1.5 glass rounded-full text-brand text-[8px] font-black tracking-[0.3em] mb-8 md:mb-10 uppercase relative overflow-hidden group"
           >
-            <span className="relative z-10">Yapay Zeka Odaklı Strateji</span>
+            <span className="relative z-10">Grafik Tasarım & Dijital Medya</span>
             <div className="absolute inset-0 bg-brand/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
           </motion.div>
           <div className="inline-block text-6xl sm:text-[72px] md:text-[84px] lg:text-[104px] font-extrabold tracking-[-0.04em] leading-[0.85] mb-8 md:mb-10 cursor-default">
@@ -90,9 +90,9 @@ export const Hero = () => {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <button className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
+            <a href="#iletişim" className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
               Geleceği İnşa Et <ArrowRight size={16} />
-            </button>
+            </a>
           </motion.div>
         </motion.div>
 

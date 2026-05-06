@@ -5,9 +5,28 @@ import { useState, useEffect } from 'react';
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+      
+      const sections = ['servisler', 'araçlar', 'referanslar', 'galeri', 'hakkımızda', 'blog', 'iletişim'];
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      
+      if (currentSection) {
+        setActiveSection(currentSection);
+      } else if (window.scrollY < 200) {
+        setActiveSection('');
+      }
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -33,23 +52,32 @@ export const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          {['Servisler', 'Projeler', 'Araçlar', 'Referanslar', 'Galeri', 'Hakkımda', 'Blog', 'İletişim'].map((item, i) => (
-            <motion.a 
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              className="relative group py-1 text-white/70 hover:text-white transition-all hover:-translate-y-0.5"
-            >
-              {item}
-              <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-brand shadow-[0_0_10px_rgba(59,130,246,0.8)] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-            </motion.a>
-          ))}
+          {['Servisler', 'Araçlar', 'Referanslar', 'Galeri', 'Hakkımızda', 'Blog', 'İletişim'].map((item, i) => {
+            const itemId = item.toLowerCase();
+            const isActive = activeSection === itemId;
+            
+            return (
+              <motion.a 
+                key={item}
+                href={`#${itemId}`}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className={`relative group py-1 transition-all hover:-translate-y-0.5 ${isActive ? 'text-brand' : 'text-white/70 hover:text-white'}`}
+              >
+                {item}
+                <span className={`absolute -bottom-1 left-0 w-full h-[2px] bg-brand shadow-[0_0_10px_rgba(59,130,246,0.8)] transition-transform duration-300 origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
+              </motion.a>
+            );
+          })}
         </div>
 
         {/* Mobile Toggle */}
-        <button className="lg:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button 
+          className="lg:hidden text-white" 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+        >
           {isMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -64,9 +92,20 @@ export const Navbar = () => {
             className="lg:hidden glass border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Servisler', 'Projeler', 'Araçlar', 'Referanslar', 'Galeri', 'Hakkımda', 'Blog', 'İletişim'].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-xl font-bold" onClick={() => setIsMenuOpen(false)}>{item}</a>
-              ))}
+              {['Servisler', 'Araçlar', 'Referanslar', 'Galeri', 'Hakkımızda', 'Blog', 'İletişim'].map((item) => {
+                const itemId = item.toLowerCase();
+                const isActive = activeSection === itemId;
+                return (
+                  <a 
+                    key={item} 
+                    href={`#${itemId}`} 
+                    className={`text-xl font-bold transition-colors ${isActive ? 'text-brand' : 'text-white'}`} 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                );
+              })}
             </div>
           </motion.div>
         )}

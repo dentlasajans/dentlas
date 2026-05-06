@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target } from 'lucide-react';
+import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 const services = [
@@ -59,6 +59,48 @@ const services = [
     title: "Google Reklam Yönetimi",
     description: "Google Arama, Görüntülü Reklam Ağı ve YouTube üzerinde markanızı doğru zamanda doğru kişilerin karşısına çıkarıyoruz. Performans odaklı stratejilerle satışlarınızı katlıyoruz.",
     features: ["Anahtar Kelime Analizi", "Tıklama Başına Maliyet", "Yeniden Pazarlama", "Performans Raporlaması"]
+  },
+  {
+    type: 'webapp',
+    icon: MonitorSmartphone,
+    title: "Web App Geliştirme",
+    description: "İş süreçlerinizi dijitalleştiren, kullanıcı dostu ve yüksek performanslı modern web uygulamaları (Web App) geliştiriyoruz. İhtiyacınıza özel, ölçeklenebilir altyapılar sunuyoruz.",
+    features: ["Özel Yazılım Altyapısı", "Responsive Kodlama", "Performans Odaklı", "API ve Veritabanı"]
+  },
+  {
+    type: 'webdesign',
+    icon: LayoutTemplate,
+    title: "Kurumsal Web Tasarım",
+    description: "Markanızı dijital dünyada en şık şekilde temsil eden, modern hatlara sahip, tamamen güncel teknolojiler barındıran profesyonel web siteleri oluşturuyoruz.",
+    features: ["Kullanıcı Deneyimi (UX)", "Mobil Uyumlu (Responsive)", "Temiz Kod Altyapısı", "İçerik Yönetim Sistemi"]
+  },
+  {
+    type: 'uiux',
+    icon: MousePointer2,
+    title: "UI/UX Tasarım",
+    description: "Kullanıcıların dijital ürünlerinizle olan etkileşimini mükemmelleştiriyoruz. Estetik arayüzler ve kusursuz kullanıcı deneyimleri tasarlayarak markanıza değer katıyoruz.",
+    features: ["Kullanıcı Araştırması", "Wireframe & Prototip", "Arayüz Tasarımı", "Etkileşim Tasarımı"]
+  },
+  {
+    type: 'branding',
+    icon: Package,
+    title: "Kurumsal Kimlik Tasarımı",
+    description: "Markanızın tüm temas noktalarında tutarlı ve kurumsal bir görünüm sergilemesi için detaylı kurumsal kimlik tasarımları oluşturuyor, markalaşmanızı sağlıyoruz.",
+    features: ["Logo Kullanım Şartları", "Renk ve Tipografi", "Antetli, Zarf & Dosya", "Tasarım Kılavuzu"]
+  },
+  {
+    type: 'seo',
+    icon: TrendingUp,
+    title: "SEO Optimizasyonu",
+    description: "Web sitenizin arama motorlarında daha görünür olmasını sağlıyoruz. Rakiplerinizin önüne geçerek organik trafik ve müşteri hacminizi artırmanız için stratejiler geliştiriyoruz.",
+    features: ["Site İçi (On-Page) SEO", "Teknik SEO Analizi", "Hız Optimizasyonu", "Anahtar Kelime Araştırması"]
+  },
+  {
+    type: 'video',
+    icon: Scissors,
+    title: "Video Kurgu & Montaj",
+    description: "Elinizdeki çekimleri veya stock videoları bir araya getirerek, ilgi çekici, sosyal medyaya veya reklamlara uygun, dinamik ve akıcı kurgular hazırlıyoruz.",
+    features: ["Renk Düzenleme (Color Grading)", "Müzik & Ses Efekti", "Dinamik Geçişler", "Altyazı & Tipografi"]
   }
 ];
 
@@ -160,6 +202,85 @@ const TopicGraphic = ({ type }: { type: string }) => {
           <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-10 sm:right-16 bottom-6 text-brand z-10"><BarChart size={28} /></motion.div>
         </div>
       );
+    case 'webapp':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-blue-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
+          <motion.div animate={{ y: [-10, 10, -10] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="absolute inset-0 flex items-center justify-center text-blue-500/10"><Monitor size={120} /></motion.div>
+          <div className="relative flex gap-4 z-10 items-end">
+            <motion.div animate={{ height: ['40%', '60%', '40%'] }} transition={{ duration: 2, repeat: Infinity }} className="w-16 h-20 bg-blue-500/20 border border-blue-500/40 rounded-lg backdrop-blur-sm flex flex-col pt-2 px-2 gap-2">
+              <div className="w-full h-2 bg-blue-500/40 rounded-full" />
+              <div className="w-2/3 h-2 bg-blue-500/30 rounded-full" />
+              <div className="w-full h-10 bg-blue-500/10 mt-auto rounded-md" />
+            </motion.div>
+            <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 3, repeat: Infinity }} className="w-12 h-24 bg-brand/20 border border-brand/40 rounded-xl backdrop-blur-sm flex items-center justify-center z-20">
+              <div className="w-8 h-16 border border-brand/30 rounded-md" />
+            </motion.div>
+          </div>
+        </div>
+      );
+    case 'webdesign':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-teal-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
+          <div className="w-3/4 max-w-[260px] h-20 bg-teal-500/10 border border-teal-500/30 rounded-lg flex flex-col overflow-hidden backdrop-blur-md z-10">
+            <div className="h-4 bg-teal-500/20 flex items-center px-2 gap-1">
+              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
+            </div>
+            <div className="flex-1 p-2 flex gap-2">
+              <motion.div animate={{ width: ['20%', '30%', '20%'] }} transition={{ duration: 5, repeat: Infinity }} className="h-full bg-brand/20 rounded" />
+              <div className="flex-1 flex flex-col gap-2">
+                <div className="h-1/2 w-full bg-teal-500/20 rounded" />
+                <div className="h-1/2 w-3/4 bg-teal-500/10 rounded" />
+              </div>
+            </div>
+          </div>
+          <motion.div animate={{ scale: [0.8, 1.1, 0.8] }} transition={{ duration: 4, repeat: Infinity }} className="absolute right-8 top-4 text-brand"><LayoutTemplate size={32} /></motion.div>
+        </div>
+      );
+    case 'uiux':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-pink-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
+          <motion.div animate={{ rotate: 180 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} className="absolute -right-10 -bottom-10 w-40 h-40 border border-pink-500/20 border-dashed rounded-full" />
+          <div className="relative z-10 w-24 h-24 bg-pink-500/10 border border-pink-500/30 rounded-2xl flex items-center justify-center group overflow-hidden">
+             <motion.div animate={{ x: [-20, 20, -20], y: [-20, 20, -20] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="w-10 h-10 bg-brand/30 rounded-full blur-md" />
+             <motion.div animate={{ scale: [1, 0.9, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute text-brand backdrop-blur-sm p-2 rounded-xl bg-black/20 border border-white/10"><MousePointer2 size={24} /></motion.div>
+          </div>
+        </div>
+      );
+    case 'branding':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-orange-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
+           <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute inset-x-0 h-10 border-y border-orange-500/20 top-1/2 -translate-y-1/2" />
+           <motion.div animate={{ y: [-10, 10, -10] }} transition={{ duration: 4, repeat: Infinity }} className="z-10 w-20 h-24 bg-white/5 border border-white/20 rounded-sm flex flex-col items-center justify-center shadow-xl backdrop-blur-md relative">
+             <div className="absolute top-2 left-2 w-4 h-4 rounded-full bg-brand/40" />
+             <div className="absolute top-3 left-8 w-8 h-1 bg-white/20 rounded-full" />
+             <Package size={32} className="text-orange-400 opacity-80 mt-4" />
+           </motion.div>
+        </div>
+      );
+    case 'seo':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-green-500/10 border border-white/5 overflow-hidden mb-8 flex items-end justify-center pb-6 gap-2">
+          <motion.div animate={{ height: ['20%', '80%', '40%'] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-green-500/30 rounded-t-sm" />
+          <motion.div animate={{ height: ['40%', '60%', '80%'] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-brand/40 rounded-t-sm" />
+          <motion.div animate={{ height: ['60%', '100%', '60%'] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-green-500/60 rounded-t-sm relative">
+            <TrendingUp size={20} className="absolute -top-6 left-1/2 -translate-x-1/2 text-brand" />
+          </motion.div>
+          <motion.div animate={{ height: ['80%', '40%', '100%'] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-brand/80 rounded-t-sm" />
+        </div>
+      );
+    case 'video':
+      return (
+        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-red-600/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
+          <motion.div animate={{ x: ['-100%', '100%'] }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }} className="absolute h-full w-[200%] flex items-center gap-1 opacity-20">
+             {[...Array(20)].map((_, i) => <div key={i} className="w-8 h-24 border border-red-500 flex flex-col justify-between p-1"><div className="w-full h-2 bg-red-500" /><div className="w-full h-2 bg-red-500" /></div>)}
+          </motion.div>
+          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} className="z-10 bg-black/40 p-4 rounded-full border border-white/10 backdrop-blur-md">
+            <Scissors size={32} className="text-red-400" />
+          </motion.div>
+        </div>
+      );
     default:
       return null;
   }
@@ -249,7 +370,7 @@ export const Servisler = () => {
             >
               <button 
                 onClick={handleCloseModal}
-                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white"
+                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white"
               >
                 <X size={20} />
               </button>

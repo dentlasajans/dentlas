@@ -21,7 +21,7 @@ export const PrivacyModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: ()
           >
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-white/50 hover:text-white transition-colors rounded-full hover:bg-white/5"
+              className="absolute top-4 right-4 p-2 text-white/50 hover:text-red-500 transition-colors rounded-full hover:bg-red-500/20"
             >
               <X size={24} />
             </button>

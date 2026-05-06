@@ -129,7 +129,7 @@ export const Blog = () => {
             >
               <button 
                 onClick={handleCloseModal}
-                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 glass bg-black/50 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white z-20"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 glass bg-black/50 rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white z-20"
               >
                 <X size={20} />
               </button>

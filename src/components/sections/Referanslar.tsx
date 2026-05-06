@@ -39,7 +39,7 @@ const ReferenceCard = ({ name, logo, sector, onClick }: { name: string, logo?: s
   >
     <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 mb-3 sm:mb-6 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
       {logo ? (
-        <img src={logo} alt={name} className="max-w-full max-h-full object-contain drop-shadow-lg" />
+        <img src={logo} alt={name} loading="lazy" className="max-w-full max-h-full object-contain drop-shadow-lg" />
       ) : (
         <div className="w-10 h-10 sm:w-16 sm:h-16 rounded-full border border-white/20 border-dashed" />
       )}
@@ -101,7 +101,7 @@ export const Referanslar = () => {
             >
               <button 
                 onClick={handleCloseModal}
-                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-white z-20"
+                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white z-20"
               >
                 <X size={20} />
               </button>
