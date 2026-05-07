@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { X, Check } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
@@ -87,28 +87,37 @@ const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
 export const TasarimAraclari = () => {
   const [selectedTool, setSelectedTool] = useState<any | null>(null);
 
+  useEffect(() => {
+    if (selectedTool) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedTool]);
+
   // Modal handler to disable body scroll
   const handleOpenModal = (tool: any) => {
     setSelectedTool(tool);
-    document.body.style.overflow = 'hidden';
   };
 
   const handleCloseModal = () => {
     setSelectedTool(null);
-    document.body.style.overflow = '';
   };
 
   return (
     <section id="araçlar" className="py-24 px-6 relative z-10 w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col items-center">
-        <div className="mb-16 text-center max-w-2xl">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-16 max-w-2xl">
           <SectionHeading subtitle="TEKNOLOJİ">Tasarım Araçları.</SectionHeading>
           <p className="text-white/60 font-light text-sm mt-6">
             Projelerimizde en iyi sonuçları elde etmek için endüstri standardı profesyonel yazılımlar kullanıyoruz.
           </p>
         </div>
         
-        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6 w-full max-w-5xl">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6 w-full">
           {tools.map((tool) => (
             <ToolCard key={tool.name} tool={tool} onClick={() => handleOpenModal(tool)} />
           ))}
@@ -117,7 +126,7 @@ export const TasarimAraclari = () => {
 
       <AnimatePresence>
         {selectedTool && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -130,7 +139,7 @@ export const TasarimAraclari = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[80dvh] sm:max-h-[calc(100vh-4rem)] overflow-hidden"
             >
               <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
                 <button 

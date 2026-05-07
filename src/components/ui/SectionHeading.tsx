@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { motion } from 'motion/react';
 
-export const SectionHeading = ({ children, subtitle }: { children: ReactNode, subtitle?: string }) => {
+export const SectionHeading = ({ children, subtitle, centered = false, className = "mb-16" }: { children: ReactNode, subtitle?: string, centered?: boolean, className?: string }) => {
   const container = {
     hidden: { opacity: 0 },
     visible: (i = 1) => ({
@@ -20,7 +20,7 @@ export const SectionHeading = ({ children, subtitle }: { children: ReactNode, su
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
-      className="mb-16"
+      className={`${className} ${centered ? 'text-center flex flex-col items-center' : ''}`}
     >
       {subtitle && (
         <motion.p 
@@ -32,7 +32,7 @@ export const SectionHeading = ({ children, subtitle }: { children: ReactNode, su
       )}
       <motion.h2 
         variants={container}
-        className="text-4xl md:text-6xl font-extrabold tracking-tight flex flex-wrap gap-x-3 gap-y-2"
+        className={`text-4xl md:text-6xl font-extrabold tracking-tight flex flex-wrap gap-x-3 gap-y-2 ${centered ? 'justify-center' : ''}`}
       >
         {typeof children === 'string' ? children.split(' ').map((word, index) => (
           <motion.span variants={child} key={index} className="inline-block relative overflow-hidden">

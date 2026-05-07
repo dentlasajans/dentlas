@@ -1,11 +1,23 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
+import { useEffect } from 'react';
 
 export const KVKKModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-4">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -17,7 +29,7 @@ export const KVKKModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto glass border border-white/10 rounded-2xl p-8 shadow-2xl custom-scrollbar bg-dark/95"
+            className="relative w-full max-w-2xl max-h-[80dvh] sm:max-h-[85vh] overflow-y-auto glass border border-white/10 rounded-2xl p-6 sm:p-8 shadow-2xl custom-scrollbar bg-dark/95"
           >
             <button 
               onClick={onClose}

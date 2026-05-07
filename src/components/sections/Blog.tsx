@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, Calendar, User } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
@@ -84,14 +84,23 @@ const BlogCard = ({ post, onClick }: { post: any, onClick: () => void }) => (
 export const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
+  useEffect(() => {
+    if (selectedPost) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedPost]);
+
   const handleOpenModal = (item: any) => {
     setSelectedPost(item);
-    document.body.style.overflow = 'hidden';
   };
 
   const handleCloseModal = () => {
     setSelectedPost(null);
-    document.body.style.overflow = '';
   };
 
   return (
@@ -112,7 +121,7 @@ export const Blog = () => {
 
       <AnimatePresence>
         {selectedPost && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -125,7 +134,7 @@ export const Blog = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[80dvh] sm:max-h-[calc(100vh-4rem)] overflow-hidden"
             >
               <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
                 <button 

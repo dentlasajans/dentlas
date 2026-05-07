@@ -89,6 +89,17 @@ const AnimatedStat = ({ stat, i, onClick }: { stat: typeof statsData[0], i: numb
 export const Stats = () => {
   const [selectedStat, setSelectedStat] = useState<typeof statsData[0] | null>(null);
 
+  useEffect(() => {
+    if (selectedStat) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedStat]);
+
   const handleCloseModal = () => {
     setSelectedStat(null);
   };
@@ -103,7 +114,7 @@ export const Stats = () => {
 
       <AnimatePresence>
         {selectedStat && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -116,7 +127,7 @@ export const Stats = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[80dvh] sm:max-h-[calc(100vh-4rem)] overflow-hidden"
             >
               <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
                 <button 
