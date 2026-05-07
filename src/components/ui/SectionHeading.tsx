@@ -11,7 +11,7 @@ export const SectionHeading = ({ children, subtitle }: { children: ReactNode, su
   };
 
   const child = {
-    visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 20, stiffness: 100 } },
+    visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, damping: 20, stiffness: 100 } },
     hidden: { opacity: 0, y: 30 },
   };
 

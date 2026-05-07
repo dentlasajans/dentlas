@@ -32,7 +32,7 @@ export const Hakkimda = () => {
               Her markanın anlatılmaya değer bir hikayesi vardır. Biz, bu hikayeleri en etkili görsel ve stratejik dille dijital dünyaya entegre etmek için çalışıyoruz.
             </p>
             <p className="leading-relaxed">
-              Dentlas Ajans olarak, sosyal medya yönetiminden web geliştirmeye, grafik tasarımdan video kurguya kadar markanızın tüm dijital ihtiyaçlarına 360 derece yenilikçi çözümler üretiyoruz.
+              Dentlas Ajans olarak Aksaray merkezli ofisimizle, sınırları aşarak tüm Türkiye'ye ve dünyaya dijital hizmet sağlıyoruz. Sosyal medya yönetiminden web geliştirmeye, grafik tasarımdan video kurguya kadar markanızın tüm dijital ihtiyaçlarına 360 derece yenilikçi çözümler üretiyoruz.
             </p>
             <p className="leading-relaxed">
               Sektördeki tecrübemiz ve dinamik yapımızla, Nenessa Hotel gibi değerli markalarla yürüttüğümüz başarılı projeler vizyonumuzun birer kanıtıdır. Sizin markanızı da bir sonraki seviyeye taşımak için buradayız.

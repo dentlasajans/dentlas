@@ -117,55 +117,64 @@ export const TasarimAraclari = () => {
 
       <AnimatePresence>
         {selectedTool && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleCloseModal}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
             />
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg glass border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl overflow-hidden"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
             >
-              <button 
-                onClick={handleCloseModal}
-                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="flex items-center gap-6 mb-8">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/5 flex items-center justify-center p-5 border border-white/5 shadow-inner">
-                  <img src={selectedTool.icon} alt={selectedTool.name} className="w-full h-full object-contain" />
-                </div>
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight">{selectedTool.name}</h3>
-                  <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black">{selectedTool.category}</p>
-                </div>
+              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
+                <button 
+                  aria-label="Kapat"
+                  onClick={handleCloseModal}
+                  className="w-10 h-10 bg-black/60 border border-white/10 rounded-full flex items-center justify-center hover:bg-red-500/80 hover:border-red-500 transition-colors text-white backdrop-blur-md shadow-xl"
+                >
+                  <X size={20} />
+                </button>
               </div>
 
-              <div className="space-y-8">
-                <p className="text-white/80 leading-relaxed font-light">
-                  {selectedTool.description}
-                </p>
+              <div className="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 w-full relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+                <div className="md:col-span-12 lg:col-span-12 w-full grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12">
+                  <div className="md:col-span-2 flex flex-col gap-6">
+                    <div className="flex items-center gap-6 pr-12 md:pr-0">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/5 flex items-center justify-center p-5 border border-white/5 shadow-inner flex-shrink-0">
+                        <img src={selectedTool.icon} alt={selectedTool.name} className="w-full h-full object-contain" loading="lazy" />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight">{selectedTool.name}</h3>
+                        <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black">{selectedTool.category}</p>
+                      </div>
+                    </div>
 
-                <div>
-                  <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-white/50 mb-4 pb-4 border-b border-white/5">Öne Çıkan Özellikler</h4>
-                  <ul className="grid sm:grid-cols-2 gap-3">
-                    {selectedTool.features.map((feature: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-white/80">
-                        <div className="mt-0.5 text-brand bg-brand/10 p-0.5 rounded-full">
-                          <Check size={12} strokeWidth={3} />
-                        </div>
-                        <span className="font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <p className="text-white/80 leading-relaxed font-light">
+                      {selectedTool.description}
+                    </p>
+                  </div>
+
+                  <div className="md:col-span-3 space-y-8 relative z-10 pt-4 md:pt-0 md:border-l md:border-white/5 md:pl-8 lg:pl-12">
+                    <div>
+                      <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-white/50 mb-4 pb-4 border-b border-white/5">Öne Çıkan Özellikler</h4>
+                      <ul className="grid sm:grid-cols-2 gap-3">
+                        {selectedTool.features.map((feature: string, idx: number) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-white/80">
+                            <div className="mt-0.5 text-brand bg-brand/10 p-0.5 rounded-full">
+                              <Check size={12} strokeWidth={3} />
+                            </div>
+                            <span className="font-medium">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

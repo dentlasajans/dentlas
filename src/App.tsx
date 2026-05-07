@@ -1,22 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/sections/Hero';
 import { Stats } from './components/sections/Stats';
-import { Servisler } from './components/sections/Servisler';
-import { TasarimAraclari } from './components/sections/TasarimAraclari';
-import { Hakkimda } from './components/sections/Hakkimda';
-import { Referanslar } from './components/sections/Referanslar';
-import { Galeri } from './components/sections/Galeri';
-import { Blog } from './components/sections/Blog';
-import { Iletisim } from './components/sections/Iletisim';
-import { Footer } from './components/Footer';
-import { KVKKModal } from './components/modals/KVKKModal';
-import { PrivacyModal } from './components/modals/PrivacyModal';
+
+// Lazy loaded components for performance optimization
+const Servisler = lazy(() => import('./components/sections/Servisler').then(module => ({ default: module.Servisler })));
+const TasarimAraclari = lazy(() => import('./components/sections/TasarimAraclari').then(module => ({ default: module.TasarimAraclari })));
+const Hakkimda = lazy(() => import('./components/sections/Hakkimda').then(module => ({ default: module.Hakkimda })));
+const Referanslar = lazy(() => import('./components/sections/Referanslar').then(module => ({ default: module.Referanslar })));
+const Testimonials = lazy(() => import('./components/sections/Testimonials').then(module => ({ default: module.Testimonials })));
+const Galeri = lazy(() => import('./components/sections/Galeri').then(module => ({ default: module.Galeri })));
+const Blog = lazy(() => import('./components/sections/Blog').then(module => ({ default: module.Blog })));
+const FAQ = lazy(() => import('./components/sections/FAQ').then(module => ({ default: module.FAQ })));
+const Iletisim = lazy(() => import('./components/sections/Iletisim').then(module => ({ default: module.Iletisim })));
+const Footer = lazy(() => import('./components/Footer').then(module => ({ default: module.Footer })));
+const KVKKModal = lazy(() => import('./components/modals/KVKKModal').then(module => ({ default: module.KVKKModal })));
+const PrivacyModal = lazy(() => import('./components/modals/PrivacyModal').then(module => ({ default: module.PrivacyModal })));
+const ContactWidget = lazy(() => import('./components/ContactWidget').then(module => ({ default: module.ContactWidget })));
+
+
 import { CustomCursor } from './components/CustomCursor';
-import { ContactWidget } from './components/ContactWidget';
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -66,26 +72,31 @@ export default function App() {
   return (
     <div className="relative min-h-screen">
       <CustomCursor />
-      <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
-      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
       
       <AnimatedBackground />
       <Navbar />
 
       <Hero />
       <Stats />
-      <Servisler />
-      <TasarimAraclari />
-      <Referanslar />
-      <Galeri />
-      <Hakkimda />
-      <Blog />
-      <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
       
-      <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
-      
-      <ContactWidget />
-      <ScrollToTop />
+      <Suspense fallback={null}>
+        <Servisler />
+        <TasarimAraclari />
+        <Referanslar />
+        <Testimonials />
+        <Galeri />
+        <Hakkimda />
+        <Blog />
+        <FAQ />
+        <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
+        
+        <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
+        
+        <ContactWidget />
+        <ScrollToTop />
+        <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
+        <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+      </Suspense>
     </div>
   );
 }

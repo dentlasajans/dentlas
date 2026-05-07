@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowRight, Calendar, User } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
-const posts = [
+const staticPosts = [
   {
     title: "Markanız İçin Doğru Sosyal Medya Stratejisi Nasıl Belirlenir?",
     category: "Sosyal Medya",
@@ -100,7 +100,7 @@ export const Blog = () => {
         <SectionHeading subtitle="GÜNCEL">Blog & Haberler.</SectionHeading>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post, idx) => (
+          {staticPosts.map((post, idx) => (
             <BlogCard 
               key={idx}
               post={post}
@@ -112,58 +112,69 @@ export const Blog = () => {
 
       <AnimatePresence>
         {selectedPost && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleCloseModal}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer min-h-screen"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
             />
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl glass border border-white/10 rounded-3xl p-6 sm:p-10 shadow-2xl my-auto z-10 max-h-[90vh] overflow-y-auto custom-scrollbar"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
             >
-              <button 
-                onClick={handleCloseModal}
-                className="absolute top-4 right-4 sm:top-6 sm:right-6 w-10 h-10 glass bg-black/50 rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white z-20"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="mb-8 rounded-2xl overflow-hidden relative aspect-video">
-                <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-full object-cover" />
-                <div className="absolute top-4 left-4">
-                  <span className="bg-brand text-black text-xs uppercase tracking-widest font-black px-4 py-2 rounded-full shadow-lg">
-                    {selectedPost.category}
-                  </span>
-                </div>
+              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
+                <button 
+                  aria-label="Kapat"
+                  onClick={handleCloseModal}
+                  className="w-10 h-10 bg-black/60 border border-white/10 rounded-full flex items-center justify-center hover:bg-red-500/80 hover:border-red-500 transition-colors text-white backdrop-blur-md shadow-xl"
+                >
+                  <X size={20} />
+                </button>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-white/50 text-sm font-medium mb-6">
-                <div className="flex items-center gap-2">
-                  <Calendar size={16} />
-                  <span>{selectedPost.date}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
-                    <User size={12} />
+              <div className="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 w-full relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+                <div className="md:col-span-12 lg:col-span-12 w-full grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                  <div className="relative">
+                    <div className="rounded-2xl overflow-hidden relative aspect-[4/3] md:aspect-auto md:h-full md:min-h-[400px]">
+                      <img src={selectedPost.image} alt={selectedPost.title} className="w-full h-full object-cover" loading="lazy" />
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-brand text-black text-xs uppercase tracking-widest font-black px-4 py-2 rounded-full shadow-lg">
+                          {selectedPost.category}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <span>{selectedPost.author}</span>
-                </div>
-              </div>
 
-              <h2 className="text-2xl sm:text-4xl font-bold text-white mb-6 tracking-tight leading-tight">
-                {selectedPost.title}
-              </h2>
-              
-              <div className="prose prose-invert max-w-none">
-                <p className="text-white/80 text-base sm:text-lg leading-relaxed font-light whitespace-pre-line">
-                  {selectedPost.content}
-                </p>
+                  <div className="flex flex-col md:py-4">
+                    <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-white/50 text-sm font-medium mb-6">
+                      <div className="flex items-center gap-2">
+                        <Calendar size={16} />
+                        <span>{selectedPost.date}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
+                          <User size={12} />
+                        </div>
+                        <span>{selectedPost.author}</span>
+                      </div>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight leading-tight">
+                      {selectedPost.title}
+                    </h2>
+                    
+                    <div className="prose prose-invert max-w-none flex-1">
+                      <p className="text-white/80 text-base sm:text-lg leading-relaxed font-light whitespace-pre-line">
+                        {selectedPost.content}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

@@ -46,6 +46,20 @@ export const ContactWidget = () => {
     }
   ];
 
+  const handleLinkClick = (label: string) => {
+    if (typeof window !== 'undefined') {
+      if ((window as any).gtag) {
+        (window as any).gtag('event', 'contact_button_click', {
+          'event_category': 'engagement',
+          'event_label': label
+        });
+      }
+      if ((window as any).fbq) {
+        (window as any).fbq('trackCustom', 'ContactClick', { method: label });
+      }
+    }
+  };
+
   if (isMobile) {
     return (
       <div 
@@ -56,6 +70,7 @@ export const ContactWidget = () => {
           <a
             key={index}
             href={link.href}
+            onClick={() => handleLinkClick(link.label)}
             target={link.label === 'WhatsApp' || link.label === 'Instagram' ? "_blank" : undefined}
             rel={link.label === 'WhatsApp' || link.label === 'Instagram' ? "noopener noreferrer" : undefined}
             className="flex-1 flex items-center justify-center py-3 active:bg-white/5 transition-colors border-r border-white/5 last:border-r-0"
@@ -87,6 +102,7 @@ export const ContactWidget = () => {
               <motion.a
                 key={index}
                 href={link.href}
+                onClick={() => handleLinkClick(link.label)}
                 target={link.label === 'WhatsApp' || link.label === 'Instagram' ? "_blank" : undefined}
                 rel={link.label === 'WhatsApp' || link.label === 'Instagram' ? "noopener noreferrer" : undefined}
                 initial={{ opacity: 0, x: 20 }}

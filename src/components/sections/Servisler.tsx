@@ -289,7 +289,7 @@ const TopicGraphic = ({ type }: { type: string }) => {
 const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string, onClick: () => void }) => {
   const itemVariant = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100 } }
+    visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 100 } }
   };
 
   return (
@@ -353,57 +353,68 @@ export const Servisler = () => {
 
       <AnimatePresence>
         {selectedService && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleCloseModal}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
             />
             
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg glass border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl overflow-hidden"
+              className="relative w-full md:max-w-4xl lg:max-w-5xl glass border border-white/10 rounded-3xl shadow-2xl z-10 flex flex-col max-h-[calc(100vh-4rem)] overflow-hidden"
             >
-              <button 
-                onClick={handleCloseModal}
-                className="absolute top-6 right-6 w-10 h-10 glass rounded-full flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-colors text-white"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="flex items-center gap-6 mb-8 relative z-10">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 shadow-inner text-brand">
-                  <selectedService.icon size={36} />
-                </div>
-                <div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight leading-tight">{selectedService.title}</h3>
-                  <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black">HİZMET DETAYI</p>
-                </div>
+              <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[60]">
+                <button 
+                  aria-label="Kapat"
+                  onClick={handleCloseModal}
+                  className="w-10 h-10 bg-black/60 border border-white/10 rounded-full flex items-center justify-center hover:bg-red-500/80 hover:border-red-500 transition-colors text-white backdrop-blur-md shadow-xl"
+                >
+                  <X size={20} />
+                </button>
               </div>
 
-              <TopicGraphic type={selectedService.type} />
+              <div className="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 w-full relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+                <div className="md:col-span-12 lg:col-span-12 w-full grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12">
+                  <div className="md:col-span-2 flex flex-col gap-6">
+                    <div className="flex items-center gap-6 relative z-10 pr-12 md:pr-0">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 shadow-inner text-brand flex-shrink-0">
+                        <selectedService.icon size={36} />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 tracking-tight leading-tight">{selectedService.title}</h3>
+                        <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black">HİZMET DETAYI</p>
+                      </div>
+                    </div>
 
-              <div className="space-y-8 relative z-10">
-                <p className="text-white/80 leading-relaxed font-light">
-                  {selectedService.description}
-                </p>
+                    <p className="text-white/80 leading-relaxed font-light">
+                      {selectedService.description}
+                    </p>
+                  </div>
 
-                <div>
-                  <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-white/50 mb-4 pb-4 border-b border-white/5">Hizmet Kapsamı</h4>
-                  <ul className="grid sm:grid-cols-2 gap-3">
-                    {selectedService.features.map((feature: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-white/80">
-                        <div className="mt-0.5 text-brand bg-brand/10 p-0.5 rounded-full min-w-[16px]">
-                          <Check size={12} strokeWidth={3} />
-                        </div>
-                        <span className="font-medium">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="md:col-span-3 space-y-8 relative z-10 pt-4 md:pt-0 md:border-l md:border-white/5 md:pl-8 lg:pl-12 flex flex-col">
+                    <div className="flex-shrink-0 mb-4 rounded-2xl overflow-hidden glass border border-white/10">
+                      <TopicGraphic type={selectedService.type} />
+                    </div>
+
+                    <div>
+                      <h4 className="text-[10px] uppercase tracking-[0.2em] font-black text-white/50 mb-4 pb-4 border-b border-white/5">Hizmet Kapsamı</h4>
+                      <ul className="grid sm:grid-cols-2 gap-3">
+                        {selectedService.features.map((feature: string, idx: number) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-white/80">
+                            <div className="mt-0.5 text-brand bg-brand/10 p-0.5 rounded-full min-w-[16px]">
+                              <Check size={12} strokeWidth={3} />
+                            </div>
+                            <span className="font-medium">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>
