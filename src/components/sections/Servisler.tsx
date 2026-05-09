@@ -105,185 +105,37 @@ const services = [
 ];
 
 const TopicGraphic = ({ type }: { type: string }) => {
-  switch(type) {
-    case 'social':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-purple-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ y: [-10, 10, -10], opacity: [0.3, 0.6, 0.3] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="absolute left-8 sm:left-12 top-6 text-pink-500"><Heart size={28} fill="currentColor" /></motion.div>
-          <motion.div animate={{ y: [10, -10, 10], opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-10 sm:right-16 top-8 text-blue-400"><MessageCircle size={32} fill="currentColor" /></motion.div>
-          <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="absolute left-1/2 bottom-6 -translate-x-1/2 text-brand"><Share2 size={36} /></motion.div>
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-gradient-to-r from-transparent via-brand/30 to-transparent" />
-        </div>
-      );
-    case 'logo':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-orange-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }} className="absolute w-20 h-20 sm:w-24 sm:h-24 border border-orange-500/30 border-dashed rounded-full" />
-          <motion.div animate={{ rotate: -360 }} transition={{ duration: 15, repeat: Infinity, ease: 'linear' }} className="absolute w-16 h-16 sm:w-20 sm:h-20 border border-brand/30 rounded-lg" />
-          <motion.div animate={{ scale: [0.8, 1.1, 0.8] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="relative text-orange-400"><PenTool size={36} /></motion.div>
-        </div>
-      );
-    case 'card':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-emerald-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center" style={{ perspective: '1000px' }}>
-          <motion.div 
-            animate={{ rotateY: [0, 360] }} 
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }} 
-            className="w-28 h-16 sm:w-32 sm:h-20 bg-emerald-500/20 border border-emerald-500/40 rounded-md backdrop-blur-sm flex items-center justify-center shadow-lg"
-          >
-            <Contact size={24} className="text-emerald-400 opacity-80" />
-          </motion.div>
-          <motion.div animate={{ x: [-50, 50, -50] }} transition={{ duration: 4, repeat: Infinity, ease: 'linear' }} className="absolute bottom-4 h-0.5 w-1/3 bg-gradient-to-r from-transparent via-emerald-500/30 to-transparent blur-[1px]" />
-        </div>
-      );
-    case 'brochure':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-cyan-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center" style={{ perspective: '1000px' }}>
-          <motion.div 
-            animate={{ rotateX: [0, 20, 0, -20, 0] }} 
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} 
-            className="relative flex gap-1 shadow-xl"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            <div className="w-14 h-20 sm:w-16 sm:h-24 bg-cyan-500/10 border border-cyan-500/30 rounded-l-md skew-y-3 flex items-center justify-center">
-               <BookOpen size={20} className="text-cyan-400 opacity-30" />
-            </div>
-            <div className="w-14 h-20 sm:w-16 sm:h-24 bg-cyan-500/20 border border-cyan-500/30 rounded-r-md -skew-y-3 flex items-center justify-center">
-              <Layout size={20} className="text-cyan-400 opacity-80" />
-            </div>
-          </motion.div>
-        </div>
-      );
-    case 'drone':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-slate-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ y: [-15, 10, -15], rotateZ: [-3, 3, -3] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="relative text-slate-300 z-10">
-            <Video size={42} />
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }} className="absolute -top-4 -left-4 text-brand"><Navigation size={16} /></motion.div>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 0.5, repeat: Infinity, ease: 'linear' }} className="absolute -top-4 -right-4 text-brand"><Navigation size={16} /></motion.div>
-          </motion.div>
-          <div className="absolute inset-x-0 bottom-4 h-16 bg-gradient-to-t from-brand/10 to-transparent blur-xl" />
-        </div>
-      );
-    case 'product':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-yellow-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="relative text-yellow-400 z-10">
-            <Camera size={42} />
-            <motion.div animate={{ opacity: [0, 1, 0, 0, 0] }} transition={{ duration: 2, repeat: Infinity, times: [0, 0.1, 0.2, 0.5, 1] }} className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full blur-[3px]" />
-          </motion.div>
-          <motion.div animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.2, 0.5, 0.2] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="absolute inset-4 border border-yellow-500/20 border-dashed rounded-xl flex items-center justify-center pointer-events-none">
-            <Maximize size={100} className="text-yellow-500/10" />
-          </motion.div>
-        </div>
-      );
-    case 'meta':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-indigo-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ x: [-30, 30, -30], y: [-15, 15, -15] }} transition={{ duration: 6, repeat: Infinity, ease: 'linear' }} className="absolute text-brand/30"><Target size={80} /></motion.div>
-          <div className="relative flex items-end gap-3 h-16 z-10">
-            <motion.div animate={{ height: ['20%', '60%', '40%'] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="w-5 sm:w-6 bg-indigo-500/40 rounded-t-sm" />
-            <motion.div animate={{ height: ['40%', '80%', '60%'] }} transition={{ duration: 3, repeat: Infinity, delay: 0.5, ease: 'easeInOut' }} className="w-5 sm:w-6 bg-indigo-500/60 rounded-t-sm" />
-            <motion.div animate={{ height: ['60%', '100%', '80%'] }} transition={{ duration: 3, repeat: Infinity, delay: 1, ease: 'easeInOut' }} className="w-5 sm:w-6 bg-brand/80 rounded-t-sm backdrop-blur-md" />
-          </div>
-          <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0, 1, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-12 sm:right-20 top-6 text-indigo-400 z-10"><MousePointer2 size={24} /></motion.div>
-        </div>
-      );
-    case 'google':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-red-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: 'linear' }} className="absolute -left-6 -top-6 text-red-500/20"><Search size={100} /></motion.div>
-          <div className="w-3/4 max-w-[240px] h-10 bg-black/40 rounded-full border border-white/10 flex items-center px-4 gap-3 z-10 backdrop-blur-sm">
-            <Search size={16} className="text-white/40" />
-            <motion.div animate={{ width: ['0%', '60%', '60%', '0%'], opacity: [0, 1, 1, 0] }} transition={{ duration: 4, repeat: Infinity, ease: 'linear' }} className="h-2 bg-white/20 rounded-full overflow-hidden relative">
-              <motion.div animate={{ x: ['-100%', '100%'] }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-6 h-full bg-white/40 relative blur-[1px]" />
-            </motion.div>
-          </div>
-          <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="absolute right-10 sm:right-16 bottom-6 text-brand z-10"><BarChart size={28} /></motion.div>
-        </div>
-      );
-    case 'webapp':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-blue-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ y: [-10, 10, -10] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="absolute inset-0 flex items-center justify-center text-blue-500/10"><Monitor size={120} /></motion.div>
-          <div className="relative flex gap-4 z-10 items-end">
-            <motion.div animate={{ height: ['40%', '60%', '40%'] }} transition={{ duration: 2, repeat: Infinity }} className="w-16 h-20 bg-blue-500/20 border border-blue-500/40 rounded-lg backdrop-blur-sm flex flex-col pt-2 px-2 gap-2">
-              <div className="w-full h-2 bg-blue-500/40 rounded-full" />
-              <div className="w-2/3 h-2 bg-blue-500/30 rounded-full" />
-              <div className="w-full h-10 bg-blue-500/10 mt-auto rounded-md" />
-            </motion.div>
-            <motion.div animate={{ y: [-5, 5, -5] }} transition={{ duration: 3, repeat: Infinity }} className="w-12 h-24 bg-brand/20 border border-brand/40 rounded-xl backdrop-blur-sm flex items-center justify-center z-20">
-              <div className="w-8 h-16 border border-brand/30 rounded-md" />
-            </motion.div>
-          </div>
-        </div>
-      );
-    case 'webdesign':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-teal-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <div className="w-3/4 max-w-[260px] h-20 bg-teal-500/10 border border-teal-500/30 rounded-lg flex flex-col overflow-hidden backdrop-blur-md z-10">
-            <div className="h-4 bg-teal-500/20 flex items-center px-2 gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
-              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
-              <div className="w-1.5 h-1.5 rounded-full bg-teal-500/40" />
-            </div>
-            <div className="flex-1 p-2 flex gap-2">
-              <motion.div animate={{ width: ['20%', '30%', '20%'] }} transition={{ duration: 5, repeat: Infinity }} className="h-full bg-brand/20 rounded" />
-              <div className="flex-1 flex flex-col gap-2">
-                <div className="h-1/2 w-full bg-teal-500/20 rounded" />
-                <div className="h-1/2 w-3/4 bg-teal-500/10 rounded" />
-              </div>
-            </div>
-          </div>
-          <motion.div animate={{ scale: [0.8, 1.1, 0.8] }} transition={{ duration: 4, repeat: Infinity }} className="absolute right-8 top-4 text-brand"><LayoutTemplate size={32} /></motion.div>
-        </div>
-      );
-    case 'uiux':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-pink-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ rotate: 180 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} className="absolute -right-10 -bottom-10 w-40 h-40 border border-pink-500/20 border-dashed rounded-full" />
-          <div className="relative z-10 w-24 h-24 bg-pink-500/10 border border-pink-500/30 rounded-2xl flex items-center justify-center group overflow-hidden">
-             <motion.div animate={{ x: [-20, 20, -20], y: [-20, 20, -20] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="w-10 h-10 bg-brand/30 rounded-full blur-md" />
-             <motion.div animate={{ scale: [1, 0.9, 1] }} transition={{ duration: 2, repeat: Infinity }} className="absolute text-brand backdrop-blur-sm p-2 rounded-xl bg-black/20 border border-white/10"><MousePointer2 size={24} /></motion.div>
-          </div>
-        </div>
-      );
-    case 'branding':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-orange-500/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-           <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: "linear" }} className="absolute inset-x-0 h-10 border-y border-orange-500/20 top-1/2 -translate-y-1/2" />
-           <motion.div animate={{ y: [-10, 10, -10] }} transition={{ duration: 4, repeat: Infinity }} className="z-10 w-20 h-24 bg-white/5 border border-white/20 rounded-sm flex flex-col items-center justify-center shadow-xl backdrop-blur-md relative">
-             <div className="absolute top-2 left-2 w-4 h-4 rounded-full bg-brand/40" />
-             <div className="absolute top-3 left-8 w-8 h-1 bg-white/20 rounded-full" />
-             <Package size={32} className="text-orange-400 opacity-80 mt-4" />
-           </motion.div>
-        </div>
-      );
-    case 'seo':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-green-500/10 border border-white/5 overflow-hidden mb-8 flex items-end justify-center pb-6 gap-2">
-          <motion.div animate={{ height: ['20%', '80%', '40%'] }} transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-green-500/30 rounded-t-sm" />
-          <motion.div animate={{ height: ['40%', '60%', '80%'] }} transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-brand/40 rounded-t-sm" />
-          <motion.div animate={{ height: ['60%', '100%', '60%'] }} transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-green-500/60 rounded-t-sm relative">
-            <TrendingUp size={20} className="absolute -top-6 left-1/2 -translate-x-1/2 text-brand" />
-          </motion.div>
-          <motion.div animate={{ height: ['80%', '40%', '100%'] }} transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }} className="w-6 sm:w-8 bg-brand/80 rounded-t-sm" />
-        </div>
-      );
-    case 'video':
-      return (
-        <div className="relative w-full h-32 rounded-2xl bg-gradient-to-br from-brand/10 to-red-600/10 border border-white/5 overflow-hidden mb-8 flex items-center justify-center">
-          <motion.div animate={{ x: ['-100%', '100%'] }} transition={{ duration: 10, repeat: Infinity, ease: 'linear' }} className="absolute h-full w-[200%] flex items-center gap-1 opacity-20">
-             {[...Array(20)].map((_, i) => <div key={i} className="w-8 h-24 border border-red-500 flex flex-col justify-between p-1"><div className="w-full h-2 bg-red-500" /><div className="w-full h-2 bg-red-500" /></div>)}
-          </motion.div>
-          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }} className="z-10 bg-black/40 p-4 rounded-full border border-white/10 backdrop-blur-md">
-            <Scissors size={32} className="text-red-400" />
-          </motion.div>
-        </div>
-      );
-    default:
-      return null;
-  }
+  const getGraphicVariables = () => {
+    switch(type) {
+      case 'social': return { Icon: Share2, color: 'text-pink-400', bg: 'bg-pink-400/10', border: 'border-pink-400/20' };
+      case 'logo': return { Icon: PenTool, color: 'text-orange-400', bg: 'bg-orange-400/10', border: 'border-orange-400/20' };
+      case 'card': return { Icon: Contact, color: 'text-emerald-400', bg: 'bg-emerald-400/10', border: 'border-emerald-400/20' };
+      case 'brochure': return { Icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-400/10', border: 'border-cyan-400/20' };
+      case 'drone': return { Icon: Video, color: 'text-slate-300', bg: 'bg-slate-300/10', border: 'border-slate-300/20' };
+      case 'product': return { Icon: Camera, color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' };
+      case 'meta': return { Icon: Target, color: 'text-indigo-400', bg: 'bg-indigo-400/10', border: 'border-indigo-400/20' };
+      case 'google': return { Icon: Search, color: 'text-red-400', bg: 'bg-red-400/10', border: 'border-red-400/20' };
+      case 'webapp': return { Icon: Monitor, color: 'text-blue-400', bg: 'bg-blue-400/10', border: 'border-blue-400/20' };
+      case 'webdesign': return { Icon: LayoutTemplate, color: 'text-teal-400', bg: 'bg-teal-400/10', border: 'border-teal-400/20' };
+      case 'uiux': return { Icon: MousePointer2, color: 'text-pink-500', bg: 'bg-pink-500/10', border: 'border-pink-500/20' };
+      case 'branding': return { Icon: Package, color: 'text-orange-500', bg: 'bg-orange-500/10', border: 'border-orange-500/20' };
+      case 'seo': return { Icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-400/10', border: 'border-green-400/20' };
+      case 'video': return { Icon: Scissors, color: 'text-red-500', bg: 'bg-red-500/10', border: 'border-red-500/20' };
+      default: return { Icon: LayoutTemplate, color: 'text-brand', bg: 'bg-brand/10', border: 'border-brand/20' };
+    }
+  };
+
+  const { Icon, color, bg, border } = getGraphicVariables();
+
+  return (
+    <div className={`relative w-full h-32 md:h-40 rounded-xl overflow-hidden ${bg} ${border} border mb-6 flex items-center justify-center`}>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.15]">
+        <Icon size={160} className={color} strokeWidth={0.5} />
+      </div>
+      <div className={`absolute w-32 h-32 rounded-full ${bg} blur-2xl pointer-events-none opacity-50`} />
+      <Icon size={48} className={`${color} drop-shadow-[0_4px_24px_rgba(0,0,0,0.5)] relative z-10`} strokeWidth={1.5} />
+    </div>
+  );
 }
 
 const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string, onClick: () => void }) => {
@@ -295,9 +147,8 @@ const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string,
   return (
     <motion.div 
       variants={itemVariant}
-      whileHover={{ y: -5, boxShadow: "0 0 20px rgba(59, 130, 246, 0.15)" }}
       onClick={onClick}
-      className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer"
+      className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
     >
       <div className="text-white group-hover:text-brand mb-6 text-sm font-black tracking-widest flex items-center justify-center w-16 h-16 rounded-full bg-white/5 group-hover:bg-brand/10 transition-all group-hover:scale-110">
         <Icon size={32} />

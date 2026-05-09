@@ -20,12 +20,6 @@
   -webkit-user-drag: none;
 }
 
-@media (min-width: 769px) {
-  *:not(input):not(textarea) {
-    cursor: none !important;
-  }
-}
-
 @layer base {
   html {
     scroll-behavior: smooth;

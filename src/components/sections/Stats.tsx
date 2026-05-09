@@ -66,8 +66,7 @@ const AnimatedStat = ({ stat, i, onClick }: { stat: typeof statsData[0], i: numb
     <motion.div 
       ref={ref}
       onClick={onClick}
-      className="border-l-2 border-brand/40 hover:border-white pl-8 transition-colors group cursor-pointer"
-      whileHover={{ x: 10, scale: 1.05 }}
+      className="border-l-2 border-brand/40 hover:border-white pl-8 transition-all duration-300 group cursor-pointer hover:translate-x-2 hover:scale-105"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, margin: "-50px" }}

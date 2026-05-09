@@ -21,9 +21,6 @@ const KVKKModal = lazy(() => import('./components/modals/KVKKModal').then(module
 const PrivacyModal = lazy(() => import('./components/modals/PrivacyModal').then(module => ({ default: module.PrivacyModal })));
 const ContactWidget = lazy(() => import('./components/ContactWidget').then(module => ({ default: module.ContactWidget })));
 
-
-import { CustomCursor } from './components/CustomCursor';
-
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -71,7 +68,6 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen">
-      <CustomCursor />
       
       <AnimatedBackground />
       <Navbar />

@@ -132,20 +132,6 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
             </form>
           </div>
         </div>
-        
-        <div className="mt-20 w-full rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)] glass border border-white/5 relative h-[300px] md:h-[400px]">
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3119.5393439976374!2d34.013141!3d38.375825!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d48384b25ecb29%3A0xb3abcf59e2101dd8!2sAksaray!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) brightness(85%) contrast(85%)', position: 'absolute', top: 0, left: 0 }} 
-            allowFullScreen={false} 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Aksaray Harita"
-          />
-          <div className="absolute inset-0 pointer-events-none border border-white/10 rounded-3xl"></div>
-        </div>
       </div>
     </section>
   );
