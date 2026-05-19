@@ -15,13 +15,14 @@ const references = [
     tools: ["Adobe Premiere Pro", "Adobe Photoshop", "Figma", "Meta Business"]
   },
   {
-    name: "Çok Yakında",
-    sector: "Yeni Proje",
-    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
-    problem: "Henüz yayınlanmadı.",
-    solution: "Tasarım aşamasında.",
-    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"],
-    tools: []
+    name: "Küncü Simit Cafe",
+    sector: "Kafe & Restoran",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779187012/gnhkoaadcxzxdctjslah.png",
+    description: "Küncü Simit Cafe markasının müşteri deneyimini dijitalleştirmek ve marka kimliğini güçlendirmek için stratejik adımlar attık. Kurumsal kimlik tasarımı ve modern QR menü sistemi ile işletmeye değer kattık.",
+    problem: "İşletmenin kurumsal kimlik eksikliği ve müşterilere sipariş esnasında hız/pratiklik sağlayacak dijital bir menü ihtiyacı mevcuttu.",
+    solution: "Marka ruhuna uygun kurumsal kimlik oluşturuldu. Menü erişimini hızlandırmak için QR menü altyapısı hazırlandı ve proje süresince çeşitli fikir alışverişlerinde bulunuldu.",
+    features: ["QR Menü", "Kurumsal Kimlik", "Fikir Alışverişi"],
+    tools: ["Figma", "Adobe Illustrator"]
   },
   {
     name: "Çok Yakında",
