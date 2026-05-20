@@ -235,7 +235,7 @@ export const AdminPanel = () => {
             {loginLoading ? <Loader2 className="animate-spin" size={20} /> : "Giriş Yap"}
           </button>
         </form>
-      ) : user.email !== 'dentlasajan@dentlasajans.com' && user.email !== 'himmetmuhammedk@gmail.com' ? (
+      ) : user.email !== 'dentlasajans@dentlasajans.com' && user.email !== 'himmetmuhammedk@gmail.com' ? (
         <div className="max-w-md mx-auto mt-32 p-8 bg-red-500/10 rounded-2xl border border-red-500/20 text-center text-red-100">
           <h2 className="text-2xl font-bold mb-2 text-red-500">Yetkisiz Erişim</h2>
           <p className="text-sm mb-8 opacity-80">Giriş yaptığınız hesap ({user.email}) admin paneline erişim yetkisine sahip değil.</p>
