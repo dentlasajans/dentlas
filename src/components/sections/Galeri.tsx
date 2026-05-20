@@ -128,7 +128,7 @@ export const Galeri = () => {
   };
 
   return (
-    <section id="galeri" className="py-32 px-6 bg-brand/[0.02]">
+    <section id="galeri" className="py-32 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="text-center md:text-left">

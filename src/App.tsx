@@ -14,7 +14,6 @@ const Hakkimda = lazy(() => import('./components/sections/Hakkimda').then(module
 const Referanslar = lazy(() => import('./components/sections/Referanslar').then(module => ({ default: module.Referanslar })));
 const Testimonials = lazy(() => import('./components/sections/Testimonials').then(module => ({ default: module.Testimonials })));
 const Galeri = lazy(() => import('./components/sections/Galeri').then(module => ({ default: module.Galeri })));
-const Studyo = lazy(() => import('./components/sections/Studyo').then(module => ({ default: module.Studyo })));
 const Blog = lazy(() => import('./components/sections/Blog').then(module => ({ default: module.Blog })));
 const FAQ = lazy(() => import('./components/sections/FAQ').then(module => ({ default: module.FAQ })));
 const Iletisim = lazy(() => import('./components/sections/Iletisim').then(module => ({ default: module.Iletisim })));
@@ -76,10 +75,9 @@ const MainPage = ({ isKvkkOpen, setIsKvkkOpen, isPrivacyOpen, setIsPrivacyOpen }
       <TasarimAraclari />
       <Referanslar />
       <Testimonials />
-      <Studyo />
       <Galeri />
-      <Hakkimda />
       <Blog />
+      <Hakkimda />
       <FAQ />
       <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
       

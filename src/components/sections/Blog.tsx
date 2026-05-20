@@ -147,7 +147,7 @@ export const Blog = () => {
   };
 
   return (
-    <section id="blog" className="py-24 px-6 relative z-10 bg-brand/[0.02]">
+    <section id="blog" className="py-24 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="GÜNCEL">Blog & Haberler.</SectionHeading>
 

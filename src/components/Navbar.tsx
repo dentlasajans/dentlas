@@ -52,8 +52,8 @@ export const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-          {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Stüdyo', 'Galeri', 'Hakkımızda', 'Blog', 'S.S.S.', 'İletişim'].map((item, i) => {
-            const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Stüdyo' ? 'studyo' : item.toLowerCase();
+          {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Galeri', 'Blog', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
+            const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item.toLowerCase();
             const isActive = activeSection === itemId;
             
             return (
@@ -92,8 +92,8 @@ export const Navbar = () => {
             className="lg:hidden glass border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
-              {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Stüdyo', 'Galeri', 'Hakkımızda', 'Blog', 'S.S.S.', 'İletişim'].map((item) => {
-                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Stüdyo' ? 'studyo' : item.toLowerCase();
+              {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Galeri', 'Blog', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item) => {
+                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item.toLowerCase();
                 const isActive = activeSection === itemId;
                 return (
                   <a 

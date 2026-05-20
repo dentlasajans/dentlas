@@ -394,11 +394,6 @@ export const AdminPanel = () => {
             <ul className="space-y-4">
               <li>
                 <Link to="/admin" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
-                  <Camera size={18} /> Stüdyo Yönetimi
-                </Link>
-              </li>
-              <li>
-                <Link to="/admin/gallery" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
                   <ImageIcon size={18} /> Galeri Yönetimi
                 </Link>
               </li>
@@ -411,8 +406,7 @@ export const AdminPanel = () => {
           </aside>
           <main className="flex-1">
             <Routes>
-              <Route path="/" element={<AdminMediaManager collectionName="studio" title="Stüdyo" />} />
-              <Route path="/gallery" element={<AdminMediaManager collectionName="media" title="Galeri" />} />
+              <Route path="/" element={<AdminMediaManager collectionName="media" title="Galeri" />} />
               <Route path="/blog" element={<AdminBlogManager />} />
             </Routes>
           </main>

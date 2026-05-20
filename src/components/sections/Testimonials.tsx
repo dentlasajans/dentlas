@@ -29,7 +29,6 @@ const testimonials = [
 export const Testimonials = () => {
   return (
     <section id="testimonials" className="py-24 sm:py-32 relative z-10 overflow-hidden">
-      <div className="absolute top-1/2 left-0 w-full h-1/2 bg-gradient-to-b from-transparent to-brand/5 pointer-events-none -translate-y-1/2 blur-3xl"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <SectionHeading subtitle="MÜŞTERİ DENEYİMLERİ">Bizimle Çalışanlar Ne Diyor?</SectionHeading>

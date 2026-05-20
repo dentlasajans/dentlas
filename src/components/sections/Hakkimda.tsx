@@ -5,7 +5,7 @@ export const Hakkimda = () => {
   return (
     <section id="hakkımızda" className="py-40 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading subtitle="BİZ KİMİZ?">Geleceği Tasarlayan <br /> Ekibimiz.</SectionHeading>
+        <SectionHeading subtitle="EKİBİMİZ">Süreç ve Çözüm Odaklı</SectionHeading>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-[280px] sm:max-w-xs mx-auto lg:mx-0 w-full">
@@ -16,9 +16,9 @@ export const Hakkimda = () => {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
               loading="lazy"
             />
-            <div className="absolute bottom-0 left-0 w-full p-8 z-20">
-              <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-1">Himmet Muhammed KILIÇ</h3>
-              <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black opacity-80">Kurucu</p>
+            <div className="absolute bottom-0 left-0 w-full p-8 z-20 overflow-hidden">
+              <h3 className="text-base sm:text-lg font-bold tracking-tight mb-1 whitespace-nowrap overflow-hidden text-ellipsis">Himmet Muhammed KILIÇ</h3>
+              <p className="text-brand text-[10px] uppercase tracking-[0.2em] font-black opacity-80">Founder</p>
             </div>
           </div>
           
@@ -29,10 +29,10 @@ export const Hakkimda = () => {
             className="flex flex-col gap-6 text-white/70"
           >
             <p className="text-xl md:text-2xl leading-relaxed text-white">
-              Her markanın anlatılmaya değer bir hikayesi vardır. Biz, bu hikayeleri en etkili görsel ve stratejik dille dijital dünyaya entegre etmek için çalışıyoruz.
+              Markanız İçin Profesyonel Dijital Hizmetler
             </p>
             <p className="leading-relaxed">
-              Dentlas Ajans olarak Aksaray merkezli ofisimizle, sınırları aşarak tüm Türkiye'ye ve dünyaya dijital hizmet sağlıyoruz. Sosyal medya yönetiminden web geliştirmeye, grafik tasarımdan video kurguya kadar markanızın tüm dijital ihtiyaçlarına 360 derece yenilikçi çözümler üretiyoruz.
+              Dijital varlığın güçlendirilmesi; doğru bir görsel kimlik, güçlü bir web altyapısı ve planlı bir sosyal medya yönetiminin bir araya gelmesiyle mümkündür. Sunduğumuz hizmetlerde, markaların dijital ihtiyaçları tek bir çatı altında analitik ve profesyonel bir yaklaşımla ele alınmaktadır.
             </p>
             <p className="leading-relaxed">
               Sektördeki tecrübemiz ve dinamik yapımızla, Nenessa Hotel gibi değerli markalarla yürüttüğümüz başarılı projeler vizyonumuzun birer kanıtıdır. Sizin markanızı da bir sonraki seviyeye taşımak için buradayız.

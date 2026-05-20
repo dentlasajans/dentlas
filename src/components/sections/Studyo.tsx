@@ -123,8 +123,7 @@ export const Studyo = () => {
   };
 
   return (
-    <section id="studyo" className="py-32 px-6 bg-black relative">
-      <div className="absolute inset-0 bg-brand/[0.01]" />
+    <section id="studyo" className="py-32 px-6 relative z-10">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="text-center md:text-left">
