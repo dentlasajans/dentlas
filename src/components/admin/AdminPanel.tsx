@@ -1,13 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
-import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2 } from 'lucide-react';
-import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
-
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -28,6 +20,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
   const [file, setFile] = useState<File | null>(null);
   const [newType, setNewType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const q = query(collection(db, collectionName), orderBy('createdAt', 'desc'));
@@ -65,7 +58,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
 
       const data = await response.json();
       if (data.secure_url) {
-        const mediaId = crypto.randomUUID();
+        const mediaId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
         await setDoc(doc(db, collectionName, mediaId), {
           src: data.secure_url,
           type: newType,
@@ -75,8 +68,10 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
       } else {
         throw new Error(data.error?.message || 'Yükleme hatası');
       }
-    } catch (error) {
-      alert("Hata: " + (error instanceof Error ? error.message : String(error)));
+      setError('');
+    } catch (err) {
+      console.error(err);
+      setError("Hata: " + (err instanceof Error ? err.message : String(err)));
     } finally {
       setUploading(false);
     }
@@ -86,15 +81,19 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
     if (!confirm('Emin misiniz?')) return;
     try {
       await deleteDoc(doc(db, collectionName, id));
-    } catch (error) {
-      alert("Silme hatası.");
+    } catch (err) {
+      setError("Silme hatası: " + (err instanceof Error ? err.message : String(err)));
     }
   };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-white/90">{title} Yönetimi</h2>
-      
+      {error && (
+        <div className="bg-red-500/20 text-red-500 p-4 rounded-xl border border-red-500/50 mb-6 font-medium">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleAdd} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center">
         <input 
           type="file"
@@ -165,6 +164,7 @@ const AdminBlogManager = () => {
   
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'));
@@ -199,10 +199,12 @@ const AdminBlogManager = () => {
         const data = await response.json();
         if (data.secure_url) {
           imageUrl = data.secure_url;
+        } else {
+          throw new Error(data.error?.message || 'Resim yükleme hatası');
         }
       }
 
-      const blogId = crypto.randomUUID();
+      const blogId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
       await setDoc(doc(db, 'blogs', blogId), {
         title, excerpt, content, category, 
         date: date || new Date().toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' }), 
@@ -212,8 +214,10 @@ const AdminBlogManager = () => {
       });
       
       setTitle(''); setExcerpt(''); setContent(''); setCategory('Genel'); setDate(''); setAuthor(''); setFile(null);
+      setError('');
     } catch (error) {
-      alert("Hata eklendi.");
+      console.error(error);
+      setError("Hata oluştu: " + (error instanceof Error ? error.message : String(error)));
     } finally {
       setUploading(false);
     }
@@ -221,13 +225,21 @@ const AdminBlogManager = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Silmek istediğinize emin misiniz?')) return;
-    await deleteDoc(doc(db, 'blogs', id));
+    try {
+      await deleteDoc(doc(db, 'blogs', id));
+    } catch (err) {
+      setError("Silme hatası: " + (err instanceof Error ? err.message : String(err)));
+    }
   };
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-white/90">Blog ve Haberler Yönetimi</h2>
-      
+      {error && (
+        <div className="bg-red-500/20 text-red-500 p-4 rounded-xl border border-red-500/50 mb-6 font-medium">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleAdd} className="bg-white/5 p-6 rounded-xl border border-white/10 mb-8 flex flex-col gap-4">
         <input 
           type="text" 

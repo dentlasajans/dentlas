@@ -29,13 +29,13 @@ export const Hakkimda = () => {
             className="flex flex-col gap-6 text-white/70"
           >
             <p className="text-xl md:text-2xl leading-relaxed text-white">
-              Markanız İçin Profesyonel Dijital Hizmetler
+              Süreç ve Çözüm Odaklı
+            </p>
+            <p className="leading-relaxed">
+              Fikirden Uygulamaya: Markanız İçin Tek Noktadan Dijital Çözümler
             </p>
             <p className="leading-relaxed">
               Dijital varlığın güçlendirilmesi; doğru bir görsel kimlik, güçlü bir web altyapısı ve planlı bir sosyal medya yönetiminin bir araya gelmesiyle mümkündür. Sunduğumuz hizmetlerde, markaların dijital ihtiyaçları tek bir çatı altında analitik ve profesyonel bir yaklaşımla ele alınmaktadır.
-            </p>
-            <p className="leading-relaxed">
-              Sektördeki tecrübemiz ve dinamik yapımızla, Nenessa Hotel gibi değerli markalarla yürüttüğümüz başarılı projeler vizyonumuzun birer kanıtıdır. Sizin markanızı da bir sonraki seviyeye taşımak için buradayız.
             </p>
           </motion.div>
         </div>
