@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
+import { Routes, Route } from 'react-router-dom';
 import { AnimatedBackground } from './components/AnimatedBackground';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/sections/Hero';
@@ -62,36 +63,53 @@ const ScrollToTop = () => {
   );
 };
 
+const AdminPanel = lazy(() => import('./components/admin/AdminPanel').then(module => ({ default: module.AdminPanel })));
+
+const MainPage = ({ isKvkkOpen, setIsKvkkOpen, isPrivacyOpen, setIsPrivacyOpen }: any) => (
+  <>
+    <Navbar />
+    <Hero />
+    <Stats />
+    <Suspense fallback={null}>
+      <Servisler />
+      <TasarimAraclari />
+      <Referanslar />
+      <Testimonials />
+      <Galeri />
+      <Hakkimda />
+      <Blog />
+      <FAQ />
+      <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
+      
+      <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
+      
+      <ContactWidget />
+      <ScrollToTop />
+      <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
+      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+    </Suspense>
+  </>
+);
+
 export default function App() {
   const [isKvkkOpen, setIsKvkkOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   return (
     <div className="relative min-h-screen">
-      
       <AnimatedBackground />
-      <Navbar />
-
-      <Hero />
-      <Stats />
-      
       <Suspense fallback={null}>
-        <Servisler />
-        <TasarimAraclari />
-        <Referanslar />
-        <Testimonials />
-        <Galeri />
-        <Hakkimda />
-        <Blog />
-        <FAQ />
-        <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
-        
-        <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
-        
-        <ContactWidget />
-        <ScrollToTop />
-        <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
-        <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+        <Routes>
+          <Route path="/" element={
+            <MainPage
+              isKvkkOpen={isKvkkOpen}
+              setIsKvkkOpen={setIsKvkkOpen}
+              isPrivacyOpen={isPrivacyOpen}
+              setIsPrivacyOpen={setIsPrivacyOpen}
+            />
+          } />
+          <Route path="/admin/*" element={<AdminPanel />} />
+        </Routes>
       </Suspense>
     </div>
   );

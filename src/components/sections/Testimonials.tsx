@@ -4,21 +4,24 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 const testimonials = [
   {
-    name: "Ahmet Yıldız",
+    name: "Osman KOÇAK",
     role: "Nenessa Hotel, Genel Müdür",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1777882176/logo_beyaz_jfwaxk.png",
     content: "Dentlas Ajans ile çalışmaya başladıktan sonra sosyal medyadaki duruşumuz tamamen değişti. Hem rezervasyonlarımız arttı hem de kurumsal kimliğimiz lüks otel konseptimize tam oturdu. Hızlı ve yenilikçi bir ekip.",
     rating: 5
   },
   {
-    name: "Ayşe Kaya",
-    role: "Kaya Mimarlık, Kurucu",
-    content: "Web sitemizin yenilenmesi sürecinde gösterdikleri vizyon ve tasarım yetenekleri muazzamdı. Sadece estetik değil, müşteri dönüşümünü de düşünerek harika bir iş çıkardılar.",
+    name: "Sibel ALTUNSU",
+    role: "Nenessa Hotel, Organizasyon Müdürü",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1777882176/logo_beyaz_jfwaxk.png",
+    content: "Otelimizdeki organizasyon ve etkinliklerin tanıtımında harika işler çıkardılar. Yenilikçi tasarımları ve doğru hedef kitle analizi sayesinde etkinliklerimize olan ilgi büyük ölçüde arttı.",
     rating: 5
   },
   {
-    name: "Mehmet Demir",
-    role: "Demir Otomotiv, Satış Müdürü",
-    content: "Performans reklamları konusunda gerçekten profesyoneller. Bütçemizi en verimli şekilde kullanarak daha önce ulaşamadığımız kitlelere ulaşmamızı sağladılar. Aksaray'da böyle bir ajansın olması büyük şans.",
+    name: "Bülent BEY",
+    role: "Küncü Simit Cafe, İşletme Yetkilisi",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779187012/gnhkoaadcxzxdctjslah.png",
+    content: "QR menü, kurumsal kimlik ve tasarım konusundaki stratejik fikir alışverişlerimiz işletmemize çok değer kattı. Modern ve vizyoner yaklaşımlarıyla yeni bir marka yüzüne kavuştuk.",
     rating: 5
   }
 ];
@@ -39,7 +42,7 @@ export const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
-              className="glass border border-white/5 p-8 rounded-3xl relative group hover:border-brand/40 transition-colors"
+              className="glass border border-white/5 p-8 rounded-3xl relative group hover:border-brand/40 transition-colors h-full flex flex-col"
             >
               <div className="absolute top-6 right-6 text-white/5 group-hover:text-brand/10 transition-colors">
                 <Quote size={64} />
@@ -51,17 +54,21 @@ export const Testimonials = () => {
                 ))}
               </div>
               
-              <p className="text-white/80 font-light leading-relaxed mb-8 relative z-10 min-h-[120px]">
+              <p className="text-white/80 font-light leading-relaxed mb-8 relative z-10 flex-1">
                 "{t.content}"
               </p>
               
-              <div className="flex items-center gap-4 relative z-10 pt-6 border-t border-white/5">
-                <div className="w-12 h-12 rounded-full glass flex items-center justify-center font-black text-xl text-brand border border-white/10">
-                  {t.name.charAt(0)}
+              <div className="flex items-center gap-4 relative z-10 pt-6 border-t border-white/5 mt-auto">
+                <div className="w-12 h-12 rounded-full glass flex items-center justify-center font-black text-xl text-brand border border-white/10 shrink-0">
+                  {t.logo ? (
+                    <img src={t.logo} alt={t.name} className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
+                  ) : (
+                    t.name.charAt(0)
+                  )}
                 </div>
                 <div>
                   <h4 className="font-bold text-white text-sm">{t.name}</h4>
-                  <p className="text-[10px] uppercase tracking-[0.1em] text-white/50">{t.role}</p>
+                  <p className="text-xs text-white/50">{t.role}</p>
                 </div>
               </div>
             </motion.div>

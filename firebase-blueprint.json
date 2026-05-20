@@ -16,12 +16,28 @@
         "updatedAt": { "type": "number" }
       },
       "required": ["title", "excerpt", "content", "slug"]
+    },
+    "MediaItem": {
+      "title": "Media Item",
+      "description": "An image or video for the gallery",
+      "type": "object",
+      "properties": {
+        "src": { "type": "string" },
+        "type": { "type": "string", "enum": ["image", "video"] },
+        "createdAt": { "type": "number" },
+        "order": { "type": "number" }
+      },
+      "required": ["src", "type", "createdAt"]
     }
   },
   "firestore": {
     "/blogs/{blogId}": {
       "schema": { "$ref": "#/entities/BlogPost" },
       "description": "Collection of blog posts."
+    },
+    "/media/{mediaId}": {
+      "schema": { "$ref": "#/entities/MediaItem" },
+      "description": "Collection of media items (images/videos) for the gallery."
     }
   }
 }

@@ -6,12 +6,34 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return request.auth != null; 
+      return request.auth != null && (request.auth.token.email == 'himmetmuhammedk@gmail.com' || request.auth.token.email == 'dentlasajan@dentlasajans.com');
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidMedia() {
+      let data = request.resource.data;
+      return data.keys().hasAll(["src", "type", "createdAt"]) 
+        && data.src is string 
+        && data.src.size() <= 1000
+        && data.type is string
+        && data.type in ["image", "video"]
+        && data.createdAt is number;
     }
 
     match /blogs/{blogId} {
       allow read: if true;
       allow write: if isAdmin();
+    }
+
+    match /media/{mediaId} {
+      // Anyone can see gallery
+      allow read: if true;
+      allow create: if isAdmin() && isValidId(mediaId) && isValidMedia();
+      allow update: if false; // Just delete and create new for simplicity right now
+      allow delete: if isAdmin() && isValidId(mediaId);
     }
   }
 }

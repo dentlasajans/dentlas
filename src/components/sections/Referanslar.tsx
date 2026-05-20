@@ -26,21 +26,21 @@ const references = [
   },
   {
     name: "Çok Yakında",
-    sector: "Yeni Proje",
-    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
-    problem: "Henüz yayınlanmadı.",
-    solution: "Tasarım aşamasında.",
-    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"],
-    tools: []
+    sector: "Sağlık & Güzellik",
+    description: "Estetik ve sağlık sektöründe faaliyet gösteren yeni bir kliniğin dijital kimliğini inşa ediyoruz. Estetik vizyonu yansıtan premium bir deneyim tasarlıyoruz.",
+    problem: "Klinik için güven verici, steril ve profesyonel bir marka kimliği ile modern bir randevu altyapısına ihtiyaç duyulması.",
+    solution: "Premium bir kurumsal kimlik tasarımı, kullanıcı dostu arayüz ve etkileşimli sosyal medya şablonları hazırlanıyor.",
+    features: ["Kurumsal Kimlik", "Sosyal Medya Yönetimi", "Web Tasarım"],
+    tools: ["Figma", "Adobe Illustrator"]
   },
   {
     name: "Çok Yakında",
-    sector: "Yeni Proje",
-    description: "Yeni projemiz için çalışmalarımız devam ediyor. Çok yakında detayları buradan inceleyebilirsiniz.",
-    problem: "Henüz yayınlanmadı.",
-    solution: "Tasarım aşamasında.",
-    features: ["Çok Yakında", "Çok Yakında", "Çok Yakında", "Çok Yakında"],
-    tools: []
+    sector: "E-Ticaret & Perakende",
+    description: "Yenilikçi bir giyim markasının e-ticaret altyapısını ve dijital vitrinini baştan aşağı kurguluyoruz. Marka ruhunu yansıtan özgün bir deneyim yolda.",
+    problem: "Kullanıcı etkileşimini artıracak akıcı bir alışveriş deneyimi ve güçlü bir görsel kimlik oluşturma ihtiyacı.",
+    solution: "Kullanıcı deneyimi (UX) odaklı arayüz tasarımları ve dönüşüm artırıcı dijital pazarlama stratejileri geliştiriliyor.",
+    features: ["UX/UI Tasarımı", "E-Ticaret Çözümleri", "Performans Pazarlama"],
+    tools: ["Figma", "Meta Business"]
   }
 ];
 

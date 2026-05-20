@@ -1,37 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Play, Image as ImageIcon, Video as VideoIcon, X } from "lucide-react";
-
-const images = [
-  "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1558500200-d2b38fb24304?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200",
-];
-
-const videos = [
-  "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1460518451285-8baa4c680293?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1516280440503-45f8ccbb8879?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1483058712412-4245e9b90334?auto=format&fit=crop&q=80&w=1200",
-  "https://images.unsplash.com/photo-1481481322814-3d1000632fb1?auto=format&fit=crop&q=80&w=1200",
-];
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
 const getOptimizedSrc = (src: string) => {
   // Return a webp formatted, low quality, smaller width image for thumbnails
-  return src.replace("q=80", "q=50").replace("w=1200", "w=500") + "&fm=webp";
+  if (src.includes('unsplash.com')) {
+    return src.replace("q=80", "q=50").replace("w=1200", "w=500") + "&fm=webp";
+  }
+  return src;
 };
 
 const getOriginalSrc = (src: string) => {
   // Return high quality original size
-  return src.replace("q=80", "q=100").replace("w=1200", "w=2000") + "&fm=webp";
+  if (src.includes('unsplash.com')) {
+    return src.replace("q=80", "q=100").replace("w=1200", "w=2000") + "&fm=webp";
+  }
+  return src;
 };
 
 const GalleryItem = ({
@@ -80,6 +67,45 @@ export const Galeri = () => {
     src: string;
     type: "image" | "video";
   } | null>(null);
+
+  const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video'}[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, 'media'), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(q, (snapshot) => {
+      setMediaItems(snapshot.docs.map(doc => ({
+        id: doc.id,
+        src: doc.data().src,
+        type: doc.data().type as 'image'|'video'
+      })));
+      setLoading(false);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'media');
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  const defaultImages = [
+    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
+  ];
+  
+  const defaultVideos = [
+    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1200"
+  ];
+
+  let images = mediaItems.filter(m => m.type === 'image').map(m => m.src);
+  let videos = mediaItems.filter(m => m.type === 'video').map(m => m.src);
+
+  if (!loading && mediaItems.length === 0) {
+    images = defaultImages;
+    videos = defaultVideos;
+  }
 
   useEffect(() => {
     if (selectedMedia) {

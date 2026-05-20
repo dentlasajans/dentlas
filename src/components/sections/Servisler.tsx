@@ -1,30 +1,9 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate } from 'lucide-react';
+import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate, QrCode } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 const services = [
-  {
-    type: 'social',
-    icon: Share2,
-    title: "Sosyal Medya Yönetimi",
-    description: "Markanızın dijital dünyadaki sesini tasarlıyoruz. Hedef kitlenizle etkileşimi artıracak stratejiler, özgün içerikler ve düzenli paylaşımlarla sosyal medya hesaplarınızı profesyonelce yönetiyoruz.",
-    features: ["İçerik Stratejisi", "Topluluk Yönetimi", "Rakip Analizi", "Aylık Raporlama"]
-  },
-  {
-    type: 'logo',
-    icon: PenTool,
-    title: "Logo Tasarımı",
-    description: "Markanızın karakterini ve vizyonunu yansıtan, akılda kalıcı ve özgün logo tasarımları oluşturuyoruz. Sektördeki duruşunuzu güçlendirecek kurumsal kimlik temellerini atıyoruz.",
-    features: ["Özgün Konsept", "Vektörel Çizim", "Renk ve Tipografi", "Farklı Format Teslimi"]
-  },
-  {
-    type: 'card',
-    icon: Contact,
-    title: "Kartvizit Tasarımı",
-    description: "İlk izlenim önemlidir. Profesyonelliğinizi yansıtan, estetik ve akılda kalıcı kartvizit tasarımlarıyla profesyonel ağınızı güçlendirmenize yardımcı oluyoruz.",
-    features: ["Modern Tasarım", "Matbaa Uyumluluğu", "QR Kod Entegrasyonu", "Özel Kesim Seçenekleri"]
-  },
   {
     type: 'brochure',
     icon: BookOpen,
@@ -40,20 +19,6 @@ const services = [
     features: ["4K Video Çekimi", "Havadan Fotoğrafçılık", "Sinematik Kurgu", "Tesis Tanıtımı"]
   },
   {
-    type: 'product',
-    icon: Camera,
-    title: "Ürün Çekimi",
-    description: "Ürünlerinizin kalitesini ve detaylarını en iyi şekilde yansıtan profesyonel fotoğraf çekimleri yapıyoruz. E-ticaret siteniz veya sosyal medyanız için satış artıran görseller üretiyoruz.",
-    features: ["Stüdyo Çekimi", "Konsept Çekim", "Detay ve Macro", "Dekupe ve Rötuş"]
-  },
-  {
-    type: 'meta',
-    icon: Megaphone,
-    title: "Meta Reklam Yönetimi",
-    description: "Instagram ve Facebook platformlarında, hedef kitlenize nokta atışı ulaşan reklam kampanyaları kurguluyoruz. Bütçenizi en verimli şekilde kullanarak dönüşümleri artırıyoruz.",
-    features: ["Hedef Kitle Analizi", "A/B Testleri", "Kampanya Optimizasyonu", "Pixel ve Dönüşüm Takibi"]
-  },
-  {
     type: 'google',
     icon: Search,
     title: "Google Reklam Yönetimi",
@@ -61,25 +26,11 @@ const services = [
     features: ["Anahtar Kelime Analizi", "Tıklama Başına Maliyet", "Yeniden Pazarlama", "Performans Raporlaması"]
   },
   {
-    type: 'webapp',
-    icon: MonitorSmartphone,
-    title: "Web App Geliştirme",
-    description: "İş süreçlerinizi dijitalleştiren, kullanıcı dostu ve yüksek performanslı modern web uygulamaları (Web App) geliştiriyoruz. İhtiyacınıza özel, ölçeklenebilir altyapılar sunuyoruz.",
-    features: ["Özel Yazılım Altyapısı", "Responsive Kodlama", "Performans Odaklı", "API ve Veritabanı"]
-  },
-  {
-    type: 'webdesign',
-    icon: LayoutTemplate,
-    title: "Kurumsal Web Tasarım",
-    description: "Markanızı dijital dünyada en şık şekilde temsil eden, modern hatlara sahip, tamamen güncel teknolojiler barındıran profesyonel web siteleri oluşturuyoruz.",
-    features: ["Kullanıcı Deneyimi (UX)", "Mobil Uyumlu (Responsive)", "Temiz Kod Altyapısı", "İçerik Yönetim Sistemi"]
-  },
-  {
-    type: 'uiux',
-    icon: MousePointer2,
-    title: "UI/UX Tasarım",
-    description: "Kullanıcıların dijital ürünlerinizle olan etkileşimini mükemmelleştiriyoruz. Estetik arayüzler ve kusursuz kullanıcı deneyimleri tasarlayarak markanıza değer katıyoruz.",
-    features: ["Kullanıcı Araştırması", "Wireframe & Prototip", "Arayüz Tasarımı", "Etkileşim Tasarımı"]
+    type: 'card',
+    icon: Contact,
+    title: "Kartvizit Tasarımı",
+    description: "İlk izlenim önemlidir. Profesyonelliğinizi yansıtan, estetik ve akılda kalıcı kartvizit tasarımlarıyla profesyonel ağınızı güçlendirmenize yardımcı oluyoruz.",
+    features: ["Modern Tasarım", "Matbaa Uyumluluğu", "QR Kod Entegrasyonu", "Özel Kesim Seçenekleri"]
   },
   {
     type: 'branding',
@@ -89,6 +40,34 @@ const services = [
     features: ["Logo Kullanım Şartları", "Renk ve Tipografi", "Antetli, Zarf & Dosya", "Tasarım Kılavuzu"]
   },
   {
+    type: 'webdesign',
+    icon: LayoutTemplate,
+    title: "Kurumsal Web Tasarım",
+    description: "Markanızı dijital dünyada en şık şekilde temsil eden, modern hatlara sahip, tamamen güncel teknolojiler barındıran profesyonel web siteleri oluşturuyoruz.",
+    features: ["Kullanıcı Deneyimi (UX)", "Mobil Uyumlu (Responsive)", "Temiz Kod Altyapısı", "İçerik Yönetim Sistemi"]
+  },
+  {
+    type: 'logo',
+    icon: PenTool,
+    title: "Logo Tasarımı",
+    description: "Markanızın karakterini ve vizyonunu yansıtan, akılda kalıcı ve özgün logo tasarımları oluşturuyoruz. Sektördeki duruşunuzu güçlendirecek kurumsal kimlik temellerini atıyoruz.",
+    features: ["Özgün Konsept", "Vektörel Çizim", "Renk ve Tipografi", "Farklı Format Teslimi"]
+  },
+  {
+    type: 'meta',
+    icon: Megaphone,
+    title: "Meta Reklam Yönetimi",
+    description: "Instagram ve Facebook platformlarında, hedef kitlenize nokta atışı ulaşan reklam kampanyaları kurguluyoruz. Bütçenizi en verimli şekilde kullanarak dönüşümleri artırıyoruz.",
+    features: ["Hedef Kitle Analizi", "A/B Testleri", "Kampanya Optimizasyonu", "Pixel ve Dönüşüm Takibi"]
+  },
+  {
+    type: 'qrmenu',
+    icon: QrCode,
+    title: "QR Menü Tasarımı",
+    description: "Kafeler, restoranlar ve oteller için temassız, modern ve hızlı dijital menü çözümleri sunuyoruz. Müşteri deneyimini artırırken sipariş süreçlerinizi hızlandırıyoruz.",
+    features: ["Özel Tasarım", "Hızlı Erişim", "Kolay Güncelleme", "Kurumsal Görünüm"]
+  },
+  {
     type: 'seo',
     icon: TrendingUp,
     title: "SEO Optimizasyonu",
@@ -96,11 +75,39 @@ const services = [
     features: ["Site İçi (On-Page) SEO", "Teknik SEO Analizi", "Hız Optimizasyonu", "Anahtar Kelime Araştırması"]
   },
   {
+    type: 'social',
+    icon: Share2,
+    title: "Sosyal Medya Yönetimi",
+    description: "Markanızın dijital dünyadaki sesini tasarlıyoruz. Hedef kitlenizle etkileşimi artıracak stratejiler, özgün içerikler ve düzenli paylaşımlarla sosyal medya hesaplarınızı profesyonelce yönetiyoruz.",
+    features: ["İçerik Stratejisi", "Topluluk Yönetimi", "Rakip Analizi", "Aylık Raporlama"]
+  },
+  {
+    type: 'uiux',
+    icon: MousePointer2,
+    title: "UI/UX Tasarım",
+    description: "Kullanıcıların dijital ürünlerinizle olan etkileşimini mükemmelleştiriyoruz. Estetik arayüzler ve kusursuz kullanıcı deneyimleri tasarlayarak markanıza değer katıyoruz.",
+    features: ["Kullanıcı Araştırması", "Wireframe & Prototip", "Arayüz Tasarımı", "Etkileşim Tasarımı"]
+  },
+  {
     type: 'video',
     icon: Scissors,
     title: "Video Kurgu & Montaj",
     description: "Elinizdeki çekimleri veya stock videoları bir araya getirerek, ilgi çekici, sosyal medyaya veya reklamlara uygun, dinamik ve akıcı kurgular hazırlıyoruz.",
     features: ["Renk Düzenleme (Color Grading)", "Müzik & Ses Efekti", "Dinamik Geçişler", "Altyazı & Tipografi"]
+  },
+  {
+    type: 'webapp',
+    icon: MonitorSmartphone,
+    title: "Web App Geliştirme",
+    description: "İş süreçlerinizi dijitalleştiren, kullanıcı dostu ve yüksek performanslı modern web uygulamaları (Web App) geliştiriyoruz. İhtiyacınıza özel, ölçeklenebilir altyapılar sunuyoruz.",
+    features: ["Özel Yazılım Altyapısı", "Responsive Kodlama", "Performans Odaklı", "API ve Veritabanı"]
+  },
+  {
+    type: 'product',
+    icon: Camera,
+    title: "Ürün Çekimi",
+    description: "Ürünlerinizin kalitesini ve detaylarını en iyi şekilde yansıtan profesyonel fotoğraf çekimleri yapıyoruz. E-ticaret siteniz veya sosyal medyanız için satış artıran görseller üretiyoruz.",
+    features: ["Stüdyo Çekimi", "Konsept Çekim", "Detay ve Macro", "Dekupe ve Rötuş"]
   }
 ];
 
@@ -121,6 +128,7 @@ const TopicGraphic = ({ type }: { type: string }) => {
       case 'branding': return { Icon: Package, color: 'text-orange-500', bg: 'bg-orange-500/10', border: 'border-orange-500/20' };
       case 'seo': return { Icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-400/10', border: 'border-green-400/20' };
       case 'video': return { Icon: Scissors, color: 'text-red-500', bg: 'bg-red-500/10', border: 'border-red-500/20' };
+      case 'qrmenu': return { Icon: QrCode, color: 'text-fuchsia-400', bg: 'bg-fuchsia-400/10', border: 'border-fuchsia-400/20' };
       default: return { Icon: LayoutTemplate, color: 'text-brand', bg: 'bg-brand/10', border: 'border-brand/20' };
     }
   };
