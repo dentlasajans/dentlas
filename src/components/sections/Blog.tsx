@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ArrowRight, Calendar, User } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
 const staticPosts = [
   {
@@ -107,6 +110,22 @@ const BlogCard = ({ post, onClick }: { post: any; onClick: () => void }) => {
 
 export const Blog = () => {
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(q, (snapshot) => {
+      setBlogs(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.GET, 'blogs');
+      setLoading(false);
+    });
+    return unsub;
+  }, []);
+
+  const displayPosts = blogs.length > 0 ? blogs : (loading ? [] : staticPosts);
 
   useEffect(() => {
     if (selectedPost) {
@@ -133,9 +152,9 @@ export const Blog = () => {
         <SectionHeading subtitle="GÜNCEL">Blog & Haberler.</SectionHeading>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {staticPosts.map((post, idx) => (
+          {displayPosts.map((post, idx) => (
             <BlogCard
-              key={idx}
+              key={post.id || idx}
               post={post}
               onClick={() => handleOpenModal(post)}
             />

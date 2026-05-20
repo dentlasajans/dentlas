@@ -25,15 +25,25 @@ service cloud.firestore {
 
     match /blogs/{blogId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if true;
+    }
+
+    match /admins/{adminId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    match /studio/{studioId} {
+      allow read: if true;
+      allow write: if true;
     }
 
     match /media/{mediaId} {
       // Anyone can see gallery
       allow read: if true;
-      allow create: if isAdmin() && isValidId(mediaId) && isValidMedia();
-      allow update: if false; // Just delete and create new for simplicity right now
-      allow delete: if isAdmin() && isValidId(mediaId);
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
     }
   }
 }

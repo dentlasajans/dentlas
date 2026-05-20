@@ -6,7 +6,6 @@ import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
 const getOptimizedSrc = (src: string) => {
-  // Return a webp formatted, low quality, smaller width image for thumbnails
   if (src.includes('unsplash.com')) {
     return src.replace("q=80", "q=50").replace("w=1200", "w=500") + "&fm=webp";
   }
@@ -14,7 +13,6 @@ const getOptimizedSrc = (src: string) => {
 };
 
 const getOriginalSrc = (src: string) => {
-  // Return high quality original size
   if (src.includes('unsplash.com')) {
     return src.replace("q=80", "q=100").replace("w=1200", "w=2000") + "&fm=webp";
   }
@@ -64,7 +62,7 @@ const GalleryItem = ({
   );
 };
 
-export const Galeri = () => {
+export const Studyo = () => {
   const [activeTab, setActiveTab] = useState<"image" | "video">("image");
   const [visibleCount, setVisibleCount] = useState(8);
   const [selectedMedia, setSelectedMedia] = useState<{
@@ -76,7 +74,7 @@ export const Galeri = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const q = query(collection(db, 'media'), orderBy('createdAt', 'desc'));
+    const q = query(collection(db, 'studio'), orderBy('createdAt', 'desc'));
     const unsub = onSnapshot(q, (snapshot) => {
       setMediaItems(snapshot.docs.map(doc => ({
         id: doc.id,
@@ -85,21 +83,18 @@ export const Galeri = () => {
       })));
       setLoading(false);
     }, (error) => {
-      handleFirestoreError(error, OperationType.GET, 'media');
+      handleFirestoreError(error, OperationType.GET, 'studio');
       setLoading(false);
     });
     return unsub;
   }, []);
 
   const defaultImages = [
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
+    "https://images.unsplash.com/photo-1598387181032-a3103a6db5b3?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1597524678053-5e6fef52d8a3?auto=format&fit=crop&q=80&w=1200"
   ];
   
   const defaultVideos = [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200",
     "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1200"
   ];
 
@@ -128,18 +123,20 @@ export const Galeri = () => {
   };
 
   return (
-    <section id="galeri" className="py-32 px-6 bg-brand/[0.02]">
-      <div className="max-w-7xl mx-auto">
+    <section id="studyo" className="py-32 px-6 bg-black relative">
+      <div className="absolute inset-0 bg-brand/[0.01]" />
+      <div className="max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="text-center md:text-left">
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-              GALERİ
+            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white">
+              STÜDYO
             </h2>
+            <p className="text-white/50 mt-4 max-w-xl text-lg">Profesyonel stüdyo çekimlerimiz hakkında fikir edinin.</p>
           </div>
 
           <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 w-fit mx-auto md:mx-0">
             <button
-              onClick={() => handleTabChange("image")}
+               onClick={() => handleTabChange("image")}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-semibold text-sm ${
                 activeTab === "image"
                   ? "bg-brand text-black shadow-lg shadow-brand/20"
@@ -150,7 +147,7 @@ export const Galeri = () => {
               Görseller
             </button>
             <button
-              onClick={() => handleTabChange("video")}
+               onClick={() => handleTabChange("video")}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-semibold text-sm ${
                 activeTab === "video"
                   ? "bg-brand text-black shadow-lg shadow-brand/20"
@@ -195,7 +192,7 @@ export const Galeri = () => {
         </motion.div>
 
         {((activeTab === "image" && visibleCount < images.length) ||
-          (activeTab === "video" && visibleCount < videos.length)) && (
+           (activeTab === "video" && visibleCount < videos.length)) && (
           <div className="mt-12 flex justify-center">
             <button
               onClick={() => setVisibleCount((prev) => prev + 8)}
@@ -219,14 +216,14 @@ export const Galeri = () => {
             />
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               className="relative w-full max-w-6xl max-h-[80dvh] sm:max-h-[calc(100vh-4rem)] flex items-center justify-center z-10"
             >
               <div className="absolute -top-12 right-0 sm:top-0 sm:-right-16 z-[60]">
                 <button
-                  aria-label="Kapat"
+                   aria-label="Kapat"
                   onClick={() => setSelectedMedia(null)}
                   className="w-10 h-10 bg-black/60 border border-white/10 rounded-full flex items-center justify-center hover:bg-red-500/80 hover:border-red-500 transition-colors text-white backdrop-blur-md shadow-xl"
                 >
