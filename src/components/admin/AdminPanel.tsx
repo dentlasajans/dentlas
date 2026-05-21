@@ -2,18 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../lib/firebase';
+import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { db, auth } from '../../lib/firebase';
 import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2, Camera, FileText } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
-
-const generateCloudinarySignature = async (timestamp: number) => {
-  const secret = 'LzarS09zBKRvsGhph9s4pQbwzEI';
-  const data = `timestamp=${timestamp}${secret}`;
-  const msgUint8 = new TextEncoder().encode(data);
-  const hashBuffer = await crypto.subtle.digest('SHA-1', msgUint8);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-};
 
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
   const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video'}[]>([]);
@@ -42,16 +34,12 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
 
     setUploading(true);
     try {
-      const timestamp = Math.floor(Date.now() / 1000);
-      const signature = await generateCloudinarySignature(timestamp);
-
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('api_key', '943986857686586');
-      formData.append('timestamp', timestamp.toString());
-      formData.append('signature', signature);
+      formData.append('upload_preset', 'atlaspos');
 
-      const response = await fetch(`https://api.cloudinary.com/v1_1/dejx0brol/${newType === 'video' ? 'video' : 'image'}/upload`, {
+      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${newType === 'video' ? 'video' : 'image'}/upload`, {
         method: 'POST',
         body: formData
       });
@@ -59,11 +47,20 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
       const data = await response.json();
       if (data.secure_url) {
         const mediaId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
-        await setDoc(doc(db, collectionName, mediaId), {
+        
+        // Timeout in case Firestore hangs due to connection/project issues
+        const setDocPromise = setDoc(doc(db, collectionName, mediaId), {
           src: data.secure_url,
           type: newType,
           createdAt: Date.now()
         });
+        
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error("Veritabanı bağlantısı zaman aşımına uğradı. Lütfen Firestore'un Console'da aktif ve hazır olduğundan emin olun.")), 10000)
+        );
+        
+        await Promise.race([setDocPromise, timeoutPromise]);
+        
         setFile(null);
       } else {
         throw new Error(data.error?.message || 'Yükleme hatası');
@@ -184,15 +181,12 @@ const AdminBlogManager = () => {
     
     try {
       if (file) {
-        const timestamp = Math.floor(Date.now() / 1000);
-        const signature = await generateCloudinarySignature(timestamp);
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('api_key', '943986857686586');
-        formData.append('timestamp', timestamp.toString());
-        formData.append('signature', signature);
+        formData.append('upload_preset', 'atlaspos');
   
-        const response = await fetch(`https://api.cloudinary.com/v1_1/dejx0brol/image/upload`, {
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
           method: 'POST',
           body: formData
         });
@@ -205,13 +199,19 @@ const AdminBlogManager = () => {
       }
 
       const blogId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
-      await setDoc(doc(db, 'blogs', blogId), {
+      const setDocPromise = setDoc(doc(db, 'blogs', blogId), {
         title, excerpt, content, category, 
         date: date || new Date().toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' }), 
         author: author || 'Admin',
         image: imageUrl,
         createdAt: Date.now()
       });
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Veritabanı bağlantısı zaman aşımına uğradı (Firestore yanıt vermiyor).")), 10000)
+      );
+      
+      await Promise.race([setDocPromise, timeoutPromise]);
       
       setTitle(''); setExcerpt(''); setContent(''); setCategory('Genel'); setDate(''); setAuthor(''); setFile(null);
       setError('');
@@ -301,16 +301,17 @@ const AdminBlogManager = () => {
 export const AdminPanel = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
   const [loginLoading, setLoginLoading] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem('admin_logged_in') === 'true') {
-      setIsLoggedIn(true);
-    }
-    setLoading(false);
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+      setLoading(false);
+    });
+    return unsub;
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -318,36 +319,16 @@ export const AdminPanel = () => {
     setLoginError('');
     setLoginLoading(true);
     try {
-      if (username === 'dentlasajans' && password === 'Uhpv0jzq356807') {
-        // Otomatik olarak firestore'a kullanıcının kaydedilmesini sağla
-        setDoc(doc(db, 'admins', username), { username, password }, { merge: true })
-          .catch(e => console.warn("Firestore yazma izni yok, sadece yerel giriş yapılıyor."));
-        
-        setIsLoggedIn(true);
-        localStorage.setItem('admin_logged_in', 'true');
-        setLoginLoading(false);
-        return;
-      }
-
-      const adminRef = doc(db, 'admins', username);
-      const adminSnap = await getDoc(adminRef);
-
-      if (adminSnap.exists() && adminSnap.data().password === password) {
-        setIsLoggedIn(true);
-        localStorage.setItem('admin_logged_in', 'true');
-      } else {
-        setLoginError("Giriş başarısız. Bilgiler yanlış.");
-      }
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
-      setLoginError("Veritabanı bağlantı hatası.");
+      setLoginError("Giriş başarısız. Bilgiler yanlış veya kullanıcı bulunamadı.");
     } finally {
       setLoginLoading(false);
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('admin_logged_in');
+  const handleLogout = async () => {
+    await signOut(auth);
   };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center text-white/50">Yükleniyor...</div>;
@@ -373,10 +354,10 @@ export const AdminPanel = () => {
           
           <div className="flex flex-col gap-4 mb-6">
             <input 
-              type="text" 
-              placeholder="Kullanıcı Adı" 
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              type="email" 
+              placeholder="E-posta" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white outline-none focus:border-brand w-full"
               required
             />

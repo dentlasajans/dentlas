@@ -91,25 +91,8 @@ export const Galeri = () => {
     return unsub;
   }, []);
 
-  const defaultImages = [
-    "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1200"
-  ];
-  
-  const defaultVideos = [
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1200"
-  ];
-
   let images = mediaItems.filter(m => m.type === 'image').map(m => m.src);
   let videos = mediaItems.filter(m => m.type === 'video').map(m => m.src);
-
-  if (!loading && mediaItems.length === 0) {
-    images = defaultImages;
-    videos = defaultVideos;
-  }
 
   useEffect(() => {
     if (selectedMedia) {

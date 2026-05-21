@@ -6,45 +6,6 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
-const staticPosts = [
-  {
-    title: "Markanız İçin Doğru Sosyal Medya Stratejisi Nasıl Belirlenir?",
-    category: "Sosyal Medya",
-    date: "12 Mayıs 2026",
-    author: "Himmet Muhammed KILIÇ",
-    image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800",
-    excerpt:
-      "Hedef kitlenize ulaşmak ve kalıcı bir etki yaratmak için sosyal medya platformlarında nasıl bir yol izlemeniz gerektiğini adım adım inceliyoruz.",
-    content:
-      "Sosyal medya yönetimi sadece gönderi paylaşmaktan ibaret değildir. Markanızın sesini doğru kitleye duyurabilmek için stratejik bir yaklaşım gerekir. İlk adım, hedef kitlenizin hangi platformlarda vakit geçirdiğini analiz etmektir.\n\nİçerik planlaması ve hedef kitle analizi markanızın sosyal medyadaki performansını doğrudan etkiler. Görsel bütünlük ise profesyonelliğinizi kanıtlar. Markanıza uygun bir sosyal medya stratejisi belirlemek için pazar araştırması, rakip analizi ve etkileşim ölçümleri gibi adımlar atmanız gerekmektedir.",
-  },
-  {
-    title: "Kurumsal Kimlik Tasarımında Renk Psikolojisi",
-    category: "Tasarım",
-    date: "28 Nisan 2026",
-    author: "Himmet Muhammed KILIÇ",
-    image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800",
-    excerpt:
-      "Renklerin insan psikolojisi üzerindeki etkileri ve markanızın kişiliğini yansıtacak doğru renk paletini seçmenin ipuçları.",
-    content:
-      "Markanızın renkleri, müşterilerinizin sizle ilk karşılaştıklarında hissedecekleri duyguyu belirler. Örneğin, mavi güveni ve profesyonelliği temsil ederken kırmızı heyecanı ve harekete geçmeyi temsil eder.\n\nKurumsal kimliğinizi oluştururken doğru renk seçimi yapmak sektörünüzdeki konumlandırmanızı doğrudan etkiler. Teknoloji markaları genellikle mavi ve gri tonlarını tercih ederken, gıda sektöründeki markalar kırmızı ve sarı gibi iştah açıcı ve enerjik renklere yönelmektedir. Renk uyumu sadece logonuzda değil, kurumsal kimlik içindeki tüm elementlerde korunmalıdır.",
-  },
-  {
-    title: "AtlasPOS Başarı Hikayesi: Dijital Dönüşüm",
-    category: "Vaka Analizi",
-    date: "15 Nisan 2026",
-    author: "Himmet Muhammed KILIÇ",
-    image:
-      "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=80&w=800",
-    excerpt:
-      "AtlasPOS ile gerçekleştirdiğimiz restoran yönetim sistemi projesinin başlangıçtan teslimata kadar olan sürecini detaylandırıyoruz.",
-    content:
-      "Restoran sektöründeki operasyonel zorlukları aşmak için tasarladığımız AtlasPOS uygulamasının geliştirme sürecinde, hem kullanıcı deneyimini hem de performans gereksinimlerini göz önünde bulundurduk.\n\nSistem mimarisini modern ve bulut tabanlı bir yapıya kavuştururken, restoran çalışanları için hızlı reaksiyon alabilecekleri bir UI/UX süreci gerçekleştirdik. Özellikle yoğun servis anlarında sistemin kesintisiz hizmet verebilmesi en önemli kriterlerden biriydi. AtlasPOS'un tasarım aşaması, tamamen kullanıcı reflekslerine özel uyumlu bir süreçle sürdürüldü ve ortaya hem verimli hem şık bir ürün çıktı.",
-  },
-];
-
 const BlogCard = ({ post, onClick }: { post: any; onClick: () => void }) => {
   const getOptimizedImage = (url: string) =>
     url.replace("w=800", "w=500").replace("q=80", "q=60");
@@ -125,7 +86,7 @@ export const Blog = () => {
     return unsub;
   }, []);
 
-  const displayPosts = blogs.length > 0 ? blogs : (loading ? [] : staticPosts);
+  const displayPosts = blogs.length > 0 ? blogs : [];
 
   useEffect(() => {
     if (selectedPost) {

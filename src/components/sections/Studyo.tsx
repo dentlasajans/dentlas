@@ -89,22 +89,8 @@ export const Studyo = () => {
     return unsub;
   }, []);
 
-  const defaultImages = [
-    "https://images.unsplash.com/photo-1598387181032-a3103a6db5b3?auto=format&fit=crop&q=80&w=1200",
-    "https://images.unsplash.com/photo-1597524678053-5e6fef52d8a3?auto=format&fit=crop&q=80&w=1200"
-  ];
-  
-  const defaultVideos = [
-    "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1200"
-  ];
-
   let images = mediaItems.filter(m => m.type === 'image').map(m => m.src);
   let videos = mediaItems.filter(m => m.type === 'video').map(m => m.src);
-
-  if (!loading && mediaItems.length === 0) {
-    images = defaultImages;
-    videos = defaultVideos;
-  }
 
   useEffect(() => {
     if (selectedMedia) {
