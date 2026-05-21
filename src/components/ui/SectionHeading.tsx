@@ -35,13 +35,13 @@ export const SectionHeading = ({ children, subtitle, centered = false, className
         className={`text-4xl md:text-6xl font-extrabold tracking-tight flex flex-wrap gap-x-3 gap-y-2 ${centered ? 'justify-center' : ''}`}
       >
         {typeof children === 'string' ? children.split(' ').map((word, index) => (
-          <motion.span variants={child} key={index} className="inline-block relative overflow-hidden">
+          <motion.span variants={child} key={index} className="inline-block relative overflow-hidden -my-2 -mx-1">
             <motion.span 
               initial={{ y: "100%" }}
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1], delay: index * 0.05 + 0.1 }}
-              className="inline-block"
+              className="inline-block py-2 px-1"
             >
               {word}
             </motion.span>

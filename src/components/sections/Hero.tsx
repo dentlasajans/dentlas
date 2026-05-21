@@ -100,7 +100,7 @@ export const Hero = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'spring', damping: 20, delay: 0.4 }}
-          className="flex justify-center relative mt-12 md:mt-0 w-full h-[400px] sm:h-[500px] md:h-[650px] pointer-events-none"
+          className="hidden lg:flex justify-center relative mt-12 md:mt-0 w-full h-[400px] sm:h-[500px] md:h-[650px] pointer-events-none"
         >
           <div className="absolute inset-0 bg-brand/10 blur-[80px] rounded-full" />
           
