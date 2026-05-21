@@ -108,7 +108,7 @@ export const TasarimAraclari = () => {
   };
 
   return (
-    <section id="araçlar" className="py-24 px-6 relative z-10 w-full overflow-hidden">
+    <section id="araclar" className="py-24 px-6 relative z-10 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 max-w-2xl">
           <SectionHeading subtitle="TEKNOLOJİ">Tasarım Araçları.</SectionHeading>

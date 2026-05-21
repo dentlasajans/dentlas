@@ -37,7 +37,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
   };
 
   return (
-    <section id="iletişim" className="py-32 px-6 overflow-hidden relative">
+    <section id="iletisim" className="py-32 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>

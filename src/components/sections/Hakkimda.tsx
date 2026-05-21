@@ -3,7 +3,7 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 export const Hakkimda = () => {
   return (
-    <section id="hakkımızda" className="py-40 px-6">
+    <section id="hakkimizda" className="py-40 px-6">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="EKİBİMİZ">Süreç ve Çözüm Odaklı</SectionHeading>
         

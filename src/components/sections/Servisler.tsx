@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate, QrCode } from 'lucide-react';
+import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate, QrCode, Zap } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 
 const services = [
@@ -79,7 +79,14 @@ const services = [
     icon: Share2,
     title: "Sosyal Medya Yönetimi",
     description: "Markanızın dijital dünyadaki sesini tasarlıyoruz. Hedef kitlenizle etkileşimi artıracak stratejiler, özgün içerikler ve düzenli paylaşımlarla sosyal medya hesaplarınızı profesyonelce yönetiyoruz.",
-    features: ["İçerik Stratejisi", "Topluluk Yönetimi", "Rakip Analizi", "Aylık Raporlama"]
+    features: ["İçerik Stratejisi", "Filtreler ve AR Efektleri", "Reels Hareketli Grafikleri", "Aylık Raporlama"]
+  },
+  {
+    type: 'performance',
+    icon: Zap,
+    title: "Web Sitesi Hız Optimizasyonu",
+    description: "Sitenizin performansını en üst düzeye çıkararak kullanıcı deneyimini iyileştiriyor ve arama motoru sıralamalarınızı yükseltiyoruz.",
+    features: ["Core Web Vitals Optimizasyonu", "Görsel Sıkıştırma", "Lazy Loading (Tembel Yükleme)", "Önbellekleme Altyapısı"]
   },
   {
     type: 'uiux',
@@ -127,6 +134,7 @@ const TopicGraphic = ({ type }: { type: string }) => {
       case 'uiux': return { Icon: MousePointer2, color: 'text-pink-500', bg: 'bg-pink-500/10', border: 'border-pink-500/20' };
       case 'branding': return { Icon: Package, color: 'text-orange-500', bg: 'bg-orange-500/10', border: 'border-orange-500/20' };
       case 'seo': return { Icon: TrendingUp, color: 'text-green-400', bg: 'bg-green-400/10', border: 'border-green-400/20' };
+      case 'performance': return { Icon: Zap, color: 'text-yellow-500', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' };
       case 'video': return { Icon: Scissors, color: 'text-red-500', bg: 'bg-red-500/10', border: 'border-red-500/20' };
       case 'qrmenu': return { Icon: QrCode, color: 'text-fuchsia-400', bg: 'bg-fuchsia-400/10', border: 'border-fuchsia-400/20' };
       default: return { Icon: LayoutTemplate, color: 'text-brand', bg: 'bg-brand/10', border: 'border-brand/20' };

@@ -11,7 +11,7 @@ export const Navbar = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
       
-      const sections = ['servisler', 'araçlar', 'referanslar', 'testimonials', 'galeri', 'hakkımızda', 'blog', 'faq', 'iletişim'];
+      const sections = ['servisler', 'araclar', 'referanslar', 'testimonials', 'galeri', 'hakkimizda', 'blog', 'faq', 'iletisim'];
       const currentSection = sections.find(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -53,13 +53,17 @@ export const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
           {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Galeri', 'Blog', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
-            const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item.toLowerCase();
+            const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
             const isActive = activeSection === itemId;
             
             return (
               <motion.a 
                 key={item}
                 href={`#${itemId}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
@@ -93,14 +97,18 @@ export const Navbar = () => {
           >
             <div className="flex flex-col p-6 gap-6">
               {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Galeri', 'Blog', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item) => {
-                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item.toLowerCase();
+                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
                 const isActive = activeSection === itemId;
                 return (
                   <a 
                     key={item} 
                     href={`#${itemId}`} 
                     className={`text-xl font-bold transition-colors ${isActive ? 'text-brand' : 'text-white'}`} 
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsMenuOpen(false);
+                      document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth' });
+                    }}
                   >
                     {item}
                   </a>
