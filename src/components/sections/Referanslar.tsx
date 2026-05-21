@@ -17,7 +17,7 @@ const references = [
   {
     name: "Küncü Simit Cafe",
     sector: "Kafe & Restoran",
-    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779187012/gnhkoaadcxzxdctjslah.png",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779357226/Ads%C4%B1z_tasar%C4%B1m_f6glvs.png",
     description: "Küncü Simit Cafe markasının müşteri deneyimini dijitalleştirmek ve marka kimliğini güçlendirmek için stratejik adımlar attık. Kurumsal kimlik tasarımı ve modern QR menü sistemi ile işletmeye değer kattık.",
     problem: "İşletmenin kurumsal kimlik eksikliği ve müşterilere sipariş esnasında hız/pratiklik sağlayacak dijital bir menü ihtiyacı mevcuttu.",
     solution: "Marka ruhuna uygun kurumsal kimlik oluşturuldu. Menü erişimini hızlandırmak için QR menü altyapısı hazırlandı ve proje süresince çeşitli fikir alışverişlerinde bulunuldu.",

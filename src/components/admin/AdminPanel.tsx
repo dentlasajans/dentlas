@@ -7,6 +7,60 @@ import { db, auth } from '../../lib/firebase';
 import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2, Camera, FileText } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
+const extractPublicId = (url: string) => {
+  try {
+    const parts = url.split('/upload/');
+    if (parts.length > 1) {
+      let pathStr = parts[1];
+      if (pathStr.match(/^v\d+\//)) {
+        pathStr = pathStr.replace(/^v\d+\//, '');
+      }
+      const lastDotIndex = pathStr.lastIndexOf('.');
+      if (lastDotIndex !== -1) {
+        pathStr = pathStr.substring(0, lastDotIndex);
+      }
+      return decodeURIComponent(pathStr);
+    }
+  } catch (e) {
+    console.warn("Public ID çıkarılamadı", e);
+  }
+  return null;
+};
+
+const deleteFromCloudinary = async (url: string, type: 'image' | 'video' = 'image') => {
+  const publicId = extractPublicId(url);
+  if (!publicId) return;
+  
+  const timestamp = Math.floor(Date.now() / 1000);
+  // Default values should be handled safely, we use environment variables
+  const secret = import.meta.env.VITE_CLOUDINARY_API_SECRET || 'LzarS09zBKRvsGhph9s4pQbwzEI';
+  const apiKey = import.meta.env.VITE_CLOUDINARY_API_KEY || '943986857686586';
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
+  
+  if (!secret || !apiKey || !cloudName) return;
+
+  const data = `public_id=${publicId}&timestamp=${timestamp}${secret}`;
+  const msgUint8 = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-1', msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const signature = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+
+  const formData = new FormData();
+  formData.append('public_id', publicId);
+  formData.append('api_key', apiKey);
+  formData.append('timestamp', timestamp.toString());
+  formData.append('signature', signature);
+
+  try {
+    await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${type}/destroy`, {
+      method: 'POST',
+      body: formData
+    });
+  } catch (err) {
+    console.error("Cloudinary silme hatası", err);
+  }
+};
+
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
   const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video'}[]>([]);
   const [file, setFile] = useState<File | null>(null);
@@ -74,9 +128,12 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, src: string, type: 'image' | 'video') => {
     if (!confirm('Emin misiniz?')) return;
     try {
+      if (src) {
+        await deleteFromCloudinary(src, type);
+      }
       await deleteDoc(doc(db, collectionName, id));
     } catch (err) {
       setError("Silme hatası: " + (err instanceof Error ? err.message : String(err)));
@@ -136,7 +193,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
               {item.type === 'video' ? <VideoIcon size={16} className="text-white" /> : <ImageIcon size={16} className="text-white" />}
             </div>
             <button 
-              onClick={() => handleDelete(item.id)}
+              onClick={() => handleDelete(item.id, item.src, item.type)}
               className="absolute top-2 right-2 bg-red-500/80 text-white p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
             >
               <Trash2 size={16} />
@@ -223,9 +280,12 @@ const AdminBlogManager = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, imageSrc?: string) => {
     if (!confirm('Silmek istediğinize emin misiniz?')) return;
     try {
+      if (imageSrc) {
+        await deleteFromCloudinary(imageSrc, 'image');
+      }
       await deleteDoc(doc(db, 'blogs', id));
     } catch (err) {
       setError("Silme hatası: " + (err instanceof Error ? err.message : String(err)));
@@ -288,7 +348,7 @@ const AdminBlogManager = () => {
               <h4 className="font-bold">{blog.title}</h4>
               <p className="text-sm text-white/50">{blog.date} - {blog.category}</p>
             </div>
-            <button onClick={() => handleDelete(blog.id)} className="bg-red-500/20 text-red-400 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors">
+            <button onClick={() => handleDelete(blog.id, blog.image)} className="bg-red-500/20 text-red-400 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors">
               <Trash2 size={18} />
             </button>
           </div>

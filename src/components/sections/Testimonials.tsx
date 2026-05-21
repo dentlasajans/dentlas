@@ -20,7 +20,7 @@ const testimonials = [
   {
     name: "Bülent BEY",
     role: "Küncü Simit Cafe, İşletme Yetkilisi",
-    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779187012/gnhkoaadcxzxdctjslah.png",
+    logo: "https://res.cloudinary.com/dejx0brol/image/upload/v1779357226/Ads%C4%B1z_tasar%C4%B1m_f6glvs.png",
     content: "QR menü, kurumsal kimlik ve tasarım konusundaki stratejik fikir alışverişlerimiz işletmemize çok değer kattı. Modern ve vizyoner yaklaşımlarıyla yeni bir marka yüzüne kavuştuk.",
     rating: 5
   }
