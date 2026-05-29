@@ -34,15 +34,14 @@ const HoverTextLine = ({ text, highlighted = false, delayIndex = 0 }: { text: st
           </motion.span>
         ))}
       </span>
-      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 overflow-visible z-20">
+      <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 overflow-visible z-20">
         <text 
           x="50%" 
           y="50%" 
           dominantBaseline="central"
           textAnchor="middle"
           fill="none" 
-          className={`${highlighted ? 'stroke-white' : 'stroke-brand'} animate-border-slide`} 
-          strokeWidth="2" 
+          className={`${highlighted ? 'stroke-white' : 'stroke-brand'} animate-border-slide stroke-[1px] sm:stroke-[1.5px] md:stroke-[2px]`} 
           strokeDasharray="20 40"
           style={{ fontSize: 'inherit', fontFamily: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit' }}
         >
@@ -93,7 +92,7 @@ export const Hero = () => {
             className="flex flex-wrap gap-4"
           >
             <a href="#iletisim" onClick={(e) => { e.preventDefault(); document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' }); }} className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
-              Geleceği İnşa Et <ArrowRight size={16} />
+              Şimdi Başlayın <ArrowRight size={16} />
             </a>
           </motion.div>
         </motion.div>

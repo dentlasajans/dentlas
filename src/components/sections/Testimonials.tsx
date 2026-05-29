@@ -37,10 +37,10 @@ export const Testimonials = () => {
           {testimonials.map((t, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              transition={{ duration: 0.5, delay: (idx % 3) * 0.1, type: 'spring', stiffness: 100 }}
               className="glass border border-white/5 p-8 rounded-3xl relative group hover:border-brand/40 transition-colors h-full flex flex-col"
             >
               <div className="absolute top-6 right-6 text-white/5 group-hover:text-brand/10 transition-colors">

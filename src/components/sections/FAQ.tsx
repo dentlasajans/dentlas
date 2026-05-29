@@ -38,10 +38,10 @@ export const FAQ = () => {
           {faqs.map((faq, index) => (
             <motion.div 
               key={index}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ duration: 0.5, delay: index * 0.1, type: 'spring', stiffness: 100 }}
               className="mb-4"
             >
               <button

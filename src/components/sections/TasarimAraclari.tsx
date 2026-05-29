@@ -77,8 +77,12 @@ const tools = [
   }
 ];
 
-const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
-  <div 
+const ToolCard = ({ tool, onClick, index }: { tool: any, onClick: () => void, index: number }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.5, delay: (index % 6) * 0.1, type: 'spring', stiffness: 100 }}
     onClick={onClick}
     className="w-full p-4 md:p-6 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center gap-3 md:gap-4 hover:-translate-y-2 cursor-pointer h-full"
   >
@@ -89,7 +93,7 @@ const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
       <h3 className="font-bold text-xs md:text-[15px] text-white mb-1.5 group-hover:text-brand transition-colors leading-tight line-clamp-2">{tool.name}</h3>
       <p className="text-[9px] md:text-[11px] uppercase tracking-wider text-white/50 font-bold line-clamp-2 mt-auto">{tool.category}</p>
     </div>
-  </div>
+  </motion.div>
 );
 
 export const TasarimAraclari = () => {
@@ -126,8 +130,8 @@ export const TasarimAraclari = () => {
         </div>
         
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6 w-full">
-          {tools.map((tool) => (
-            <ToolCard key={tool.name} tool={tool} onClick={() => handleOpenModal(tool)} />
+          {tools.map((tool, index) => (
+            <ToolCard key={tool.name} tool={tool} onClick={() => handleOpenModal(tool)} index={index} />
           ))}
         </div>
       </div>

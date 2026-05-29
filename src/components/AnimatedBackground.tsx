@@ -13,7 +13,7 @@ export const AnimatedBackground = () => {
       <img 
         src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" 
         alt="" 
-        className="absolute -bottom-10 right-0 md:right-2 w-[50vw] md:w-[25vw] max-w-xl opacity-[0.03] pointer-events-none" 
+        className="absolute bottom-[calc(56px+env(safe-area-inset-bottom))] md:-bottom-10 right-0 md:right-2 w-[50vw] md:w-[25vw] max-w-xl opacity-[0.03] pointer-events-none" 
         loading="lazy"
         decoding="async"
       />

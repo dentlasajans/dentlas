@@ -45,8 +45,12 @@ const references = [
   }
 ];
 
-const ReferenceCard = ({ name, logo, sector, onClick }: { name: string, logo?: string, sector: string, onClick: () => void }) => (
+const ReferenceCard = ({ name, logo, sector, onClick, index }: { name: string, logo?: string, sector: string, onClick: () => void, index: number }) => (
   <motion.div 
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.5, delay: (index % 4) * 0.1, type: 'spring', stiffness: 100 }}
     whileHover={{ scale: 1.05 }}
     onClick={onClick}
     className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 border border-white/5 hover:border-brand/30 transition-all cursor-pointer w-full"
@@ -96,6 +100,7 @@ export const Referanslar = () => {
           {references.map((item, index) => (
             <ReferenceCard 
               key={index}
+              index={index}
               name={item.name}
               sector={item.sector}
               logo={item.logo}

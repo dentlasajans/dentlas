@@ -29,19 +29,22 @@ const GalleryItem = ({
   type,
   title,
   onClick,
+  index
 }: {
   src: string;
   type: "image" | "video";
   title?: string;
   onClick: () => void;
+  index: number;
 }) => {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
       exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5, delay: (index % 4) * 0.1, type: 'spring', stiffness: 100 }}
       onClick={onClick}
       className={`relative overflow-hidden rounded-2xl group cursor-pointer ${type === 'video' ? 'aspect-video' : 'aspect-square'} bg-white/5`}
     >
@@ -139,6 +142,7 @@ export const Galeri = () => {
                   .map((item, index) => (
                     <GalleryItem
                       key={`img-${index}`}
+                      index={index}
                       src={item.src}
                       type="image"
                       title={item.title}
@@ -174,6 +178,7 @@ export const Galeri = () => {
                   .map((item, index) => (
                     <GalleryItem
                       key={`vid-${index}`}
+                      index={index}
                       src={item.src}
                       type="video"
                       title={item.title}

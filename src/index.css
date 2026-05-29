@@ -80,7 +80,12 @@
   }
 }
 .animate-border-slide {
-  animation: borderSlide 3s linear infinite;
+  animation: borderSlide 8s linear infinite;
+}
+@media (min-width: 768px) {
+  .animate-border-slide {
+    animation: borderSlide 3s linear infinite;
+  }
 }
 
 /* Light Theme Overrides */

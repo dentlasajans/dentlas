@@ -7,12 +7,16 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 
-const BlogCard = ({ post, onClick }: { post: any; onClick: () => void }) => {
+const BlogCard = ({ post, onClick, index }: { post: any; onClick: () => void, index: number }) => {
   const getOptimizedImage = (url: string) =>
     url.replace("w=800", "w=500").replace("q=80", "q=60");
 
   return (
     <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: (index % 3) * 0.1, type: 'spring', stiffness: 100 }}
       whileHover={{ y: -5 }}
       onClick={onClick}
       className="group cursor-pointer rounded-3xl overflow-hidden glass border border-white/5 hover:border-brand/30 transition-all flex flex-col h-full bg-white/5"
@@ -117,6 +121,7 @@ export const Blog = () => {
           {displayPosts.map((post, idx) => (
             <BlogCard
               key={post.id || idx}
+              index={idx}
               post={post}
               onClick={() => handleOpenModal(post)}
             />

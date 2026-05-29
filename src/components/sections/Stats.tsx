@@ -40,7 +40,7 @@ const statsData = [
 
 const AnimatedStat = ({ stat, i, onClick }: { stat: typeof statsData[0], i: number, onClick: () => void }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-50px" });
+  const isInView = useInView(ref, { margin: "-50px", once: true });
   
   const match = stat.value.match(/^([^0-9]*)([0-9.]+)([^0-9]*)$/);
   const prefix = match ? match[1] : '';
@@ -68,10 +68,10 @@ const AnimatedStat = ({ stat, i, onClick }: { stat: typeof statsData[0], i: numb
       ref={ref}
       onClick={onClick}
       className="border-l-2 border-brand/40 hover:border-white pl-8 transition-all duration-300 group cursor-pointer hover:translate-x-2 hover:scale-105"
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false, margin: "-50px" }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20, delay: i * 0.1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, type: 'spring', stiffness: 100, delay: i * 0.1 }}
     >
       <div className="text-3xl sm:text-4xl md:text-5xl font-black text-brand mb-2 group-hover:text-white transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.4)] group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] flex items-center">
         <span className="opacity-80">{prefix}</span>

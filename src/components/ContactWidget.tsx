@@ -75,12 +75,7 @@ export const ContactWidget = () => {
             rel={link.label === 'WhatsApp' || link.label === 'Instagram' ? "noopener noreferrer" : undefined}
             className="flex-1 flex items-center justify-center py-3 active:bg-white/5 transition-colors border-r border-white/5 last:border-r-0"
           >
-            <link.icon size={22} strokeWidth={2} className={`${
-              link.label === 'WhatsApp' ? 'text-[#25D366]' : 
-              link.label === 'Instagram' ? 'text-pink-400' : 
-              link.label === 'Telefon' ? 'text-blue-400' : 
-              'text-white/80'
-            }`} />
+            <link.icon size={22} strokeWidth={2} className="text-brand" />
           </a>
         ))}
       </div>

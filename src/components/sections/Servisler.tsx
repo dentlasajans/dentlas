@@ -155,15 +155,13 @@ const TopicGraphic = ({ type }: { type: string }) => {
   );
 }
 
-const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string, onClick: () => void }) => {
-  const itemVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 100 } }
-  };
-
+const ServiceCard = ({ icon: Icon, title, onClick, index }: { icon: any, title: string, onClick: () => void, index: number }) => {
   return (
     <motion.div 
-      variants={itemVariant}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: (index % 6) * 0.1, type: 'spring', stiffness: 100 }}
       onClick={onClick}
       className="p-4 sm:p-6 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] h-full"
     >
@@ -189,14 +187,6 @@ export const Servisler = () => {
     };
   }, [selectedService]);
 
-  const containerVariant = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
-
   const handleOpenModal = (service: any) => {
     setSelectedService(service);
   };
@@ -210,22 +200,19 @@ export const Servisler = () => {
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="HİZMETLERİM">Sınırları <br /> Ortadan Kaldırın.</SectionHeading>
         
-        <motion.div 
-          variants={containerVariant}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+        <div 
           className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6"
         >
           {services.map((service, index) => (
             <ServiceCard 
               key={index}
+              index={index}
               icon={service.icon}
               title={service.title}
               onClick={() => handleOpenModal(service)}
             />
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {typeof document !== 'undefined' && createPortal(
