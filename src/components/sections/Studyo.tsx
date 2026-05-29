@@ -206,9 +206,10 @@ export const Studyo = () => {
         )}
       </div>
 
-      <AnimatePresence>
-        {selectedMedia && createPortal(
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedMedia && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -273,10 +274,11 @@ export const Studyo = () => {
                 </div>
               )}
             </motion.div>
-          </div>,
-          document.body
-        )}
-      </AnimatePresence>
+          </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 };

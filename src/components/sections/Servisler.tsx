@@ -228,9 +228,10 @@ export const Servisler = () => {
         </motion.div>
       </div>
 
-      <AnimatePresence>
-        {selectedService && createPortal(
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedService && (
+            <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -295,10 +296,11 @@ export const Servisler = () => {
                 </div>
               </div>
             </motion.div>
-          </div>,
-          document.body
-        )}
-      </AnimatePresence>
+          </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 };

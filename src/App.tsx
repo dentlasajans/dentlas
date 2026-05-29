@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { Routes, Route } from 'react-router-dom';
 import { AnimatedBackground } from './components/AnimatedBackground';
@@ -102,21 +102,23 @@ export default function App() {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen">
-      <AnimatedBackground />
-      <Suspense fallback={null}>
-        <Routes>
-          <Route path="/" element={
-            <MainPage
-              isKvkkOpen={isKvkkOpen}
-              setIsKvkkOpen={setIsKvkkOpen}
-              isPrivacyOpen={isPrivacyOpen}
-              setIsPrivacyOpen={setIsPrivacyOpen}
-            />
-          } />
-          <Route path="/admin/*" element={<AdminPanel />} />
-        </Routes>
-      </Suspense>
-    </div>
+    <MotionConfig reducedMotion="never">
+      <div className="relative min-h-screen">
+        <AnimatedBackground />
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={
+              <MainPage
+                isKvkkOpen={isKvkkOpen}
+                setIsKvkkOpen={setIsKvkkOpen}
+                isPrivacyOpen={isPrivacyOpen}
+                setIsPrivacyOpen={setIsPrivacyOpen}
+              />
+            } />
+            <Route path="/admin/*" element={<AdminPanel />} />
+          </Routes>
+        </Suspense>
+      </div>
+    </MotionConfig>
   );
 }
