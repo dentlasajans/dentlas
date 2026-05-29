@@ -61,14 +61,12 @@ const deleteFromCloudinary = async (url: string, type: 'image' | 'video' = 'imag
   }
 };
 
-import { isGoogleDriveLink, getDriveThumbnail } from '../../lib/driveUtils';
+import { isYouTubeLink, getYouTubeThumbnail, fetchYouTubeTitle } from '../../lib/youtubeUtils';
 
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
   const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video', title?: string}[]>([]);
   const [file, setFile] = useState<File | null>(null);
-  const [inputType, setInputType] = useState<'file' | 'link'>('file');
   const [linkValue, setLinkValue] = useState('');
-  const [videoTitle, setVideoTitle] = useState('');
   const [newType, setNewType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -90,20 +88,21 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (inputType === 'file' && !file) return;
-    if (inputType === 'link' && !linkValue) return;
+    if (newType === 'image' && !file) return;
+    if (newType === 'video' && !linkValue) return;
 
     setUploading(true);
     try {
       let finalUrl = '';
+      let targetTitle = '';
 
-      if (inputType === 'file') {
+      if (newType === 'image') {
         const formData = new FormData();
         formData.append('file', file!);
         formData.append('upload_preset', 'atlaspos');
 
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${newType === 'video' ? 'video' : 'image'}/upload`, {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
           method: 'POST',
           body: formData
         });
@@ -115,7 +114,11 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
           throw new Error(data.error?.message || 'Yükleme hatası');
         }
       } else {
+        if (!isYouTubeLink(linkValue)) {
+          throw new Error("Geçerli bir YouTube linki girin.");
+        }
         finalUrl = linkValue;
+        targetTitle = await fetchYouTubeTitle(linkValue);
       }
 
       if (finalUrl) {
@@ -125,7 +128,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         const setDocPromise = setDoc(doc(db, collectionName, mediaId), {
           src: finalUrl,
           type: newType,
-          title: inputType === 'link' && newType === 'video' ? videoTitle : '',
+          title: newType === 'video' ? targetTitle : '',
           createdAt: Date.now()
         });
         
@@ -137,7 +140,6 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         
         setFile(null);
         setLinkValue('');
-        setVideoTitle('');
       }
       setError('');
     } catch (err) {
@@ -170,67 +172,47 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
       )}
       <form onSubmit={handleAdd} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center">
         <select 
-          value={inputType} 
+          value={newType} 
           onChange={(e) => {
-            setInputType(e.target.value as any);
+            setNewType(e.target.value as any);
             setFile(null);
             setLinkValue('');
+            setError('');
           }}
-          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand w-32"
+          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand"
         >
-          <option value="file">Dosya</option>
-          <option value="link">Link</option>
+          <option value="image">Görsel (Image)</option>
+          <option value="video">Video (YouTube)</option>
         </select>
 
-        {inputType === 'file' ? (
+        {newType === 'image' ? (
           <>
             <input 
               type="file"
-              accept={newType === 'video' ? "video/*" : "image/*"}
+              accept="image/*"
               onChange={(e) => setFile(e.target.files?.[0] || null)}
               className="hidden"
               id={`file-upload-${collectionName}`}
             />
             <label htmlFor={`file-upload-${collectionName}`} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white cursor-pointer hover:bg-white/10 transition-colors flex items-center justify-between min-w-[200px]">
-              <span className="truncate">{file ? file.name : "Dosya seçin..."}</span>
+              <span className="truncate">{file ? file.name : "Görsel seçin..."}</span>
               <UploadCloud size={18} className="text-white/50 shrink-0 ml-2" />
             </label>
           </>
         ) : (
-          <div className="flex-1 flex gap-2">
-            <input 
-              type="url"
-              value={linkValue}
-              onChange={(e) => setLinkValue(e.target.value)}
-              placeholder="Medya bağlantısı (Google Drive vb.)"
-              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
-              required
-            />
-            {newType === 'video' && (
-              <input 
-                type="text"
-                value={videoTitle}
-                onChange={(e) => setVideoTitle(e.target.value)}
-                placeholder="Video Adı"
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
-              />
-            )}
-          </div>
+          <input 
+            type="url"
+            value={linkValue}
+            onChange={(e) => setLinkValue(e.target.value)}
+            placeholder="YouTube Video Bağlantısı"
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[200px]"
+            required
+          />
         )}
         
-        <select 
-          value={newType} 
-          onChange={(e) => {
-            setNewType(e.target.value as any);
-          }}
-          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand"
-        >
-          <option value="image">Görsel (Image)</option>
-          <option value="video">Video</option>
-        </select>
         <button 
           type="submit" 
-          disabled={(inputType === 'file' && !file) || (inputType === 'link' && !linkValue) || uploading}
+          disabled={(newType === 'image' && !file) || (newType === 'video' && !linkValue) || uploading}
           className="bg-brand text-black px-6 py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           {uploading ? <><Loader2 size={18} className="animate-spin" /> Yükleniyor</> : <><Plus size={18} /> Yükle</>}
@@ -241,8 +223,8 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         {media.map(item => (
           <div key={item.id} className="relative group bg-black/40 rounded-xl overflow-hidden aspect-square border border-white/10">
             {item.type === 'video' ? (
-              isGoogleDriveLink(item.src) ? (
-                <img src={getDriveThumbnail(item.src)} className="w-full h-full object-cover opacity-80" />
+              isYouTubeLink(item.src) ? (
+                <img src={getYouTubeThumbnail(item.src)} className="w-full h-full object-cover opacity-80" />
               ) : (
                 <video src={item.src} className="w-full h-full object-cover opacity-80" muted />
               )
@@ -252,7 +234,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
             <div className="absolute top-2 left-2 bg-black/60 p-1.5 rounded-md backdrop-blur-md">
               {item.type === 'video' ? <VideoIcon size={16} className="text-white" /> : <ImageIcon size={16} className="text-white" />}
             </div>
-            {item.title && <div className="absolute top-2 right-12 bg-black/60 px-2 py-1 rounded-md text-xs backdrop-blur-md">{item.title}</div>}
+            {item.title && <div className="absolute top-2 right-12 bg-black/60 px-2 py-1 rounded-md text-xs backdrop-blur-md truncate max-w-[calc(100%-80px)]">{item.title}</div>}
             <button 
               onClick={() => handleDelete(item.id, item.src, item.type)}
               className="absolute top-2 right-2 bg-red-500/80 text-white p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"

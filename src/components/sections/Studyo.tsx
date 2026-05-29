@@ -4,7 +4,7 @@ import { Play, Image as ImageIcon, Video as VideoIcon, X } from "lucide-react";
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
-import { isGoogleDriveLink, getDriveIframeUrl, getDriveThumbnail } from '../../lib/driveUtils';
+import { isYouTubeLink, getYouTubeIframeUrl, getYouTubeThumbnail } from '../../lib/youtubeUtils';
 
 const getOptimizedSrc = (src: string) => {
   if (src.includes('unsplash.com')) {
@@ -48,8 +48,8 @@ const GalleryItem = ({
         </div>
       )}
       {type === "video" ? (
-        isGoogleDriveLink(src) ? (
-          <img src={getDriveThumbnail(src)} className="w-full h-full object-contain p-12 group-hover:scale-110 transition-transform duration-700 opacity-80" alt="Video Thumbnail" />
+        isYouTubeLink(src) ? (
+          <img src={getYouTubeThumbnail(src)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" alt="Video Thumbnail" />
         ) : (
           <video src={src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" muted />
         )
@@ -250,10 +250,11 @@ export const Studyo = () => {
               ) : (
                  <div className="w-full h-[60vh] md:h-[80vh] flex items-center justify-center group flex-col gap-4">
                   <div className="w-full h-full aspect-video relative flex justify-center items-center">
-                    {isGoogleDriveLink(selectedMedia.src) ? (
+                    {isYouTubeLink(selectedMedia.src) ? (
                       <iframe 
-                        src={getDriveIframeUrl(selectedMedia.src)} 
-                        allow="autoplay"
+                        src={getYouTubeIframeUrl(selectedMedia.src)} 
+                        allow="autoplay; encrypted-media; fullscreen"
+                        allowFullScreen
                         className="w-full h-full rounded-xl shadow-2xl shadow-brand/20 border-none max-w-5xl"
                       />
                     ) : (
