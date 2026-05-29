@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Check } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
@@ -105,14 +106,14 @@ export const Referanslar = () => {
       </div>
 
       <AnimatePresence>
-        {selectedRef && (
+        {selectedRef && createPortal(
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleCloseModal}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
+              className="absolute inset-0 bg-black/90 backdrop-blur-md cursor-pointer"
             />
             
             <motion.div 
@@ -198,7 +199,8 @@ export const Referanslar = () => {
                 </div>
               </div>
             </motion.div>
-          </div>
+          </div>,
+          document.body
         )}
       </AnimatePresence>
     </section>

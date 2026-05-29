@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { Share2, PenTool, Contact, BookOpen, Video, Camera, Megaphone, Search, X, Check, Heart, MessageCircle, Navigation, Layout, Maximize, MousePointer2, BarChart, Target, MonitorSmartphone, Monitor, TrendingUp, Scissors, Package, LayoutTemplate, QrCode, Zap } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
@@ -228,14 +229,14 @@ export const Servisler = () => {
       </div>
 
       <AnimatePresence>
-        {selectedService && (
+        {selectedService && createPortal(
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={handleCloseModal}
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-pointer"
+              className="absolute inset-0 bg-black/90 backdrop-blur-md cursor-pointer"
             />
             
             <motion.div 
@@ -294,7 +295,8 @@ export const Servisler = () => {
                 </div>
               </div>
             </motion.div>
-          </div>
+          </div>,
+          document.body
         )}
       </AnimatePresence>
     </section>

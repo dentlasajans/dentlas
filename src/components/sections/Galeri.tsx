@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Play, Image as ImageIcon, Video as VideoIcon, X } from "lucide-react";
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
@@ -202,7 +203,7 @@ export const Galeri = () => {
       </div>
 
       <AnimatePresence>
-        {selectedMedia && (
+        {selectedMedia && createPortal(
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div
               initial={{ opacity: 0 }}
@@ -239,7 +240,7 @@ export const Galeri = () => {
                   />
                   {selectedMedia.title && (
                     <div className="absolute bottom-4 left-0 right-0 text-center">
-                      <span className="bg-black/80 text-white px-4 py-2 rounded-lg backdrop-blur-md font-medium inline-block shadow-lg">{selectedMedia.title}</span>
+                       <span className="bg-black/80 text-white px-4 py-2 rounded-lg backdrop-blur-md font-medium inline-block shadow-lg">{selectedMedia.title}</span>
                     </div>
                   )}
                 </div>
@@ -268,7 +269,8 @@ export const Galeri = () => {
                 </div>
               )}
             </motion.div>
-          </div>
+          </div>,
+          document.body
         )}
       </AnimatePresence>
     </section>

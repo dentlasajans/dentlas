@@ -42,7 +42,7 @@ export const Navbar = () => {
           }}
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-3 cursor-pointer"
+          className="flex items-center gap-3 cursor-pointer -ml-1 md:-ml-2 lg:-ml-4"
         >
           <img src="https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png" alt="Dentlas Ajans Logo" className="h-8 sm:h-10 lg:h-12 w-auto -translate-y-0.5 lg:-translate-y-1" />
           <div className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tighter">

@@ -90,7 +90,7 @@ export const Hero = () => {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <a href="#iletişim" className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
+            <a href="#iletisim" className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
               Geleceği İnşa Et <ArrowRight size={16} />
             </a>
           </motion.div>

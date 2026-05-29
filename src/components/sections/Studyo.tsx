@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Play, Image as ImageIcon, Video as VideoIcon, X } from "lucide-react";
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
@@ -206,7 +207,7 @@ export const Studyo = () => {
       </div>
 
       <AnimatePresence>
-        {selectedMedia && (
+        {selectedMedia && createPortal(
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 pt-[10vh] pb-[10vh] sm:p-8">
             <motion.div
               initial={{ opacity: 0 }}
@@ -272,7 +273,8 @@ export const Studyo = () => {
                 </div>
               )}
             </motion.div>
-          </div>
+          </div>,
+          document.body
         )}
       </AnimatePresence>
     </section>

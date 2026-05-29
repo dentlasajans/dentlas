@@ -171,19 +171,40 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         </div>
       )}
       <form onSubmit={handleAdd} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center">
-        <select 
-          value={newType} 
-          onChange={(e) => {
-            setNewType(e.target.value as any);
-            setFile(null);
-            setLinkValue('');
-            setError('');
-          }}
-          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand"
-        >
-          <option value="image">Görsel (Image)</option>
-          <option value="video">Video (YouTube)</option>
-        </select>
+        <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 w-full md:w-auto shrink-0">
+          <button
+            type="button"
+            onClick={() => {
+              setNewType('image');
+              setFile(null);
+              setLinkValue('');
+              setError('');
+            }}
+            className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
+              newType === 'image'
+                ? "bg-brand text-black shadow-lg shadow-brand/20"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <ImageIcon size={16} /> Görsel
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setNewType('video');
+              setFile(null);
+              setLinkValue('');
+              setError('');
+            }}
+            className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
+              newType === 'video'
+                ? "bg-brand text-black shadow-lg shadow-brand/20"
+                : "text-white/60 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <VideoIcon size={16} /> Video (YouTube)
+          </button>
+        </div>
 
         {newType === 'image' ? (
           <>
@@ -494,11 +515,6 @@ export const AdminPanel = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/admin/studio" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
-                  <Camera size={18} /> Stüdyo Yönetimi
-                </Link>
-              </li>
-              <li>
                 <Link to="/admin/blog" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
                   <FileText size={18} /> Blog Yönetimi
                 </Link>
@@ -508,7 +524,6 @@ export const AdminPanel = () => {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<AdminMediaManager collectionName="media" title="Galeri" />} />
-              <Route path="/studio" element={<AdminMediaManager collectionName="studio" title="Stüdyo" />} />
               <Route path="/blog" element={<AdminBlogManager />} />
             </Routes>
           </main>
