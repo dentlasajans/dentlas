@@ -23,12 +23,7 @@ export const getDriveIframeUrl = (url: string) => {
 };
 
 export const getDriveThumbnail = (url: string) => {
-  try {
-    const id = getDriveId(url);
-    if (id) {
-       // A common hack to get thumbnail although sometimes requires auth
-       return `https://drive.google.com/thumbnail?id=${id}&sz=w800-h600`;
-    }
-  } catch(e) {}
-  return "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&w=800&q=80"; // fallback generic video bg
+  // Google Drive video thumbnail hotlinking without an API key doesn't work reliably and throws 403.
+  // Instead of a broken image, returning a clean placeholder image from Unsplash.
+  return "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&w=800&q=80";
 };

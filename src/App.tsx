@@ -65,31 +65,37 @@ const ScrollToTop = () => {
 
 const AdminPanel = lazy(() => import('./components/admin/AdminPanel').then(module => ({ default: module.AdminPanel })));
 
-const MainPage = ({ isKvkkOpen, setIsKvkkOpen, isPrivacyOpen, setIsPrivacyOpen }: any) => (
-  <>
-    <Navbar />
-    <Hero />
-    <Stats />
-    <Suspense fallback={null}>
-      <Servisler />
-      <TasarimAraclari />
-      <Referanslar />
-      <Testimonials />
-      <Galeri />
-      <Blog />
-      <Hakkimda />
-      <FAQ />
-      <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
-      
-      <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
-      
-      <ContactWidget />
-      <ScrollToTop />
-      <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
-      <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
-    </Suspense>
-  </>
-);
+const MainPage = ({ isKvkkOpen, setIsKvkkOpen, isPrivacyOpen, setIsPrivacyOpen }: any) => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <Stats />
+      <Suspense fallback={null}>
+        <Servisler />
+        <TasarimAraclari />
+        <Referanslar />
+        <Testimonials />
+        <Galeri />
+        <Blog />
+        <Hakkimda />
+        <FAQ />
+        <Iletisim setIsKvkkOpen={setIsKvkkOpen} />
+        
+        <Footer setIsKvkkOpen={setIsKvkkOpen} setIsPrivacyOpen={setIsPrivacyOpen} />
+        
+        <ContactWidget />
+        <ScrollToTop />
+        <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
+        <PrivacyModal isOpen={isPrivacyOpen} onClose={() => setIsPrivacyOpen(false)} />
+      </Suspense>
+    </>
+  );
+};
 
 export default function App() {
   const [isKvkkOpen, setIsKvkkOpen] = useState(false);
