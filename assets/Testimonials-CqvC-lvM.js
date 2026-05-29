@@ -1,4 +1,4 @@
-import{c as t,j as e,m as r}from"./index-Da6gbsox.js";import{S as s}from"./SectionHeading-DnArGA9Z.js";import"./vendor-react-CC083tLP.js";/**
+import{c as t,j as e,m as r}from"./index-0O9z8cEy.js";import{S as s}from"./SectionHeading-CGdSGVVA.js";import"./vendor-react-CC083tLP.js";/**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
