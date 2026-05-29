@@ -6,6 +6,7 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 import { isYouTubeLink, getYouTubeIframeUrl, getYouTubeThumbnail } from '../../lib/youtubeUtils';
+import { SectionHeading } from '../ui/SectionHeading';
 
 const getOptimizedSrc = (src: string) => {
   // Return a webp formatted, low quality, smaller width image for thumbnails
@@ -86,7 +87,7 @@ export const Galeri = () => {
     title?: string;
   } | null>(null);
 
-  const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video'}[]>([]);
+  const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video', title?: string}[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -121,15 +122,9 @@ export const Galeri = () => {
   }, [selectedMedia]);
 
   return (
-    <section id="galeri" className="py-32 px-6 relative z-10">
+    <section id="galeri" className="py-12 md:py-20 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div className="text-center md:text-left">
-            <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight">
-              GALERİ
-            </h2>
-          </div>
-        </div>
+        <SectionHeading subtitle="GALERİ">Bizim İşlerimiz</SectionHeading>
 
         {images.length > 0 && (
           <div className="mb-20">
@@ -138,7 +133,7 @@ export const Galeri = () => {
               layout
               className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
             >
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence>
                 {images
                   .slice(0, visibleCountImages)
                   .map((item, index) => (
@@ -146,8 +141,8 @@ export const Galeri = () => {
                       key={`img-${index}`}
                       src={item.src}
                       type="image"
-                      title={(item as any).title}
-                      onClick={() => setSelectedMedia({ src: item.src, type: "image", title: (item as any).title })}
+                      title={item.title}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "image", title: item.title })}
                     />
                   ))}
               </AnimatePresence>
@@ -173,7 +168,7 @@ export const Galeri = () => {
               layout
               className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
             >
-              <AnimatePresence mode="popLayout">
+              <AnimatePresence>
                 {videos
                   .slice(0, visibleCountVideos)
                   .map((item, index) => (
@@ -181,8 +176,8 @@ export const Galeri = () => {
                       key={`vid-${index}`}
                       src={item.src}
                       type="video"
-                      title={(item as any).title}
-                      onClick={() => setSelectedMedia({ src: item.src, type: "video", title: (item as any).title })}
+                      title={item.title}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "video", title: item.title })}
                     />
                   ))}
               </AnimatePresence>

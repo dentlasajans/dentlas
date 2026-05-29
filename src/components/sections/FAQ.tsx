@@ -30,7 +30,7 @@ export const FAQ = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="py-24 sm:py-32 px-6 relative z-10">
+    <section id="faq" className="py-12 md:py-20 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="MERAK EDİLENLER">Sıkça Sorulan Sorular.</SectionHeading>
         

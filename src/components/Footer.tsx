@@ -12,7 +12,7 @@ export const Footer = ({ setIsKvkkOpen, setIsPrivacyOpen }: { setIsKvkkOpen: (va
               Dentlas <span className="font-light opacity-50">Ajans</span>
             </div>
           </div>
-          <p className="text-white/60 text-[10px] font-bold tracking-[0.2em]">© 2026 Dentlas Ajans. Secured by KasperskyLab. Tüm Hakları Saklıdır.</p>
+          <p className="text-white/60 text-[10px] font-bold tracking-[0.2em] text-center md:text-left leading-relaxed">© 2026 Dentlas Ajans. Secured by Kaspersky. Tüm Hakları Saklıdır.</p>
         </div>
 
         <div className="flex gap-6">

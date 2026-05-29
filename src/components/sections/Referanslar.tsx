@@ -51,7 +51,7 @@ const ReferenceCard = ({ name, logo, sector, onClick }: { name: string, logo?: s
     onClick={onClick}
     className="relative group overflow-hidden rounded-3xl aspect-square bg-white/5 flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 border border-white/5 hover:border-brand/30 transition-all cursor-pointer w-full"
   >
-    <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 mb-3 sm:mb-6 flex items-center justify-center opacity-60 group-hover:opacity-100 transition-opacity">
+    <div className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 mb-3 sm:mb-6 flex items-center justify-center transition-opacity">
       {logo ? (
         <img src={logo} alt={name} loading="lazy" className="max-w-full max-h-full object-contain drop-shadow-lg" />
       ) : (
@@ -88,11 +88,11 @@ export const Referanslar = () => {
   };
 
   return (
-    <section id="referanslar" className="py-24 px-6 relative z-10">
+    <section id="referanslar" className="py-16 md:py-20 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="GÜVENENLER">Referanslarımız.</SectionHeading>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
           {references.map((item, index) => (
             <ReferenceCard 
               key={index}

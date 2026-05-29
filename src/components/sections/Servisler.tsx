@@ -165,12 +165,12 @@ const ServiceCard = ({ icon: Icon, title, onClick }: { icon: any, title: string,
     <motion.div 
       variants={itemVariant}
       onClick={onClick}
-      className="p-8 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]"
+      className="p-4 sm:p-6 md:p-10 glass rounded-2xl border border-white/5 hover:border-brand/50 transition-all group flex flex-col items-center text-center cursor-pointer hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)] h-full"
     >
-      <div className="text-white group-hover:text-brand mb-6 text-sm font-black tracking-widest flex items-center justify-center w-16 h-16 rounded-full bg-white/5 group-hover:bg-brand/10 transition-all group-hover:scale-110">
-        <Icon size={32} />
+      <div className="text-white group-hover:text-brand mb-4 md:mb-6 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/5 group-hover:bg-brand/10 transition-all group-hover:scale-110">
+        <Icon className="w-6 h-6 md:w-8 md:h-8" />
       </div>
-      <h3 className="text-lg md:text-xl font-bold tracking-tight text-white/80 group-hover:text-white transition-colors">{title}</h3>
+      <h3 className="text-xs sm:text-sm md:text-lg lg:text-xl font-bold tracking-tight text-white/80 group-hover:text-white transition-colors">{title}</h3>
     </motion.div>
   );
 };
@@ -206,7 +206,7 @@ export const Servisler = () => {
   };
 
   return (
-    <section id="servisler" className="py-40 px-6 relative z-10">
+    <section id="servisler" className="py-12 md:py-20 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
         <SectionHeading subtitle="HİZMETLERİM">Sınırları <br /> Ortadan Kaldırın.</SectionHeading>
         
@@ -215,7 +215,7 @@ export const Servisler = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-6"
         >
           {services.map((service, index) => (
             <ServiceCard 

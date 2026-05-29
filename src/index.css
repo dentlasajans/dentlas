@@ -82,3 +82,39 @@
 .animate-border-slide {
   animation: borderSlide 3s linear infinite;
 }
+
+/* Light Theme Overrides */
+.light-theme {
+  --color-dark: #f8fafc;
+  color: #0f172a;
+}
+.light-theme img[alt="Dentlas Ajans Logo"] {
+  filter: invert(1);
+}
+.light-theme body, .light-theme html {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+.light-theme .text-white { color: #0f172a !important; }
+.light-theme .text-white\/50 { color: rgba(15, 23, 42, 0.5) !important; }
+.light-theme .text-white\/60 { color: rgba(15, 23, 42, 0.6) !important; }
+.light-theme .text-white\/70 { color: rgba(15, 23, 42, 0.7) !important; }
+.light-theme .text-white\/80 { color: rgba(15, 23, 42, 0.8) !important; }
+.light-theme .bg-black { background-color: #ffffff !important; }
+.light-theme .bg-dark, .light-theme .bg-dark\/80 { background-color: #f1f5f9 !important; }
+.light-theme .bg-black\/40 { background-color: rgba(255, 255, 255, 0.6) !important; }
+.light-theme .bg-black\/60 { background-color: rgba(255, 255, 255, 0.8) !important; }
+.light-theme .bg-black\/80 { background-color: rgba(255, 255, 255, 0.9) !important; }
+.light-theme .bg-black\/90 { background-color: rgba(255, 255, 255, 0.95) !important; }
+.light-theme .bg-white { background-color: #0f172a !important; color: #ffffff !important; }
+.light-theme .text-black { color: #ffffff !important; }
+.light-theme .bg-white\/5 { background-color: rgba(15, 23, 42, 0.05) !important; }
+.light-theme .bg-white\/10 { background-color: rgba(15, 23, 42, 0.1) !important; }
+.light-theme .bg-white\/20 { background-color: rgba(15, 23, 42, 0.2) !important; }
+.light-theme .border-white\/5 { border-color: rgba(15, 23, 42, 0.05) !important; }
+.light-theme .border-white\/10 { border-color: rgba(15, 23, 42, 0.1) !important; }
+.light-theme .border-white\/20 { border-color: rgba(15, 23, 42, 0.2) !important; }
+.light-theme .glass {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+}

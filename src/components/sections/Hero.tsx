@@ -59,8 +59,8 @@ export const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
 
   return (
-    <section className="relative min-h-[100dvh] flex items-center px-6 overflow-hidden pt-32 pb-24 md:py-0">
-      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+    <section className="relative min-h-[100dvh] flex items-center md:items-center px-6 overflow-hidden pt-16 pb-16 md:py-0">
+      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center md:mt-0 -mt-32 sm:mt-0">
         <motion.div style={{ scale, opacity }} className="flex flex-col items-start md:items-start text-left">
           <motion.div 
             initial={{ opacity: 0, scale: 0.8 }}
@@ -72,9 +72,11 @@ export const Hero = () => {
             <div className="absolute inset-0 bg-brand/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
           </motion.div>
           <div className="inline-block text-6xl sm:text-[72px] md:text-[84px] lg:text-[104px] font-extrabold tracking-[-0.04em] leading-[0.85] mb-8 md:mb-10 cursor-default">
-            <HoverTextLine text="Markanı" delayIndex={0} /> <br />  
-            <HoverTextLine text="Öne" highlighted={true} delayIndex={1} /> <br /> 
-            <HoverTextLine text="Çıkar" delayIndex={2} />
+            <>
+              <HoverTextLine text="Markanı" delayIndex={0} /> <br />  
+              <HoverTextLine text="Öne" highlighted={true} delayIndex={1} /> <br /> 
+              <HoverTextLine text="Çıkar" delayIndex={2} />
+            </>
           </div>
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
@@ -90,7 +92,7 @@ export const Hero = () => {
             transition={{ delay: 0.3 }}
             className="flex flex-wrap gap-4"
           >
-            <a href="#iletisim" className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
+            <a href="#iletisim" onClick={(e) => { e.preventDefault(); document.getElementById('iletisim')?.scrollIntoView({ behavior: 'smooth' }); }} className="bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-xl">
               Geleceği İnşa Et <ArrowRight size={16} />
             </a>
           </motion.div>

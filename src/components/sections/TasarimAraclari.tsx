@@ -6,18 +6,11 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 const tools = [
   { 
-    name: 'Adobe Photoshop', 
-    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877664/premiere-pro_ofr6zw.png', 
-    category: 'Görüntü İşleme',
-    description: 'Görsel düzenleme, fotoğraf rötüşlama ve dijital boyama gibi alanlarda kullandığımız endüstri standartı yazılım. Tüm imaj manipülasyon işlemlerimizi bu platform üzerinden yürütüyoruz.',
-    features: ['Fotoğraf Rötüşü', 'Görsel Manipülasyon', 'Dijital Boyama', 'Mockup Tasarımı']
-  },
-  { 
-    name: 'Adobe Illustrator', 
-    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877665/illustrator_zdwkfu.png', 
-    category: 'Vektörel Tasarım',
-    description: 'Logo, ikon, tipografi ve ölçeklenebilir vektörel illüstrasyonlar oluşturmak için kullandığımız temel tasarım programımız. Kurumsal kimlik çalışmalarının merkezinde yer alır.',
-    features: ['Logo Tasarımı', 'Vektörel Çizim', 'Marka Kimliği', 'Tipografi']
+    name: 'Adobe After Effects', 
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877664/after-effects_fygprz.png', 
+    category: 'Hareketli Grafik & VFX',
+    description: 'Sinematik görsel efektler ve detaylı hareketli grafikler (motion graphics) oluşturmak için tercih ettiğimiz yazılım. Sosyal medya içeriklerini dinamikleştiren en önemli aracımız.',
+    features: ['Motion Graphics', 'Görsel Efektler', 'Animasyon', 'Kompozisyon']
   },
   { 
     name: 'Adobe Audition', 
@@ -27,18 +20,32 @@ const tools = [
     features: ['Ses Miksajı', 'Gürültü Giderme', 'Podcast Düzenleme', 'Ses Efektleri']
   },
   { 
-    name: 'Adobe After Effects', 
-    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877664/after-effects_fygprz.png', 
-    category: 'Hareketli Grafik & VFX',
-    description: 'Sinematik görsel efektler ve detaylı hareketli grafikler (motion graphics) oluşturmak için tercih ettiğimiz yazılım. Sosyal medya içeriklerini dinamikleştiren en önemli aracımız.',
-    features: ['Motion Graphics', 'Görsel Efektler', 'Animasyon', 'Kompozisyon']
-  },
-  { 
     name: 'Adobe Bridge', 
-    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877664/adobe-bridge_ujnffs.png', 
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1780050565/pngwing.com_qlopim.png', 
     category: 'Varlık Yönetimi',
     description: 'Yaratıcı projelerimizdeki dosyaları düzenlemek, önizlemek ve merkezi olarak yönetmek için kullandığımız araç. Ajans içi iş akışımızı ve dosya düzenimizi hızlandırır.',
     features: ['Dosya Organizasyonu', 'Toplu Yeniden Adlandırma', 'Meta Veri Yönetimi', 'Hızlı Önizleme']
+  },
+  { 
+    name: 'Adobe Illustrator', 
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877665/illustrator_zdwkfu.png', 
+    category: 'Vektörel Tasarım',
+    description: 'Logo, ikon, tipografi ve ölçeklenebilir vektörel illüstrasyonlar oluşturmak için kullandığımız temel tasarım programımız. Kurumsal kimlik çalışmalarının merkezinde yer alır.',
+    features: ['Logo Tasarımı', 'Vektörel Çizim', 'Marka Kimliği', 'Tipografi']
+  },
+  {
+    name: 'Adobe Lightroom',
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1780050701/Adobe_Lightroom_CC_2026_icon.svg_zqrqew.png',
+    category: 'Fotoğraf Düzenleme',
+    description: 'Dijital fotoğrafları işlemek, düzenlemek ve renk düzeltmeleri yapmak için kullandığımız profesyonel fotoğraf düzenleme aracı.',
+    features: ['Raw İşleme', 'Renk Düzeltme', 'Toplu Düzenleme', 'Katalog Yönetimi']
+  },
+  { 
+    name: 'Adobe Photoshop', 
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877664/premiere-pro_ofr6zw.png', 
+    category: 'Görüntü İşleme',
+    description: 'Görsel düzenleme, fotoğraf rötüşlama ve dijital boyama gibi alanlarda kullandığımız endüstri standartı yazılım. Tüm imaj manipülasyon işlemlerimizi bu platform üzerinden yürütüyoruz.',
+    features: ['Fotoğraf Rötüşü', 'Görsel Manipülasyon', 'Dijital Boyama', 'Mockup Tasarımı']
   },
   { 
     name: 'Adobe Premiere Pro', 
@@ -46,13 +53,6 @@ const tools = [
     category: 'Video Kurgu',
     description: 'Reklam, tanıtım ve uzun metraj projeleri profesyonelce kurguladığımız başucu video düzenleme uygulamamız. Kapsamlı ve büyük projelerin kalbi.',
     features: ['Çoklu Kamera Kurgusu', 'Renk Düzenleme', 'Ses Entegrasyonu', 'Format Uyumluluğu']
-  },
-  { 
-    name: 'DaVinci Resolve', 
-    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877667/DaVinci_Resolve_Studio_bmmkvx.png', 
-    category: 'Renk & Kurgu',
-    description: 'Özellikle ileri seviye renk düzenleme (color grading) ve gelişmiş video kurgu projelerinde kullandığımız Hollywood standartlarındaki profesyonel yazılım.',
-    features: ['İleri Seviye Color Grading', 'Node Tabanlı Düzenleme', 'Ses Kurgusu (Fairlight)', 'Fusion Efektleri']
   },
   { 
     name: 'Canva', 
@@ -68,6 +68,13 @@ const tools = [
     description: 'Özellikle TikTok, Reels ve Shorts gibi dikey video formatlarındaki hızlı ve dinamik kurgu süreçleri, trend efektler ve otomatik altyazı için kullandığımız araç.',
     features: ['Dikey Format Kurgu', 'Otomatik Altyazı', 'Trend Efektler', 'Hızlı Export']
   },
+  { 
+    name: 'DaVinci Resolve', 
+    icon: 'https://res.cloudinary.com/dejx0brol/image/upload/v1777877667/DaVinci_Resolve_Studio_bmmkvx.png', 
+    category: 'Renk & Kurgu',
+    description: 'Özellikle ileri seviye renk düzenleme (color grading) ve gelişmiş video kurgu projelerinde kullandığımız Hollywood standartlarındaki profesyonel yazılım.',
+    features: ['İleri Seviye Color Grading', 'Node Tabanlı Düzenleme', 'Ses Kurgusu (Fairlight)', 'Fusion Efektleri']
+  }
 ];
 
 const ToolCard = ({ tool, onClick }: { tool: any, onClick: () => void }) => (
@@ -109,7 +116,7 @@ export const TasarimAraclari = () => {
   };
 
   return (
-    <section id="araclar" className="py-24 px-6 relative z-10 w-full overflow-hidden">
+    <section id="araclar" className="py-12 md:py-20 px-6 relative z-10 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16 max-w-2xl">
           <SectionHeading subtitle="TEKNOLOJİ">Tasarım Araçları.</SectionHeading>

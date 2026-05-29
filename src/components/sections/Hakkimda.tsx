@@ -3,9 +3,9 @@ import { SectionHeading } from '../ui/SectionHeading';
 
 export const Hakkimda = () => {
   return (
-    <section id="hakkimizda" className="py-40 px-6">
+    <section id="hakkimizda" className="py-12 md:py-20 px-6">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading subtitle="EKİBİMİZ">Süreç ve Çözüm Odaklı</SectionHeading>
+        <SectionHeading subtitle="HAKKIMIZDA">Biz Kimiz?</SectionHeading>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative group rounded-3xl overflow-hidden aspect-[4/5] max-w-[280px] sm:max-w-xs mx-auto lg:mx-0 w-full">
@@ -29,13 +29,13 @@ export const Hakkimda = () => {
             className="flex flex-col gap-6 text-white/70"
           >
             <p className="text-xl md:text-2xl leading-relaxed text-white">
-              Süreç ve Çözüm Odaklı
+              Dentlas Ajans olarak, dijital dünyada markanızı bir adım öne taşımak için buradayız. Sosyal medya yönetimi, kreatif strateji ve dijital pazarlama alanlarında uzman ekibimizle, yenilikçi ve etkileyici çözümler sunuyoruz.
             </p>
             <p className="leading-relaxed">
-              Fikirden Uygulamaya: Markanız İçin Tek Noktadan Dijital Çözümler
+              Her markanın bir hikayesi olduğuna inanıyor ve bu hikayeyi hedef kitlenizle en doğru şekilde buluşturuyoruz. Amacımız, dijital varlığınızı güçlendirmek ve markanızın dijital dünyada kalıcı bir iz bırakmasını sağlamaktır.
             </p>
             <p className="leading-relaxed">
-              Dijital varlığın güçlendirilmesi; doğru bir görsel kimlik, güçlü bir web altyapısı ve planlı bir sosyal medya yönetiminin bir araya gelmesiyle mümkündür. Sunduğumuz hizmetlerde, markaların dijital ihtiyaçları tek bir çatı altında analitik ve profesyonel bir yaklaşımla ele alınmaktadır.
+              Bizimle çalışarak sınırları ortadan kaldırın ve markanızı geleceğe taşıyın!
             </p>
           </motion.div>
         </div>

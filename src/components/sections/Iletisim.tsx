@@ -37,7 +37,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
   };
 
   return (
-    <section id="iletisim" className="py-32 px-6 overflow-hidden relative">
+    <section id="iletisim" className="py-12 md:py-20 px-6 overflow-hidden relative">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
           <div>
@@ -53,7 +53,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white uppercase tracking-widest">E-posta</p>
-                  <a href="mailto:himmetmuhammedk@gmail.com" className="text-base md:text-lg font-medium break-all md:break-normal hover:text-brand transition-colors">himmetmuhammedk@gmail.com</a>
+                  <a href="mailto:himmetmuhammedk@gmail.com" className="text-base md:text-lg font-medium break-all md:break-normal hover:text-brand transition-colors">dentlasajans4@gmail.com</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">
@@ -62,7 +62,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white uppercase tracking-widest">Telefon</p>
-                  <a href="tel:+905522438468" className="text-base md:text-lg font-medium hover:text-brand transition-colors">0 552 243 84 68</a>
+                  <a href="tel:+905468050668" className="text-base md:text-lg font-medium hover:text-brand transition-colors">+90 546 805 06 68</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">
@@ -70,7 +70,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                   <Instagram size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-widest">Instagram</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-widest">Sosyal Medya</p>
                   <a href="https://instagram.com/dentlasajans" target="_blank" rel="noopener noreferrer" className="text-base md:text-lg font-medium hover:text-brand transition-colors">@dentlasajans</a>
                 </div>
               </div>
@@ -92,17 +92,17 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
               <input type="hidden" name="_subject" value="Dentlas Ajans Yeni İletişim Formu Mesajı" />
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                  <label htmlFor="isim" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">İsim</label>
-                  <input id="isim" name="Isim" type="text" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" placeholder="İsminiz..." required />
+                  <label htmlFor="isim" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">Adınız Soyadınız</label>
+                  <input id="isim" name="Isim" type="text" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" required />
                 </div>
                 <div className="space-y-3">
-                  <label htmlFor="eposta" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">E-posta</label>
-                  <input id="eposta" name="Eposta" type="email" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" placeholder="E-posta adresiniz..." required />
+                  <label htmlFor="eposta" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">E-posta Adresiniz</label>
+                  <input id="eposta" name="Eposta" type="email" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all placeholder:opacity-30" required />
                 </div>
               </div>
               <div className="space-y-3">
                 <label htmlFor="mesaj" className="text-[10px] uppercase tracking-[0.2em] font-black text-white/70">Mesajınız</label>
-                <textarea id="mesaj" name="Mesaj" rows={4} className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all resize-none placeholder:opacity-30" placeholder="Projeniz hakkında kısa bir bilgi..." required></textarea>
+                <textarea id="mesaj" name="Mesaj" rows={4} className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-5 focus:border-brand focus:ring-1 focus:ring-brand focus:bg-white/[0.05] focus:outline-none transition-all resize-none placeholder:opacity-30" required></textarea>
               </div>
               
               <div className="flex items-start gap-3">
@@ -115,7 +115,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                   />
                 </div>
                 <label htmlFor="kvkk" className="text-xs text-white leading-relaxed cursor-pointer select-none">
-                  <button type="button" onClick={() => setIsKvkkOpen(true)} className="text-brand hover:underline">KVKK Aydınlatma Metni</button>'ni okudum ve kabul ediyorum.
+                  <button type="button" onClick={() => setIsKvkkOpen(true)} className="text-brand hover:underline">KVKK Metnini Okudum ve Kabul Ediyorum.</button>
                 </label>
               </div>
 
@@ -124,10 +124,10 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 disabled={status === 'sending'}
                 className="w-full bg-brand text-black p-6 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-[0.98] hover:bg-[#60a5fa] transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] disabled:opacity-50 disabled:hover:scale-100"
               >
-                {status === 'idle' && 'BAŞLAYALIM'}
-                {status === 'sending' && 'GÖNDERİLİYOR...'}
-                {status === 'success' && 'BAŞARIYLA GÖNDERİLDİ!'}
-                {status === 'error' && 'BİR HATA OLUŞTU, TEKRAR DENEYİN'}
+                {status === 'idle' && 'Mesajı Gönder'}
+                {status === 'sending' && 'Gönderiliyor...'}
+                {status === 'success' && 'Mesajınız başarıyla gönderildi!'}
+                {status === 'error' && 'Bir hata oluştu. Lütfen tekrar deneyin.'}
               </button>
             </form>
           </div>

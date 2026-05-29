@@ -28,10 +28,10 @@ const testimonials = [
 
 export const Testimonials = () => {
   return (
-    <section id="testimonials" className="py-24 sm:py-32 px-6 relative z-10 overflow-hidden">
+    <section id="testimonials" className="py-12 md:py-20 px-6 relative z-10 overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <SectionHeading subtitle="MÜŞTERİ DENEYİMLERİ">Bizimle Çalışanlar Ne Diyor?</SectionHeading>
+        <SectionHeading subtitle="MÜŞTERİ DENEYİMLERİ">Bizimle Çalışanlar <br/> Ne Diyor?</SectionHeading>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
           {testimonials.map((t, idx) => (

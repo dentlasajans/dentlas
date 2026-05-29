@@ -105,7 +105,7 @@ export const Stats = () => {
   };
 
   return (
-    <section className="py-24 px-6 relative z-10">
+    <section className="py-12 md:py-20 px-6 relative z-10">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12">
         {statsData.map((stat, i) => (
           <AnimatedStat key={stat.label} stat={stat} i={i} onClick={() => setSelectedStat(stat)} />
