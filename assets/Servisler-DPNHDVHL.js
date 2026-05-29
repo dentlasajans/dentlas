@@ -1,4 +1,4 @@
-import{c as r,j as e,m as s,A as M,X as N,C as _}from"./index-CrPD6hFw.js";import{b as m}from"./vendor-react-CC083tLP.js";import{S as T}from"./SectionHeading-w043Lw7b.js";import{V as y}from"./video-BnqMRK2O.js";import{C as p}from"./camera-DyufLuQB.js";/**
+import{c as r,j as e,m as s,A as M,X as N,C as _}from"./index-DBZmUJei.js";import{b as m}from"./vendor-react-CC083tLP.js";import{S as T}from"./SectionHeading-Co7HvCkg.js";import{V as y}from"./video-G5UfCsGF.js";import{C as p}from"./camera-BDiWxuYY.js";/**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
