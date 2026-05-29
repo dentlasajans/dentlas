@@ -9,7 +9,7 @@ export const isYouTubeLink = (url: string) => {
 
 export const getYouTubeIframeUrl = (url: string) => {
   const id = getYouTubeVideoId(url);
-  return id ? `https://www.youtube.com/embed/${id}` : url;
+  return id ? `https://www.youtube.com/embed/${id}?autoplay=1&vq=hd2160&rel=0` : url;
 };
 
 export const getYouTubeThumbnail = (url: string) => {
