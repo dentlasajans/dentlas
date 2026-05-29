@@ -24,6 +24,6 @@ export const getDriveIframeUrl = (url: string) => {
 
 export const getDriveThumbnail = (url: string) => {
   // Google Drive video thumbnail hotlinking without an API key doesn't work reliably and throws 403.
-  // Instead of a broken image, returning a clean placeholder image from Unsplash.
-  return "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&w=800&q=80";
+  // Instead of a broken image, returning a clean placeholder image (agency logo).
+  return "https://res.cloudinary.com/dejx0brol/image/upload/v1777703150/Ba%C5%9Fl%C4%B1ks%C4%B1z-1_azwxju.png";
 };

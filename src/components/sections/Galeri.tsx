@@ -25,10 +25,12 @@ const getOriginalSrc = (src: string) => {
 const GalleryItem = ({
   src,
   type,
+  title,
   onClick,
 }: {
   src: string;
   type: "image" | "video";
+  title?: string;
   onClick: () => void;
 }) => {
   return (
@@ -42,9 +44,14 @@ const GalleryItem = ({
       className={`relative overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-white/5`}
     >
       <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+      {title && (
+        <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+          <p className="text-white font-bold truncate">{title}</p>
+        </div>
+      )}
       {type === "video" ? (
         isGoogleDriveLink(src) ? (
-          <img src={getDriveThumbnail(src)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Video Thumbnail" />
+          <img src={getDriveThumbnail(src)} className="w-full h-full object-contain p-12 group-hover:scale-110 transition-transform duration-700 opacity-80" alt="Video Thumbnail" />
         ) : (
           <video src={src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" muted />
         )
@@ -61,7 +68,7 @@ const GalleryItem = ({
       {type === "video" && (
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
           <div className="w-16 h-16 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:scale-110 group-hover:bg-brand/80 transition-all duration-300">
-            <Play size={24} className="text-white ml-2" fill="currentColor" />
+            <Play size={24} className="text-white ml-1" fill="currentColor" />
           </div>
         </div>
       )}
@@ -70,11 +77,12 @@ const GalleryItem = ({
 };
 
 export const Galeri = () => {
-  const [activeTab, setActiveTab] = useState<"image" | "video">("image");
-  const [visibleCount, setVisibleCount] = useState(8);
+  const [visibleCountImages, setVisibleCountImages] = useState(8);
+  const [visibleCountVideos, setVisibleCountVideos] = useState(8);
   const [selectedMedia, setSelectedMedia] = useState<{
     src: string;
     type: "image" | "video";
+    title?: string;
   } | null>(null);
 
   const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video'}[]>([]);
@@ -86,7 +94,8 @@ export const Galeri = () => {
       setMediaItems(snapshot.docs.map(doc => ({
         id: doc.id,
         src: doc.data().src,
-        type: doc.data().type as 'image'|'video'
+        type: doc.data().type as 'image'|'video',
+        title: doc.data().title
       })));
       setLoading(false);
     }, (error) => {
@@ -96,8 +105,8 @@ export const Galeri = () => {
     return unsub;
   }, []);
 
-  let images = mediaItems.filter(m => m.type === 'image').map(m => m.src);
-  let videos = mediaItems.filter(m => m.type === 'video').map(m => m.src);
+  let images = mediaItems.filter(m => m.type === 'image');
+  let videos = mediaItems.filter(m => m.type === 'video');
 
   useEffect(() => {
     if (selectedMedia) {
@@ -110,11 +119,6 @@ export const Galeri = () => {
     };
   }, [selectedMedia]);
 
-  const handleTabChange = (tab: "image" | "video") => {
-    setActiveTab(tab);
-    setVisibleCount(8);
-  };
-
   return (
     <section id="galeri" className="py-32 px-6 relative z-10">
       <div className="max-w-7xl mx-auto">
@@ -124,73 +128,75 @@ export const Galeri = () => {
               GALERİ
             </h2>
           </div>
-
-          <div className="flex bg-white/5 p-1 rounded-2xl border border-white/10 w-fit mx-auto md:mx-0">
-            <button
-              onClick={() => handleTabChange("image")}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-semibold text-sm ${
-                activeTab === "image"
-                  ? "bg-brand text-black shadow-lg shadow-brand/20"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              <ImageIcon size={18} />
-              Görseller
-            </button>
-            <button
-              onClick={() => handleTabChange("video")}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl transition-all font-semibold text-sm ${
-                activeTab === "video"
-                  ? "bg-brand text-black shadow-lg shadow-brand/20"
-                  : "text-white/60 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              <VideoIcon size={18} />
-              Videolar
-            </button>
-          </div>
         </div>
 
-        <motion.div
-          layout
-          className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
-        >
-          <AnimatePresence mode="popLayout">
-            {activeTab === "image" &&
-              images
-                .slice(0, visibleCount)
-                .map((src, index) => (
-                  <GalleryItem
-                    key={`img-${index}`}
-                    src={src}
-                    type="image"
-                    onClick={() => setSelectedMedia({ src, type: "image" })}
-                  />
-                ))}
-
-            {activeTab === "video" &&
-              videos
-                .slice(0, visibleCount)
-                .map((src, index) => (
-                  <GalleryItem
-                    key={`vid-${index}`}
-                    src={src}
-                    type="video"
-                    onClick={() => setSelectedMedia({ src, type: "video" })}
-                  />
-                ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {((activeTab === "image" && visibleCount < images.length) ||
-          (activeTab === "video" && visibleCount < videos.length)) && (
-          <div className="mt-12 flex justify-center">
-            <button
-              onClick={() => setVisibleCount((prev) => prev + 8)}
-              className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold text-sm tracking-widest uppercase hover:bg-white/5 hover:border-brand/50 transition-all"
+        {images.length > 0 && (
+          <div className="mb-20">
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3"><ImageIcon className="text-brand" size={28}/> Görseller</h3>
+            <motion.div
+              layout
+              className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
             >
-              Daha Fazla Göster
-            </button>
+              <AnimatePresence mode="popLayout">
+                {images
+                  .slice(0, visibleCountImages)
+                  .map((item, index) => (
+                    <GalleryItem
+                      key={`img-${index}`}
+                      src={item.src}
+                      type="image"
+                      title={(item as any).title}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "image", title: (item as any).title })}
+                    />
+                  ))}
+              </AnimatePresence>
+            </motion.div>
+
+            {visibleCountImages < images.length && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => setVisibleCountImages((prev) => prev + 8)}
+                  className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold text-sm tracking-widest uppercase hover:bg-white/5 hover:border-brand/50 transition-all"
+                >
+                  Daha Fazla Göster
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {videos.length > 0 && (
+          <div>
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-3"><VideoIcon className="text-brand" size={28}/> Videolar</h3>
+            <motion.div
+              layout
+              className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+            >
+              <AnimatePresence mode="popLayout">
+                {videos
+                  .slice(0, visibleCountVideos)
+                  .map((item, index) => (
+                    <GalleryItem
+                      key={`vid-${index}`}
+                      src={item.src}
+                      type="video"
+                      title={(item as any).title}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "video", title: (item as any).title })}
+                    />
+                  ))}
+              </AnimatePresence>
+            </motion.div>
+
+            {visibleCountVideos < videos.length && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={() => setVisibleCountVideos((prev) => prev + 8)}
+                  className="px-8 py-4 rounded-xl border border-white/20 text-white font-bold text-sm tracking-widest uppercase hover:bg-white/5 hover:border-brand/50 transition-all"
+                >
+                  Daha Fazla Göster
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -223,28 +229,40 @@ export const Galeri = () => {
               </div>
 
               {selectedMedia.type === "image" ? (
-                <img
-                  src={getOriginalSrc(selectedMedia.src)}
-                  alt="Görsel Orijinal"
-                  className="max-w-full max-h-full object-contain rounded-xl shadow-2xl"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <div className="relative">
+                  <img
+                    src={getOriginalSrc(selectedMedia.src)}
+                    alt="Görsel Orijinal"
+                    className="max-w-full max-h-[80dvh] md:max-h-full object-contain rounded-xl shadow-2xl"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  {selectedMedia.title && (
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="bg-black/80 text-white px-4 py-2 rounded-lg backdrop-blur-md font-medium inline-block shadow-lg">{selectedMedia.title}</span>
+                    </div>
+                  )}
+                </div>
               ) : (
-                <div className="w-full h-[60vh] md:h-[80vh] flex items-center justify-center group aspect-video">
-                  {isGoogleDriveLink(selectedMedia.src) ? (
-                    <iframe 
-                      src={getDriveIframeUrl(selectedMedia.src)} 
-                      allow="autoplay"
-                      className="w-full h-full rounded-xl shadow-2xl shadow-brand/20 border-none"
-                    />
-                  ) : (
-                    <video
-                      src={selectedMedia.src}
-                      className="max-w-full max-h-full object-contain rounded-xl shadow-2xl shadow-brand/20"
-                      controls
-                      autoPlay
-                    />
+                <div className="w-full h-[60vh] md:h-[80vh] flex items-center justify-center group flex-col gap-4">
+                  <div className="w-full h-full aspect-video relative flex justify-center items-center">
+                    {isGoogleDriveLink(selectedMedia.src) ? (
+                      <iframe 
+                        src={getDriveIframeUrl(selectedMedia.src)} 
+                        allow="autoplay"
+                        className="w-full h-full rounded-xl shadow-2xl shadow-brand/20 border-none max-w-5xl"
+                      />
+                    ) : (
+                      <video
+                        src={selectedMedia.src}
+                        className="max-w-full max-h-full object-contain rounded-xl shadow-2xl shadow-brand/20"
+                        controls
+                        autoPlay
+                      />
+                    )}
+                  </div>
+                  {selectedMedia.title && (
+                    <h3 className="text-white text-xl md:text-2xl font-bold mt-2 text-center">{selectedMedia.title}</h3>
                   )}
                 </div>
               )}

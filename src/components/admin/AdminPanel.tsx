@@ -64,10 +64,11 @@ const deleteFromCloudinary = async (url: string, type: 'image' | 'video' = 'imag
 import { isGoogleDriveLink, getDriveThumbnail } from '../../lib/driveUtils';
 
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
-  const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video'}[]>([]);
+  const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video', title?: string}[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [inputType, setInputType] = useState<'file' | 'link'>('file');
   const [linkValue, setLinkValue] = useState('');
+  const [videoTitle, setVideoTitle] = useState('');
   const [newType, setNewType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -78,7 +79,8 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
       setMedia(snapshot.docs.map(doc => ({
         id: doc.id,
         src: doc.data().src,
-        type: doc.data().type
+        type: doc.data().type,
+        title: doc.data().title
       })));
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, collectionName);
@@ -123,6 +125,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         const setDocPromise = setDoc(doc(db, collectionName, mediaId), {
           src: finalUrl,
           type: newType,
+          title: inputType === 'link' && newType === 'video' ? videoTitle : '',
           createdAt: Date.now()
         });
         
@@ -134,6 +137,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         
         setFile(null);
         setLinkValue('');
+        setVideoTitle('');
       }
       setError('');
     } catch (err) {
@@ -193,14 +197,25 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
             </label>
           </>
         ) : (
-          <input 
-            type="url"
-            value={linkValue}
-            onChange={(e) => setLinkValue(e.target.value)}
-            placeholder="Medya bağlantısı (Google Drive vb.)"
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[200px]"
-            required
-          />
+          <div className="flex-1 flex gap-2">
+            <input 
+              type="url"
+              value={linkValue}
+              onChange={(e) => setLinkValue(e.target.value)}
+              placeholder="Medya bağlantısı (Google Drive vb.)"
+              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
+              required
+            />
+            {newType === 'video' && (
+              <input 
+                type="text"
+                value={videoTitle}
+                onChange={(e) => setVideoTitle(e.target.value)}
+                placeholder="Video Adı"
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
+              />
+            )}
+          </div>
         )}
         
         <select 
@@ -237,6 +252,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
             <div className="absolute top-2 left-2 bg-black/60 p-1.5 rounded-md backdrop-blur-md">
               {item.type === 'video' ? <VideoIcon size={16} className="text-white" /> : <ImageIcon size={16} className="text-white" />}
             </div>
+            {item.title && <div className="absolute top-2 right-12 bg-black/60 px-2 py-1 rounded-md text-xs backdrop-blur-md">{item.title}</div>}
             <button 
               onClick={() => handleDelete(item.id, item.src, item.type)}
               className="absolute top-2 right-2 bg-red-500/80 text-white p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
@@ -496,6 +512,11 @@ export const AdminPanel = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/admin/studio" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
+                  <Camera size={18} /> Stüdyo Yönetimi
+                </Link>
+              </li>
+              <li>
                 <Link to="/admin/blog" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
                   <FileText size={18} /> Blog Yönetimi
                 </Link>
@@ -505,6 +526,7 @@ export const AdminPanel = () => {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<AdminMediaManager collectionName="media" title="Galeri" />} />
+              <Route path="/studio" element={<AdminMediaManager collectionName="studio" title="Stüdyo" />} />
               <Route path="/blog" element={<AdminBlogManager />} />
             </Routes>
           </main>
