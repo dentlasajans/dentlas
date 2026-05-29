@@ -56,7 +56,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 py-4 ${isScrolled ? 'bg-black/60 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20' : 'bg-transparent border-b border-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 py-4 ${isScrolled && !isMenuOpen ? 'bg-black/60 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20' : 'bg-transparent border-b border-transparent'}`}>
       <div className="relative z-50 max-w-7xl mx-auto px-6 flex justify-between items-center">
         <motion.a 
           href="#"
