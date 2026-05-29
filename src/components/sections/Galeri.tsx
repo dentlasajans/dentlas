@@ -4,6 +4,7 @@ import { Play, Image as ImageIcon, Video as VideoIcon, X } from "lucide-react";
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
+import { isGoogleDriveLink, getDriveIframeUrl, getDriveThumbnail } from '../../lib/driveUtils';
 
 const getOptimizedSrc = (src: string) => {
   // Return a webp formatted, low quality, smaller width image for thumbnails
@@ -42,7 +43,11 @@ const GalleryItem = ({
     >
       <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
       {type === "video" ? (
-        <video src={src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" muted />
+        isGoogleDriveLink(src) ? (
+          <img src={getDriveThumbnail(src)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Video Thumbnail" />
+        ) : (
+          <video src={src} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" muted />
+        )
       ) : (
         <img
           src={getOptimizedSrc(src)}
@@ -226,13 +231,21 @@ export const Galeri = () => {
                   decoding="async"
                 />
               ) : (
-                <div className="w-full h-full max-h-[80vh] flex items-center justify-center group">
-                  <video
-                    src={selectedMedia.src}
-                    className="max-w-full max-h-full object-contain rounded-xl shadow-2xl shadow-brand/20"
-                    controls
-                    autoPlay
-                  />
+                <div className="w-full h-[60vh] md:h-[80vh] flex items-center justify-center group aspect-video">
+                  {isGoogleDriveLink(selectedMedia.src) ? (
+                    <iframe 
+                      src={getDriveIframeUrl(selectedMedia.src)} 
+                      allow="autoplay"
+                      className="w-full h-full rounded-xl shadow-2xl shadow-brand/20 border-none"
+                    />
+                  ) : (
+                    <video
+                      src={selectedMedia.src}
+                      className="max-w-full max-h-full object-contain rounded-xl shadow-2xl shadow-brand/20"
+                      controls
+                      autoPlay
+                    />
+                  )}
                 </div>
               )}
             </motion.div>

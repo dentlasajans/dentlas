@@ -61,9 +61,13 @@ const deleteFromCloudinary = async (url: string, type: 'image' | 'video' = 'imag
   }
 };
 
+import { isGoogleDriveLink, getDriveThumbnail } from '../../lib/driveUtils';
+
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
   const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video'}[]>([]);
   const [file, setFile] = useState<File | null>(null);
+  const [inputType, setInputType] = useState<'file' | 'link'>('file');
+  const [linkValue, setLinkValue] = useState('');
   const [newType, setNewType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -84,27 +88,40 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    if (inputType === 'file' && !file) return;
+    if (inputType === 'link' && !linkValue) return;
 
     setUploading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'atlaspos');
+      let finalUrl = '';
 
-      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${newType === 'video' ? 'video' : 'image'}/upload`, {
-        method: 'POST',
-        body: formData
-      });
+      if (inputType === 'file') {
+        const formData = new FormData();
+        formData.append('file', file!);
+        formData.append('upload_preset', 'atlaspos');
 
-      const data = await response.json();
-      if (data.secure_url) {
+        const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${newType === 'video' ? 'video' : 'image'}/upload`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        if (data.secure_url) {
+          finalUrl = data.secure_url;
+        } else {
+          throw new Error(data.error?.message || 'Yükleme hatası');
+        }
+      } else {
+        finalUrl = linkValue;
+      }
+
+      if (finalUrl) {
         const mediaId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
         
         // Timeout in case Firestore hangs due to connection/project issues
         const setDocPromise = setDoc(doc(db, collectionName, mediaId), {
-          src: data.secure_url,
+          src: finalUrl,
           type: newType,
           createdAt: Date.now()
         });
@@ -116,8 +133,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         await Promise.race([setDocPromise, timeoutPromise]);
         
         setFile(null);
-      } else {
-        throw new Error(data.error?.message || 'Yükleme hatası');
+        setLinkValue('');
       }
       setError('');
     } catch (err) {
@@ -149,23 +165,48 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         </div>
       )}
       <form onSubmit={handleAdd} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center">
-        <input 
-          type="file"
-          accept={newType === 'video' ? "video/*" : "image/*"}
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand hidden"
-          id={`file-upload-${collectionName}`}
-        />
-        <label htmlFor={`file-upload-${collectionName}`} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white cursor-pointer hover:bg-white/10 transition-colors flex items-center justify-between">
-          <span className="truncate">{file ? file.name : "Dosya seçin..."}</span>
-          <UploadCloud size={18} className="text-white/50" />
-        </label>
+        <select 
+          value={inputType} 
+          onChange={(e) => {
+            setInputType(e.target.value as any);
+            setFile(null);
+            setLinkValue('');
+          }}
+          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand w-32"
+        >
+          <option value="file">Dosya</option>
+          <option value="link">Link</option>
+        </select>
+
+        {inputType === 'file' ? (
+          <>
+            <input 
+              type="file"
+              accept={newType === 'video' ? "video/*" : "image/*"}
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+              className="hidden"
+              id={`file-upload-${collectionName}`}
+            />
+            <label htmlFor={`file-upload-${collectionName}`} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white cursor-pointer hover:bg-white/10 transition-colors flex items-center justify-between min-w-[200px]">
+              <span className="truncate">{file ? file.name : "Dosya seçin..."}</span>
+              <UploadCloud size={18} className="text-white/50 shrink-0 ml-2" />
+            </label>
+          </>
+        ) : (
+          <input 
+            type="url"
+            value={linkValue}
+            onChange={(e) => setLinkValue(e.target.value)}
+            placeholder="Medya bağlantısı (Google Drive vb.)"
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[200px]"
+            required
+          />
+        )}
         
         <select 
           value={newType} 
           onChange={(e) => {
             setNewType(e.target.value as any);
-            setFile(null);
           }}
           className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand"
         >
@@ -174,8 +215,8 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         </select>
         <button 
           type="submit" 
-          disabled={!file || uploading}
-          className="bg-brand text-black px-6 py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={(inputType === 'file' && !file) || (inputType === 'link' && !linkValue) || uploading}
+          className="bg-brand text-black px-6 py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
           {uploading ? <><Loader2 size={18} className="animate-spin" /> Yükleniyor</> : <><Plus size={18} /> Yükle</>}
         </button>
@@ -185,7 +226,11 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         {media.map(item => (
           <div key={item.id} className="relative group bg-black/40 rounded-xl overflow-hidden aspect-square border border-white/10">
             {item.type === 'video' ? (
-              <video src={item.src} className="w-full h-full object-cover opacity-80" muted />
+              isGoogleDriveLink(item.src) ? (
+                <img src={getDriveThumbnail(item.src)} className="w-full h-full object-cover opacity-80" />
+              ) : (
+                <video src={item.src} className="w-full h-full object-cover opacity-80" muted />
+              )
             ) : (
               <img src={item.src} className="w-full h-full object-cover opacity-80" />
             )}
