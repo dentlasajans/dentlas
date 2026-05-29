@@ -41,7 +41,7 @@ const GalleryItem = ({
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.3 }}
       onClick={onClick}
-      className={`relative overflow-hidden rounded-2xl group cursor-pointer aspect-square bg-white/5`}
+      className={`relative overflow-hidden rounded-2xl group cursor-pointer ${type === 'video' ? 'aspect-video' : 'aspect-square'} bg-white/5`}
     >
       <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
       {title && (
