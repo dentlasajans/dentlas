@@ -53,7 +53,7 @@ export const Iletisim = ({ setIsKvkkOpen }: { setIsKvkkOpen: (val: boolean) => v
                 </div>
                 <div>
                   <p className="text-xs font-bold text-white uppercase tracking-widest">E-posta</p>
-                  <a href="mailto:info@dentlasajans.com" className="text-base md:text-lg font-medium break-all md:break-normal hover:text-brand transition-colors">info@dentlasajans.com</a>
+                  <a href="mailto:himmetmuhammedk@gmail.com" className="text-base md:text-lg font-medium break-all md:break-normal hover:text-brand transition-colors">himmetmuhammedk@gmail.com</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 group cursor-pointer">

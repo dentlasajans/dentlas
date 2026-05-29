@@ -57,11 +57,9 @@ export const Navbar = () => {
             const isActive = activeSection === itemId;
             
             return (
-              <motion.a 
+              <motion.button 
                 key={item}
-                href={`#${itemId}`}
-                onClick={(e) => {
-                  e.preventDefault();
+                onClick={() => {
                   const element = document.getElementById(itemId);
                   if (element) {
                     const y = element.getBoundingClientRect().top + window.scrollY - 80;
@@ -75,7 +73,7 @@ export const Navbar = () => {
               >
                 {item}
                 <span className={`absolute -bottom-1 left-0 w-full h-[2px] bg-brand shadow-[0_0_10px_rgba(59,130,246,0.8)] transition-transform duration-300 origin-left ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`}></span>
-              </motion.a>
+              </motion.button>
             );
           })}
         </div>
@@ -104,24 +102,20 @@ export const Navbar = () => {
                 const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
                 const isActive = activeSection === itemId;
                 return (
-                  <a 
+                  <button 
                     key={item} 
-                    href={`#${itemId}`} 
-                    className={`text-xl font-bold transition-colors block ${isActive ? 'text-brand' : 'text-white'}`} 
-                    onClick={(e) => {
-                      e.preventDefault();
+                    className={`text-xl font-bold transition-colors block text-left ${isActive ? 'text-brand' : 'text-white'}`} 
+                    onClick={() => {
                       setIsMenuOpen(false);
-                      setTimeout(() => {
-                        const element = document.getElementById(itemId);
-                        if (element) {
-                          const y = element.getBoundingClientRect().top + window.scrollY - 80;
-                          window.scrollTo({ top: y, behavior: 'smooth' });
-                        }
-                      }, 100);
+                      const element = document.getElementById(itemId);
+                      if (element) {
+                        const y = element.getBoundingClientRect().top + window.scrollY - 80;
+                        window.scrollTo({ top: y, behavior: 'smooth' });
+                      }
                     }}
                   >
                     {item}
-                  </a>
+                  </button>
                 );
               })}
             </div>

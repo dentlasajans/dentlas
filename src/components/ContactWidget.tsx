@@ -19,7 +19,7 @@ export const ContactWidget = () => {
     {
       icon: MessageCircle,
       label: 'WhatsApp',
-      href: 'https://wa.me/905307382601',
+      href: 'https://wa.me/905522438468',
       color: 'bg-[#25D366] text-white',
       hoverColor: 'hover:bg-[#20bd5a]'
     },
@@ -33,14 +33,14 @@ export const ContactWidget = () => {
     {
       icon: Phone,
       label: 'Telefon',
-      href: 'tel:+905307382601',
+      href: 'tel:+905522438468',
       color: 'bg-zinc-800 text-white border border-white/10',
       hoverColor: 'hover:bg-zinc-700'
     },
     {
       icon: Mail,
       label: 'E-posta',
-      href: 'mailto:info@dentlas.com',
+      href: 'mailto:himmetmuhammedk@gmail.com',
       color: 'bg-black text-white border border-white/10',
       hoverColor: 'hover:bg-white/10'
     }

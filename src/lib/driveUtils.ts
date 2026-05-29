@@ -1,11 +1,17 @@
+export const getDriveId = (url: string) => {
+  const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || 
+                url.match(/\/d\/([a-zA-Z0-9_-]+)/) || 
+                url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  return match ? match[1] : null;
+};
+
 export const isGoogleDriveLink = (url: string) => {
   return url.includes('drive.google.com');
 };
 
 export const getDriveIframeUrl = (url: string) => {
   try {
-    const match = url.match(/\/d\/(.*?)\/|\/file\/d\/(.*?)\//) || url.match(/id=(.*?)(&|$)/);
-    const id = match ? (match[1] || match[2]) : null;
+    const id = getDriveId(url);
     if (id) {
       return `https://drive.google.com/file/d/${id}/preview`;
     }
@@ -18,8 +24,7 @@ export const getDriveIframeUrl = (url: string) => {
 
 export const getDriveThumbnail = (url: string) => {
   try {
-    const match = url.match(/\/d\/(.*?)\/|\/file\/d\/(.*?)\//) || url.match(/id=(.*?)(&|$)/);
-    const id = match ? (match[1] || match[2]) : null;
+    const id = getDriveId(url);
     if (id) {
        // A common hack to get thumbnail although sometimes requires auth
        return `https://drive.google.com/thumbnail?id=${id}&sz=w800-h600`;
