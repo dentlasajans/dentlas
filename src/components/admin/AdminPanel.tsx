@@ -428,6 +428,13 @@ export const AdminPanel = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  useEffect(() => {
+    document.title = "Admin - Dentlas Ajans";
+    return () => {
+      document.title = "Dentlas Ajans | Aksaray Dijital Strateji ve Reklam Ajansı";
+    };
+  }, []);
   const [loginLoading, setLoginLoading] = useState(false);
 
   useEffect(() => {
