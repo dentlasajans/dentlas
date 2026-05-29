@@ -32,7 +32,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-4 glass !border-b-white/5' : 'py-8'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 py-4 ${isScrolled ? 'bg-black/60 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20' : 'bg-transparent border-b border-transparent'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <motion.a 
           href="#"
@@ -62,7 +62,11 @@ export const Navbar = () => {
                 href={`#${itemId}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth' });
+                  const element = document.getElementById(itemId);
+                  if (element) {
+                    const y = element.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                  }
                 }}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -78,7 +82,7 @@ export const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden text-white" 
+          className="lg:hidden text-white p-2" 
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
         >
@@ -93,7 +97,7 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden glass border-b border-white/10 overflow-hidden"
+            className="lg:hidden bg-black/80 backdrop-blur-md border-b border-white/10 overflow-hidden"
           >
             <div className="flex flex-col p-6 gap-6">
               {['Servisler', 'Araçlar', 'Referanslar', 'Yorumlar', 'Galeri', 'Blog', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item) => {
@@ -103,11 +107,17 @@ export const Navbar = () => {
                   <a 
                     key={item} 
                     href={`#${itemId}`} 
-                    className={`text-xl font-bold transition-colors ${isActive ? 'text-brand' : 'text-white'}`} 
+                    className={`text-xl font-bold transition-colors block ${isActive ? 'text-brand' : 'text-white'}`} 
                     onClick={(e) => {
                       e.preventDefault();
                       setIsMenuOpen(false);
-                      document.getElementById(itemId)?.scrollIntoView({ behavior: 'smooth' });
+                      setTimeout(() => {
+                        const element = document.getElementById(itemId);
+                        if (element) {
+                          const y = element.getBoundingClientRect().top + window.scrollY - 80;
+                          window.scrollTo({ top: y, behavior: 'smooth' });
+                        }
+                      }, 100);
                     }}
                   >
                     {item}
