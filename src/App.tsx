@@ -78,10 +78,10 @@ const MainPage = ({ isKvkkOpen, setIsKvkkOpen, isPrivacyOpen, setIsPrivacyOpen }
       <Suspense fallback={null}>
         <Servisler />
         <TasarimAraclari />
-        <Referanslar />
-        <Testimonials />
         <Galeri />
         <Blog />
+        <Referanslar />
+        <Testimonials />
         <Hakkimda />
         <FAQ />
         <Iletisim setIsKvkkOpen={setIsKvkkOpen} />

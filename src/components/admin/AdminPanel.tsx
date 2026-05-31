@@ -284,6 +284,9 @@ const AdminBlogManager = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
 
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingImageUrl, setEditingImageUrl] = useState('');
+
   useEffect(() => {
     const q = query(collection(db, 'blogs'), orderBy('createdAt', 'desc'));
     const unsub = onSnapshot(q, (snapshot) => {
@@ -293,12 +296,30 @@ const AdminBlogManager = () => {
     return unsub;
   }, []);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const handleEditClick = (blog: any) => {
+    setEditingId(blog.id);
+    setTitle(blog.title || '');
+    setExcerpt(blog.excerpt || '');
+    setContent(blog.content || '');
+    setCategory(blog.category || 'Genel');
+    setDate(blog.date || '');
+    setAuthor(blog.author || '');
+    setEditingImageUrl(blog.image || '');
+    setFile(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setTitle(''); setExcerpt(''); setContent(''); setCategory('Genel'); setDate(''); setAuthor(''); setFile(null); setEditingImageUrl('');
+  };
+
+  const handleAddOrEdit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return;
     
     setUploading(true);
-    let imageUrl = '';
+    let imageUrl = editingImageUrl;
     
     try {
       if (file) {
@@ -319,14 +340,22 @@ const AdminBlogManager = () => {
         }
       }
 
-      const blogId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
-      const setDocPromise = setDoc(doc(db, 'blogs', blogId), {
+      const blogId = editingId || (typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2));
+      
+      const payload: any = {
         title, excerpt, content, category, 
         date: date || new Date().toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' }), 
         author: author || 'Admin',
         image: imageUrl,
-        createdAt: Date.now()
-      });
+      };
+
+      if (!editingId) {
+        payload.createdAt = Date.now();
+      } else {
+        payload.updatedAt = Date.now();
+      }
+
+      const setDocPromise = setDoc(doc(db, 'blogs', blogId), payload, { merge: true });
       
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error("Veritabanı bağlantısı zaman aşımına uğradı (Firestore yanıt vermiyor).")), 10000)
@@ -334,7 +363,7 @@ const AdminBlogManager = () => {
       
       await Promise.race([setDocPromise, timeoutPromise]);
       
-      setTitle(''); setExcerpt(''); setContent(''); setCategory('Genel'); setDate(''); setAuthor(''); setFile(null);
+      handleCancelEdit();
       setError('');
     } catch (error) {
       console.error(error);
@@ -358,13 +387,15 @@ const AdminBlogManager = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-white/90">Blog ve Haberler Yönetimi</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white/90">
+        {editingId ? "Blog Düzenle" : "Blog ve Haberler Yönetimi"}
+      </h2>
       {error && (
         <div className="bg-red-500/20 text-red-500 p-4 rounded-xl border border-red-500/50 mb-6 font-medium">
           {error}
         </div>
       )}
-      <form onSubmit={handleAdd} className="bg-white/5 p-6 rounded-xl border border-white/10 mb-8 flex flex-col gap-4">
+      <form onSubmit={handleAddOrEdit} className="bg-white/5 p-6 rounded-xl border border-white/10 mb-8 flex flex-col gap-4">
         <input 
           type="text" 
           value={title} 
@@ -393,13 +424,18 @@ const AdminBlogManager = () => {
           <input type="text" value={author} onChange={e => setAuthor(e.target.value)} placeholder="Yazar (opsiyonel)" className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"/>
         </div>
         
-        <div className="flex gap-4 items-center mt-2">
+        <div className="flex gap-4 items-center mt-2 flex-wrap">
           <input type="file" accept="image/*" onChange={e => setFile(e.target.files?.[0] || null)} className="hidden" id="blog-file" />
           <label htmlFor="blog-file" className="cursor-pointer bg-white/5 px-4 py-2 rounded-lg border border-white/10 hover:bg-white/10 transition-colors flex items-center gap-2">
-            <UploadCloud size={16} /> {file ? file.name : "Kapak Fotoğrafı Seç"}
+            <UploadCloud size={16} /> {file ? file.name : (editingImageUrl ? "Kapak Fotoğrafını Değiştir" : "Kapak Fotoğrafı Seç")}
           </label>
+          {editingId && (
+            <button type="button" onClick={handleCancelEdit} className="bg-white/5 text-white/80 hover:text-white hover:bg-white/10 px-6 py-2 rounded-lg font-medium transition-colors">
+              İptal Et
+            </button>
+          )}
           <button type="submit" disabled={uploading} className="ml-auto bg-brand text-black px-8 py-2 rounded-lg font-bold">
-            {uploading ? "Kaydediliyor..." : "Blog Ekle"}
+            {uploading ? "Kaydediliyor..." : (editingId ? "Değişiklikleri Kaydet" : "Blog Ekle")}
           </button>
         </div>
       </form>
@@ -412,9 +448,14 @@ const AdminBlogManager = () => {
               <h4 className="font-bold">{blog.title}</h4>
               <p className="text-sm text-white/50">{blog.date} - {blog.category}</p>
             </div>
-            <button onClick={() => handleDelete(blog.id, blog.image)} className="bg-red-500/20 text-red-400 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors">
-              <Trash2 size={18} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button onClick={() => handleEditClick(blog)} className="bg-white/5 text-white/70 p-2 rounded-lg hover:bg-white/10 hover:text-white transition-colors">
+                Düzenle
+              </button>
+              <button onClick={() => handleDelete(blog.id, blog.image)} className="bg-red-500/20 text-red-400 p-2 rounded-lg hover:bg-red-500 hover:text-white transition-colors">
+                <Trash2 size={18} />
+              </button>
+            </div>
           </div>
         ))}
       </div>
