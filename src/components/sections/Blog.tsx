@@ -6,6 +6,7 @@ import { SectionHeading } from "../ui/SectionHeading";
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
+import 'react-quill-new/dist/quill.snow.css';
 
 const BlogCard = ({ post, onClick, index }: { post: any; onClick: () => void, index: number }) => {
   const getOptimizedImage = (url: string) =>
@@ -159,7 +160,7 @@ export const Blog = () => {
                 </button>
               </div>
 
-              <div className="p-6 sm:p-10 overflow-y-auto custom-scrollbar flex-1 w-full relative z-10 flex flex-col gap-8 lg:gap-12">
+              <div className="p-6 sm:p-10 overflow-y-auto overflow-x-hidden custom-scrollbar flex-1 w-full relative z-10 flex flex-col gap-8 lg:gap-12">
                 <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
                   <div className="relative md:col-span-3 lg:col-span-2">
                     <div className="rounded-2xl overflow-hidden relative aspect-square w-1/3 md:w-full">
@@ -198,9 +199,9 @@ export const Blog = () => {
                   </div>
                 </div>
 
-                <div className="w-full mt-4 md:mt-2 border-t border-white/5 pt-8">
+                <div className="w-full mt-4 md:mt-2 border-t border-white/5 pt-8 ql-snow">
                   <div 
-                    className="prose prose-invert prose-lg max-w-none prose-p:text-white/80 prose-p:leading-relaxed prose-headings:text-white prose-a:text-brand"
+                    className="ql-editor prose prose-invert prose-lg max-w-none prose-p:text-white/80 prose-p:leading-relaxed prose-headings:text-white prose-a:text-brand"
                     dangerouslySetInnerHTML={{ __html: selectedPost.content }}
                   />
                 </div>
