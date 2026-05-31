@@ -199,11 +199,10 @@ export const Blog = () => {
                 </div>
 
                 <div className="w-full mt-4 md:mt-2 border-t border-white/5 pt-8">
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-white/80 text-base sm:text-lg leading-relaxed font-light whitespace-pre-line">
-                      {selectedPost.content}
-                    </p>
-                  </div>
+                  <div 
+                    className="prose prose-invert prose-lg max-w-none prose-p:text-white/80 prose-p:leading-relaxed prose-headings:text-white prose-a:text-brand"
+                    dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                  />
                 </div>
               </div>
             </motion.div>

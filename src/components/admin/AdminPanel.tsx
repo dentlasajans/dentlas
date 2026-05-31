@@ -6,6 +6,7 @@ import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebas
 import { db, auth } from '../../lib/firebase';
 import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2, Camera, FileText } from 'lucide-react';
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
+import { RichTextEditor } from './RichTextEditor';
 
 const extractPublicId = (url: string) => {
   try {
@@ -64,12 +65,17 @@ const deleteFromCloudinary = async (url: string, type: 'image' | 'video' = 'imag
 import { isYouTubeLink, getYouTubeThumbnail, fetchYouTubeTitle } from '../../lib/youtubeUtils';
 
 const AdminMediaManager = ({ collectionName, title }: { collectionName: string, title: string }) => {
-  const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video', title?: string}[]>([]);
+  const [media, setMedia] = useState<{id: string, src: string, type: 'image' | 'video', title?: string, category?: string}[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [linkValue, setLinkValue] = useState('');
+  const [category, setCategory] = useState('');
   const [newType, setNewType] = useState<'image' | 'video'>('image');
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingImageUrl, setEditingImageUrl] = useState('');
+  const [editingVideoUrl, setEditingVideoUrl] = useState('');
 
   useEffect(() => {
     const q = query(collection(db, collectionName), orderBy('createdAt', 'desc'));
@@ -78,7 +84,8 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         id: doc.id,
         src: doc.data().src,
         type: doc.data().type,
-        title: doc.data().title
+        title: doc.data().title,
+        category: doc.data().category
       })));
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, collectionName);
@@ -86,19 +93,47 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
     return unsub;
   }, [collectionName]);
 
-  const handleAdd = async (e: React.FormEvent) => {
+  const handleEditClick = (item: any) => {
+    setEditingId(item.id);
+    setNewType(item.type);
+    setCategory(item.category || '');
+    if (item.type === 'image') {
+      setEditingImageUrl(item.src);
+      setEditingVideoUrl('');
+      setLinkValue('');
+    } else {
+      setEditingVideoUrl(item.src);
+      setEditingImageUrl('');
+      setLinkValue(item.src);
+    }
+    setFile(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setCategory('');
+    setLinkValue('');
+    setFile(null);
+    setEditingImageUrl('');
+    setEditingVideoUrl('');
+  };
+
+  const handleAddOrEdit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newType === 'image' && !file) return;
-    if (newType === 'video' && !linkValue) return;
+    if (!editingId) {
+      if (newType === 'image' && !file) return;
+      if (newType === 'video' && !linkValue) return;
+    }
 
     setUploading(true);
     try {
-      let finalUrl = '';
+      let finalUrl = newType === 'image' ? editingImageUrl : editingVideoUrl;
       let targetTitle = '';
 
-      if (newType === 'image') {
+      if (newType === 'image' && file) {
         const formData = new FormData();
-        formData.append('file', file!);
+        formData.append('file', file);
         formData.append('upload_preset', 'atlaspos');
 
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dejx0brol';
@@ -113,24 +148,37 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         } else {
           throw new Error(data.error?.message || 'Yükleme hatası');
         }
-      } else {
+      } else if (newType === 'video' && linkValue !== editingVideoUrl) {
         if (!isYouTubeLink(linkValue)) {
           throw new Error("Geçerli bir YouTube linki girin.");
         }
         finalUrl = linkValue;
         targetTitle = await fetchYouTubeTitle(linkValue);
+      } else if (newType === 'video' && linkValue === editingVideoUrl && editingId) {
+         finalUrl = linkValue;
+         // We might not need to refetch title if url didn't change, but let's be simple.
+         // targetTitle is kept empty in editing unless link changes, but we'll deal with it below
       }
 
       if (finalUrl) {
-        const mediaId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2);
+        const mediaId = editingId || (typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).substring(2));
         
+        const payload: any = {
+           src: finalUrl,
+           type: newType,
+           category: category || ''
+        };
+
+        if (newType === 'video' && targetTitle) {
+           payload.title = targetTitle;
+        }
+
+        if (!editingId) {
+          payload.createdAt = Date.now();
+        }
+
         // Timeout in case Firestore hangs due to connection/project issues
-        const setDocPromise = setDoc(doc(db, collectionName, mediaId), {
-          src: finalUrl,
-          type: newType,
-          title: newType === 'video' ? targetTitle : '',
-          createdAt: Date.now()
-        });
+        const setDocPromise = setDoc(doc(db, collectionName, mediaId), payload, { merge: true });
         
         const timeoutPromise = new Promise((_, reject) => 
           setTimeout(() => reject(new Error("Veritabanı bağlantısı zaman aşımına uğradı. Lütfen Firestore'un Console'da aktif ve hazır olduğundan emin olun.")), 10000)
@@ -138,8 +186,7 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
         
         await Promise.race([setDocPromise, timeoutPromise]);
         
-        setFile(null);
-        setLinkValue('');
+        handleCancelEdit();
       }
       setError('');
     } catch (err) {
@@ -164,48 +211,52 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-white/90">{title} Yönetimi</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white/90">
+        {editingId ? `${title} Düzenle` : `${title} Yönetimi`}
+      </h2>
       {error && (
         <div className="bg-red-500/20 text-red-500 p-4 rounded-xl border border-red-500/50 mb-6 font-medium">
           {error}
         </div>
       )}
-      <form onSubmit={handleAdd} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center">
-        <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 w-full md:w-auto shrink-0">
-          <button
-            type="button"
-            onClick={() => {
-              setNewType('image');
-              setFile(null);
-              setLinkValue('');
-              setError('');
-            }}
-            className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
-              newType === 'image'
-                ? "bg-brand text-black shadow-lg shadow-brand/20"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <ImageIcon size={16} /> Görsel
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setNewType('video');
-              setFile(null);
-              setLinkValue('');
-              setError('');
-            }}
-            className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
-              newType === 'video'
-                ? "bg-brand text-black shadow-lg shadow-brand/20"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <VideoIcon size={16} /> Video (YouTube)
-          </button>
-        </div>
-
+      <form onSubmit={handleAddOrEdit} className="bg-white/5 p-4 rounded-xl border border-white/10 mb-8 flex flex-col md:flex-row gap-4 items-center flex-wrap">
+        {!editingId && (
+          <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 w-full md:w-auto shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                setNewType('image');
+                setFile(null);
+                setLinkValue('');
+                setError('');
+              }}
+              className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
+                newType === 'image'
+                  ? "bg-brand text-black shadow-lg shadow-brand/20"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <ImageIcon size={16} /> Görsel
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setNewType('video');
+                setFile(null);
+                setLinkValue('');
+                setError('');
+              }}
+              className={`flex-1 md:flex-none px-4 py-2 rounded-lg transition-all text-sm font-semibold flex items-center justify-center gap-2 ${
+                newType === 'video'
+                  ? "bg-brand text-black shadow-lg shadow-brand/20"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <VideoIcon size={16} /> Video (YouTube)
+            </button>
+          </div>
+        )}
+        
         {newType === 'image' ? (
           <>
             <input 
@@ -215,8 +266,8 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
               className="hidden"
               id={`file-upload-${collectionName}`}
             />
-            <label htmlFor={`file-upload-${collectionName}`} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white cursor-pointer hover:bg-white/10 transition-colors flex items-center justify-between min-w-[200px]">
-              <span className="truncate">{file ? file.name : "Görsel seçin..."}</span>
+            <label htmlFor={`file-upload-${collectionName}`} className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white cursor-pointer hover:bg-white/10 transition-colors flex items-center justify-between min-w-[150px]">
+              <span className="truncate">{file ? file.name : (editingImageUrl ? "Görseli Değiştir" : "Görsel seçin...")}</span>
               <UploadCloud size={18} className="text-white/50 shrink-0 ml-2" />
             </label>
           </>
@@ -226,17 +277,31 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
             value={linkValue}
             onChange={(e) => setLinkValue(e.target.value)}
             placeholder="YouTube Video Bağlantısı"
-            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[200px]"
-            required
+            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
+            required={!editingVideoUrl}
           />
         )}
         
+        <input 
+          type="text"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          placeholder="Başlık (örn: Genel - Çözüm)"
+          className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white outline-none focus:border-brand min-w-[150px]"
+        />
+        
+        {editingId && (
+          <button type="button" onClick={handleCancelEdit} className="bg-white/5 text-white/80 hover:text-white hover:bg-white/10 px-6 py-2 rounded-lg font-medium transition-colors">
+            İptal Et
+          </button>
+        )}
+
         <button 
           type="submit" 
-          disabled={(newType === 'image' && !file) || (newType === 'video' && !linkValue) || uploading}
+          disabled={(newType === 'image' && !file && !editingImageUrl) || (newType === 'video' && !linkValue && !editingVideoUrl) || uploading}
           className="bg-brand text-black px-6 py-2 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-brand/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
         >
-          {uploading ? <><Loader2 size={18} className="animate-spin" /> Yükleniyor</> : <><Plus size={18} /> Yükle</>}
+          {uploading ? <><Loader2 size={18} className="animate-spin" /> Bekleyin</> : <><Plus size={18} /> {editingId ? "Kaydet" : "Yükle"}</>}
         </button>
       </form>
 
@@ -256,12 +321,23 @@ const AdminMediaManager = ({ collectionName, title }: { collectionName: string, 
               {item.type === 'video' ? <VideoIcon size={16} className="text-white" /> : <ImageIcon size={16} className="text-white" />}
             </div>
             {item.title && <div className="absolute top-2 right-12 bg-black/60 px-2 py-1 rounded-md text-xs backdrop-blur-md truncate max-w-[calc(100%-80px)]">{item.title}</div>}
-            <button 
-              onClick={() => handleDelete(item.id, item.src, item.type)}
-              className="absolute top-2 right-2 bg-red-500/80 text-white p-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
-            >
-              <Trash2 size={16} />
-            </button>
+            
+            <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+               <button 
+                 onClick={() => handleEditClick(item)}
+                 className="bg-white/20 text-white p-1.5 rounded-md backdrop-blur-md hover:bg-white/30"
+                 title="Düzenle"
+               >
+                  Düzenle
+               </button>
+               <button 
+                 onClick={() => handleDelete(item.id, item.src, item.type)}
+                 className="bg-red-500/80 text-white p-1.5 rounded-md hover:bg-red-500 text-center flex justify-center"
+                 title="Sil"
+               >
+                 <Trash2 size={16} />
+               </button>
+            </div>
           </div>
         ))}
       </div>
@@ -411,12 +487,10 @@ const AdminBlogManager = () => {
           placeholder="Kısa Özet"
           className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"
         />
-        <textarea 
-          value={content} 
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="İçerik"
-          className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white min-h-[150px]"
-          required
+        <RichTextEditor
+          value={content}
+          onChange={setContent}
+          placeholder="İçerik yazınızı buraya ekleyin... (Numaralandırma, kalın, italik vb. formatları kullanabilirsiniz)"
         />
         <div className="flex gap-4 flex-col md:flex-row">
           <input type="text" value={category} onChange={e => setCategory(e.target.value)} placeholder="Kategori" className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white"/>

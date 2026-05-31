@@ -54,6 +54,45 @@
 }
 
 /* Custom styles for animations and layout */
+
+/* React Quill Overrides */
+.rich-text-editor-wrapper .ql-toolbar {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+  background-color: rgba(255,255,255,0.05);
+}
+.light-theme .rich-text-editor-wrapper .ql-toolbar {
+  border-bottom: 1px solid rgba(15,23,42,0.1) !important;
+  background-color: rgba(15,23,42,0.05);
+}
+.rich-text-editor-wrapper .ql-container {
+  border: none !important;
+  min-height: 250px;
+}
+.rich-text-editor-wrapper .ql-editor {
+  min-height: 250px;
+}
+.rich-text-editor-wrapper .ql-stroke {
+  stroke: rgba(255,255,255,0.7) !important;
+}
+.light-theme .rich-text-editor-wrapper .ql-stroke {
+  stroke: rgba(15,23,42,0.7) !important;
+}
+.rich-text-editor-wrapper .ql-fill {
+  fill: rgba(255,255,255,0.7) !important;
+}
+.light-theme .rich-text-editor-wrapper .ql-fill {
+  fill: rgba(15,23,42,0.7) !important;
+}
+.rich-text-editor-wrapper .ql-picker {
+  color: rgba(255,255,255,0.7) !important;
+}
+.light-theme .rich-text-editor-wrapper .ql-picker {
+  color: rgba(15,23,42,0.7) !important;
+}
+
 .glass {
   background: var(--color-glass);
   backdrop-filter: blur(12px) !important;

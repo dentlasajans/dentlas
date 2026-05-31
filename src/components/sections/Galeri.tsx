@@ -28,12 +28,14 @@ const GalleryItem = ({
   src,
   type,
   title,
+  category,
   onClick,
   index
 }: {
   src: string;
   type: "image" | "video";
   title?: string;
+  category?: string;
   onClick: () => void;
   index: number;
 }) => {
@@ -51,7 +53,14 @@ const GalleryItem = ({
       <div className="absolute inset-0 bg-brand/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
       {title && (
         <div className="absolute top-0 left-0 right-0 p-4 bg-gradient-to-b from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-          <p className="text-white font-bold truncate">{title}</p>
+          <p className="text-white font-bold truncate text-sm">{title}</p>
+        </div>
+      )}
+      {category && (
+        <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4 z-20">
+          <span className="bg-brand text-black text-[10px] sm:text-xs uppercase tracking-widest font-black px-2 py-1 sm:px-3 sm:py-1.5 rounded-full shadow-lg border border-black/10">
+            {category}
+          </span>
         </div>
       )}
       {type === "video" ? (
@@ -88,9 +97,10 @@ export const Galeri = () => {
     src: string;
     type: "image" | "video";
     title?: string;
+    category?: string;
   } | null>(null);
 
-  const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video', title?: string}[]>([]);
+  const [mediaItems, setMediaItems] = useState<{id: string, src: string, type: 'image'|'video', title?: string, category?: string}[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -100,7 +110,8 @@ export const Galeri = () => {
         id: doc.id,
         src: doc.data().src,
         type: doc.data().type as 'image'|'video',
-        title: doc.data().title
+        title: doc.data().title,
+        category: doc.data().category
       })));
       setLoading(false);
     }, (error) => {
@@ -146,7 +157,8 @@ export const Galeri = () => {
                       src={item.src}
                       type="image"
                       title={item.title}
-                      onClick={() => setSelectedMedia({ src: item.src, type: "image", title: item.title })}
+                      category={item.category}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "image", title: item.title, category: item.category })}
                     />
                   ))}
               </AnimatePresence>
@@ -182,7 +194,8 @@ export const Galeri = () => {
                       src={item.src}
                       type="video"
                       title={item.title}
-                      onClick={() => setSelectedMedia({ src: item.src, type: "video", title: item.title })}
+                      category={item.category}
+                      onClick={() => setSelectedMedia({ src: item.src, type: "video", title: item.title, category: item.category })}
                     />
                   ))}
               </AnimatePresence>
@@ -239,9 +252,18 @@ export const Galeri = () => {
                     loading="lazy"
                     decoding="async"
                   />
-                  {selectedMedia.title && (
-                    <div className="absolute bottom-4 left-0 right-0 text-center">
-                       <span className="bg-black/80 text-white px-4 py-2 rounded-lg backdrop-blur-md font-medium inline-block shadow-lg">{selectedMedia.title}</span>
+                  {(selectedMedia.title || selectedMedia.category) && (
+                    <div className="absolute bottom-4 left-0 right-0 text-center flex flex-col items-center gap-2">
+                       {selectedMedia.category && (
+                         <span className="bg-brand text-black text-xs uppercase tracking-widest font-black px-3 py-1.5 rounded-full shadow-lg border border-black/10">
+                           {selectedMedia.category}
+                         </span>
+                       )}
+                       {selectedMedia.title && (
+                         <span className="bg-black/80 text-white px-4 py-2 rounded-lg backdrop-blur-md font-medium inline-block shadow-lg">
+                           {selectedMedia.title}
+                         </span>
+                       )}
                     </div>
                   )}
                 </div>
@@ -264,6 +286,13 @@ export const Galeri = () => {
                       />
                     )}
                   </div>
+                  {selectedMedia.category && (
+                    <div className="mt-4 flex justify-center">
+                      <span className="bg-brand text-black text-xs uppercase tracking-widest font-black px-3 py-1.5 rounded-full shadow-lg border border-black/10">
+                        {selectedMedia.category}
+                      </span>
+                    </div>
+                  )}
                   {selectedMedia.title && (
                     <h3 className="text-white text-xl md:text-2xl font-bold mt-2 text-center">{selectedMedia.title}</h3>
                   )}
