@@ -202,7 +202,7 @@ export const Blog = () => {
                 <div className="w-full mt-4 md:mt-2 border-t border-white/5 pt-8 ql-snow">
                   <div 
                     className="ql-editor prose prose-invert prose-lg max-w-none prose-p:text-white/80 prose-p:leading-relaxed prose-headings:text-white prose-a:text-brand"
-                    dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                    dangerouslySetInnerHTML={{ __html: selectedPost.content.replace(/&nbsp;/g, ' ') }}
                   />
                 </div>
               </div>

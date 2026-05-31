@@ -164,15 +164,14 @@
   border-color: rgba(15, 23, 42, 0.1) !important;
 }
 
-/* Force wrapping in Blog Modal for all rich text outputs */
+/* Force normal text wrapping in Blog Modal without breaking inside words */
 .ql-editor, .ql-editor * {
-  white-space: normal !important;
-  word-wrap: break-word !important;
-  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
   word-break: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
   hyphens: none !important;
   -webkit-hyphens: none !important;
-  max-width: 100% !important;
 }
 
 .ql-editor img, .ql-editor iframe, .ql-editor video {
