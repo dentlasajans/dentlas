@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { AdminPricingManager } from './AdminPricingManager';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../lib/firebase';
-import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2, Camera, FileText } from 'lucide-react';
+import { Image as ImageIcon, Video as VideoIcon, Trash2, Plus, LogOut, UploadCloud, Loader2, Camera, FileText, CreditCard } from 'lucide-react';
+
 import { OperationType, handleFirestoreError } from '../../lib/firestoreError';
 import { RichTextEditor } from './RichTextEditor';
 
@@ -641,12 +643,18 @@ export const AdminPanel = () => {
                   <FileText size={18} /> Blog Yönetimi
                 </Link>
               </li>
+              <li>
+                <Link to="/admin/pricing" className="text-white/70 hover:text-white font-medium flex items-center gap-3">
+                  <CreditCard size={18} /> Fiyatlandırma Yönetimi
+                </Link>
+              </li>
             </ul>
           </aside>
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<AdminMediaManager collectionName="media" title="Galeri" />} />
               <Route path="/blog" element={<AdminBlogManager />} />
+              <Route path="/pricing" element={<AdminPricingManager />} />
             </Routes>
           </main>
         </div>

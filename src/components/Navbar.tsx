@@ -77,8 +77,8 @@ export const Navbar = () => {
         <div className="flex items-center gap-4 ml-auto lg:ml-0">
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-4 xl:gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white">
-            {['Servisler', 'Araçlar', 'Galeri', 'Blog', 'Referanslar', 'Yorumlar', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
-              const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
+            {['Servisler', 'Araçlar', 'Galeri', 'Blog', 'Referanslar', 'Yorumlar', 'Fiyatlandırma', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
+              const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Fiyatlandırma' ? 'pricing' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
               const isActive = activeSection === itemId;
               
               return (
@@ -149,8 +149,8 @@ export const Navbar = () => {
             className="lg:hidden fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col justify-center items-center overflow-hidden"
           >
             <div className="flex flex-col items-center p-6 gap-6 w-full max-h-screen overflow-y-auto">
-              {['Servisler', 'Araçlar', 'Galeri', 'Blog', 'Referanslar', 'Yorumlar', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
-                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
+              {['Servisler', 'Araçlar', 'Galeri', 'Blog', 'Referanslar', 'Yorumlar', 'Fiyatlandırma', 'Hakkımızda', 'S.S.S.', 'İletişim'].map((item, i) => {
+                const itemId = item === 'S.S.S.' ? 'faq' : item === 'Yorumlar' ? 'testimonials' : item === 'Araçlar' ? 'araclar' : item === 'Fiyatlandırma' ? 'pricing' : item === 'Hakkımızda' ? 'hakkimizda' : item === 'İletişim' ? 'iletisim' : item.toLowerCase();
                 const isActive = activeSection === itemId;
                 return (
                   <motion.button 
