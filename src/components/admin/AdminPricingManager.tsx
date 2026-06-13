@@ -23,6 +23,58 @@ export const AdminPricingManager = () => {
   const [planPopular, setPlanPopular] = useState(false);
   const [planFeatures, setPlanFeatures] = useState<string[]>([]);
   const [newFeature, setNewFeature] = useState('');
+  const [editingFeatureIndex, setEditingFeatureIndex] = useState<number | null>(null);
+  const [editingFeatureText, setEditingFeatureText] = useState('');
+
+  const movePlan = async (categoryId: string, planIdx: number, dir: 'up' | 'down') => {
+    const cat = categories.find(c => c.id === categoryId);
+    if (!cat) return;
+    
+    if (dir === 'up' && planIdx === 0) return;
+    if (dir === 'down' && planIdx === (cat.plans || []).length - 1) return;
+
+    const newPlans = [...(cat.plans || [])];
+    const targetIdx = dir === 'up' ? planIdx - 1 : planIdx + 1;
+    const temp = newPlans[planIdx];
+    newPlans[planIdx] = newPlans[targetIdx];
+    newPlans[targetIdx] = temp;
+
+    try {
+      await setDoc(doc(db, 'pricing_categories', categoryId), {
+        plans: newPlans
+      }, { merge: true });
+    } catch (err) {
+      console.error(err);
+      setError('Plan taşınırken hata oluştu.');
+    }
+  };
+
+  const moveFeature = (idx: number, dir: 'up' | 'down') => {
+    if (dir === 'up' && idx === 0) return;
+    if (dir === 'down' && idx === planFeatures.length - 1) return;
+    
+    const newFeatures = [...planFeatures];
+    const targetIdx = dir === 'up' ? idx - 1 : idx + 1;
+    const temp = newFeatures[idx];
+    newFeatures[idx] = newFeatures[targetIdx];
+    newFeatures[targetIdx] = temp;
+    setPlanFeatures(newFeatures);
+  };
+
+  const startEditFeature = (idx: number, text: string) => {
+    setEditingFeatureIndex(idx);
+    setEditingFeatureText(text);
+  };
+
+  const saveEditedFeature = () => {
+    if (editingFeatureIndex !== null && editingFeatureText.trim()) {
+      const newFeatures = [...planFeatures];
+      newFeatures[editingFeatureIndex] = editingFeatureText.trim();
+      setPlanFeatures(newFeatures);
+      setEditingFeatureIndex(null);
+      setEditingFeatureText('');
+    }
+  };
 
   useEffect(() => {
     const q = query(collection(db, 'pricing_categories'), orderBy('order', 'asc'));
@@ -253,7 +305,7 @@ export const AdminPricingManager = () => {
 
             {/* Plans List */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {(cat.plans || []).map((plan: any) => (
+              {(cat.plans || []).map((plan: any, planIdx: number) => (
                 <div key={plan.id} className={`bg-black/40 border p-4 rounded-xl ${plan.popular ? 'border-brand/50' : 'border-white/10'}`}>
                   {editingPlanId === plan.id && editingPlanCategoryId === cat.id ? (
                     <div className="space-y-4">
@@ -288,9 +340,24 @@ export const AdminPricingManager = () => {
                         <p className="text-xs text-white/50 mb-2">Özellikler ({planFeatures.length})</p>
                         <div className="space-y-2 mb-3">
                           {planFeatures.map((feat, fIdx) => (
-                            <div key={fIdx} className="flex justify-between items-center text-sm bg-white/5 px-2 py-1 rounded">
-                              <span className="text-white/80">{feat}</span>
-                              <button onClick={() => removeFeature(fIdx)} className="text-red-400 hover:text-red-300"><X size={14}/></button>
+                            <div key={fIdx} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
+                              {editingFeatureIndex === fIdx ? (
+                                <div className="flex gap-2 w-full">
+                                  <input type="text" value={editingFeatureText} onChange={e => setEditingFeatureText(e.target.value)} className="flex-1 bg-black/50 border border-white/20 rounded px-2 py-1 text-white text-sm" autoFocus onKeyDown={e => e.key === 'Enter' && saveEditedFeature()} />
+                                  <button onClick={saveEditedFeature} type="button" className="bg-green-500/20 text-green-400 p-1.5 rounded hover:bg-green-500/30"><Check size={14}/></button>
+                                  <button onClick={() => setEditingFeatureIndex(null)} type="button" className="bg-red-500/20 text-red-400 p-1.5 rounded hover:bg-red-500/30"><X size={14}/></button>
+                                </div>
+                              ) : (
+                                <div className="flex justify-between items-center w-full">
+                                  <span className="text-white/80 text-sm">{feat}</span>
+                                  <div className="flex items-center gap-1">
+                                    <button onClick={() => moveFeature(fIdx, 'up')} disabled={fIdx === 0} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveUp size={14}/></button>
+                                    <button onClick={() => moveFeature(fIdx, 'down')} disabled={fIdx === planFeatures.length - 1} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveDown size={14}/></button>
+                                    <button onClick={() => startEditFeature(fIdx, feat)} type="button" className="text-white/40 hover:text-white ml-1"><Edit2 size={14}/></button>
+                                    <button onClick={() => removeFeature(fIdx)} type="button" className="text-red-400 hover:text-red-300 ml-1"><Trash2 size={14}/></button>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -316,6 +383,8 @@ export const AdminPricingManager = () => {
                           <p className="text-xs text-white/50">{plan.desc}</p>
                         </div>
                         <div className="flex items-center gap-1">
+                          <button onClick={() => movePlan(cat.id, planIdx, 'up')} disabled={planIdx === 0} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors disabled:opacity-30"><MoveUp size={14}/></button>
+                          <button onClick={() => movePlan(cat.id, planIdx, 'down')} disabled={planIdx === (cat.plans || []).length - 1} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors disabled:opacity-30"><MoveDown size={14}/></button>
                           <button onClick={() => handleEditPlan(cat.id, plan)} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors"><Edit2 size={14}/></button>
                           <button onClick={() => deletePlan(cat.id, plan.id)} className="p-1.5 text-red-400/50 hover:text-red-400 bg-red-400/10 rounded transition-colors"><Trash2 size={14}/></button>
                         </div>
@@ -372,9 +441,24 @@ export const AdminPricingManager = () => {
                     <p className="text-xs text-white/50 mb-2">Özellikler ({planFeatures.length})</p>
                     <div className="space-y-2 mb-3">
                       {planFeatures.map((feat, fIdx) => (
-                        <div key={fIdx} className="flex justify-between items-center text-sm bg-white/5 px-2 py-1 rounded">
-                          <span className="text-white/80">{feat}</span>
-                          <button onClick={() => removeFeature(fIdx)} className="text-red-400 hover:text-red-300"><X size={14}/></button>
+                        <div key={fIdx} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
+                          {editingFeatureIndex === fIdx ? (
+                            <div className="flex gap-2 w-full">
+                              <input type="text" value={editingFeatureText} onChange={e => setEditingFeatureText(e.target.value)} className="flex-1 bg-black/50 border border-white/20 rounded px-2 py-1 text-white text-sm" autoFocus onKeyDown={e => e.key === 'Enter' && saveEditedFeature()} />
+                              <button onClick={saveEditedFeature} type="button" className="bg-green-500/20 text-green-400 p-1.5 rounded hover:bg-green-500/30"><Check size={14}/></button>
+                              <button onClick={() => setEditingFeatureIndex(null)} type="button" className="bg-red-500/20 text-red-400 p-1.5 rounded hover:bg-red-500/30"><X size={14}/></button>
+                            </div>
+                          ) : (
+                            <div className="flex justify-between items-center w-full">
+                              <span className="text-white/80 text-sm">{feat}</span>
+                              <div className="flex items-center gap-1">
+                                <button onClick={() => moveFeature(fIdx, 'up')} disabled={fIdx === 0} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveUp size={14}/></button>
+                                <button onClick={() => moveFeature(fIdx, 'down')} disabled={fIdx === planFeatures.length - 1} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveDown size={14}/></button>
+                                <button onClick={() => startEditFeature(fIdx, feat)} type="button" className="text-white/40 hover:text-white ml-1"><Edit2 size={14}/></button>
+                                <button onClick={() => removeFeature(fIdx)} type="button" className="text-red-400 hover:text-red-300 ml-1"><Trash2 size={14}/></button>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
