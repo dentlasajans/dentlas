@@ -104,7 +104,7 @@ const initialPricingData = {
   ]
 };
 
-const PricingCard = ({ plan }: { plan: any }) => {
+const PricingCard = ({ plan, categoryLabel }: { plan: any, categoryLabel?: string }) => {
   // Determine available periods
   const availablePeriods = [];
   if (plan.prices) {
@@ -125,6 +125,9 @@ const PricingCard = ({ plan }: { plan: any }) => {
   if (availablePeriods.length === 0) return null;
 
   const currentPriceOption = availablePeriods.find(p => p.id === selectedPeriod) || availablePeriods[0];
+
+  const message = encodeURIComponent(`Merhaba, ${categoryLabel || ''} - ${plan.title} hizmeti hakkında bilgi almak istiyorum.`);
+  const whatsappUrl = `https://wa.me/905522438468?text=${message}`;
 
   return (
     <div 
@@ -188,7 +191,9 @@ const PricingCard = ({ plan }: { plan: any }) => {
       </div>
       
       <a 
-        href="#iletisim"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         className={`w-full py-3 rounded-xl font-medium tracking-wide transition-all flex items-center justify-center gap-2 group ${
           plan.popular
           ? 'bg-brand text-black hover:bg-brand/90 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]'
@@ -296,7 +301,7 @@ export const Pricing = () => {
             className={`grid grid-cols-1 md:grid-cols-2 ${activePlans.length >= 3 ? 'lg:grid-cols-3' : 'lg:max-w-4xl mx-auto'} gap-8`}
           >
             {activePlans.map((plan: any, idx: number) => (
-              <PricingCard key={plan.id || idx} plan={plan} />
+              <PricingCard key={plan.id || idx} plan={plan} categoryLabel={activeCategory?.label} />
             ))}
           </motion.div>
         </AnimatePresence>
