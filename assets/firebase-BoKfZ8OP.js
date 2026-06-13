@@ -1,0 +1,1 @@
+import{i as e,j as s,k as t}from"./vendor-firebase-B8vqCTOO.js";const p={apiKey:"AIzaSyCaNylnr8Z2yGkxbeur3Dhui5_5p_zh35Q",authDomain:"atlaspos-c2a3e.firebaseapp.com",projectId:"atlaspos-c2a3e",storageBucket:"atlaspos-c2a3e.firebasestorage.app",messagingSenderId:"7192452493",appId:"1:7192452493:web:cd48d6c2fab668251571c4"},a=t(p),i=e(a),r=s(a);export{r as a,i as d};
