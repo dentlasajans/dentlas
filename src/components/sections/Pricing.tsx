@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Star, ArrowRight } from 'lucide-react';
+import { Check, Star, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { SectionHeading } from '../ui/SectionHeading';
 import { collection, query, orderBy, onSnapshot, getDocs, writeBatch, doc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -131,24 +131,22 @@ const PricingCard = ({ plan, categoryLabel }: { plan: any, categoryLabel?: strin
 
   return (
     <div 
-      className={`relative flex flex-col glass rounded-3xl p-8 border ${
+      className={`w-[calc(100vw-32px)] max-h-[75vh] md:max-h-none flex-shrink-0 snap-center md:w-auto relative flex flex-col glass rounded-3xl pt-8 pb-6 px-6 md:p-8 border overflow-hidden ${
         plan.popular 
         ? 'border-brand/50 shadow-[0_0_30px_rgba(59,130,246,0.15)] bg-gradient-to-b from-brand/10 to-transparent' 
         : 'border-white/10 bg-white/5'
       }`}
     >
       {plan.popular && (
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <span className="bg-brand text-black text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-            <Star size={12} />
-            En Çok Tercih Edilen
-          </span>
+        <div className="absolute top-5 -right-10 rotate-45 bg-brand text-black text-[10px] sm:text-[11px] font-bold uppercase tracking-widest py-1.5 shadow-lg z-10 flex items-center justify-center gap-1 w-[160px]">
+          <Star size={10} />
+          Önerilen
         </div>
       )}
       
       <div className="mb-4">
         <h3 className="text-xl font-bold text-white mb-2">{plan.title}</h3>
-        <p className="text-white/60 text-sm h-10">{plan.desc}</p>
+        <p className="text-white/60 text-sm min-h-[40px]">{plan.desc}</p>
       </div>
       
       {/* Selection Plan Toggle */}
@@ -177,8 +175,8 @@ const PricingCard = ({ plan, categoryLabel }: { plan: any, categoryLabel?: strin
         </div>
       </div>
       
-      <div className="flex-1">
-        <ul className="space-y-4 mb-8">
+      <div className="flex-1 overflow-y-auto mb-6 pr-2 custom-scrollbar">
+        <ul className="space-y-4">
           {plan.features?.map((feature: string, fIdx: number) => (
             <li key={fIdx} className="flex items-start gap-3">
               <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -267,11 +265,10 @@ export const Pricing = () => {
     <section id="pricing" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
       
-      <div className="container mx-auto px-4 max-w-6xl relative z-10">
-        <SectionHeading 
-          title="Fiyatlandırma" 
-          subtitle="İhtiyacınıza en uygun paketi seçin, işletmenizi dijitalde bir adım öne taşıyalım."
-        />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <SectionHeading subtitle="FİYATLANDIRMA">
+          İhtiyacınıza En Uygun Paketi Seçin.
+        </SectionHeading>
 
         {/* Tabs */}
         <div className="flex overflow-x-auto custom-scrollbar pb-4 mb-10 w-full justify-start md:justify-center items-center gap-2">
@@ -298,13 +295,26 @@ export const Pricing = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className={`grid grid-cols-1 md:grid-cols-2 ${activePlans.length >= 3 ? 'lg:grid-cols-3' : 'lg:max-w-4xl mx-auto'} gap-8`}
+            className={`flex flex-nowrap md:grid md:grid-cols-2 ${activePlans.length >= 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-4 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 -mx-4 px-4 md:overflow-visible md:pb-0 md:px-0 custom-scrollbar`}
           >
             {activePlans.map((plan: any, idx: number) => (
               <PricingCard key={plan.id || idx} plan={plan} categoryLabel={activeCategory?.label} />
             ))}
           </motion.div>
         </AnimatePresence>
+
+        {/* Mobile Swipe Hint */}
+        {activePlans.length > 1 && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex md:hidden items-center justify-center gap-2 mt-4 text-white/40 text-xs font-medium uppercase tracking-widest"
+          >
+            <ChevronLeft size={16} className="animate-pulse" />
+            Kaydırarak İnceleyin
+            <ChevronRight size={16} className="animate-pulse" />
+          </motion.div>
+        )}
       </div>
     </section>
   );

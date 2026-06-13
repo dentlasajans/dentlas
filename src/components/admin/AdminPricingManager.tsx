@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { collection, query, orderBy, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
-import { Plus, Trash2, Edit2, Check, X, MoveUp, MoveDown, Save } from 'lucide-react';
+import { Plus, Trash2, Edit2, Check, X, MoveUp, MoveDown, Save, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 
 export const AdminPricingManager = () => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -25,6 +26,17 @@ export const AdminPricingManager = () => {
   const [newFeature, setNewFeature] = useState('');
   const [editingFeatureIndex, setEditingFeatureIndex] = useState<number | null>(null);
   const [editingFeatureText, setEditingFeatureText] = useState('');
+
+  const handleReorderPlans = async (categoryId: string, newPlans: any[]) => {
+    // Optimistic update for Reorder animation smoothness
+    setCategories(prev => prev.map(c => c.id === categoryId ? { ...c, plans: newPlans } : c));
+    try {
+      await setDoc(doc(db, 'pricing_categories', categoryId), { plans: newPlans }, { merge: true });
+    } catch (err) {
+      console.error(err);
+      setError('Sıralama güncellenirken hata oluştu.');
+    }
+  };
 
   const movePlan = async (categoryId: string, planIdx: number, dir: 'up' | 'down') => {
     const cat = categories.find(c => c.id === categoryId);
@@ -304,9 +316,9 @@ export const AdminPricingManager = () => {
             </div>
 
             {/* Plans List */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {(cat.plans || []).map((plan: any, planIdx: number) => (
-                <div key={plan.id} className={`bg-black/40 border p-4 rounded-xl ${plan.popular ? 'border-brand/50' : 'border-white/10'}`}>
+              <Reorder.Group axis="y" values={cat.plans || []} onReorder={(newPlans) => handleReorderPlans(cat.id, newPlans)} className="flex flex-col gap-4">
+                {(cat.plans || []).map((plan: any, planIdx: number) => (
+                  <Reorder.Item key={plan.id} value={plan} className={`bg-black/40 border p-4 rounded-xl ${plan.popular ? 'border-brand/50' : 'border-white/10'}`}>
                   {editingPlanId === plan.id && editingPlanCategoryId === cat.id ? (
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 gap-4">
@@ -332,15 +344,15 @@ export const AdminPricingManager = () => {
                       <div className="flex items-center gap-4">
                         <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
                           <input type="checkbox" checked={planPopular} onChange={e => setPlanPopular(e.target.checked)} className="rounded border-white/20 bg-black/50" />
-                          En Çok Tercih Edilen (Popüler)
+                          Önerilen (Sağ üst çapraz şerit)
                         </label>
                       </div>
                       
                       <div className="border border-white/5 rounded-lg p-3 bg-black/20">
                         <p className="text-xs text-white/50 mb-2">Özellikler ({planFeatures.length})</p>
-                        <div className="space-y-2 mb-3">
+                        <Reorder.Group axis="y" values={planFeatures} onReorder={setPlanFeatures} className="space-y-2 mb-3">
                           {planFeatures.map((feat, fIdx) => (
-                            <div key={fIdx} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
+                            <Reorder.Item key={`feature-${feat}-${fIdx}`} value={feat} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
                               {editingFeatureIndex === fIdx ? (
                                 <div className="flex gap-2 w-full">
                                   <input type="text" value={editingFeatureText} onChange={e => setEditingFeatureText(e.target.value)} className="flex-1 bg-black/50 border border-white/20 rounded px-2 py-1 text-white text-sm" autoFocus onKeyDown={e => e.key === 'Enter' && saveEditedFeature()} />
@@ -349,18 +361,17 @@ export const AdminPricingManager = () => {
                                 </div>
                               ) : (
                                 <div className="flex justify-between items-center w-full">
-                                  <span className="text-white/80 text-sm">{feat}</span>
-                                  <div className="flex items-center gap-1">
-                                    <button onClick={() => moveFeature(fIdx, 'up')} disabled={fIdx === 0} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveUp size={14}/></button>
-                                    <button onClick={() => moveFeature(fIdx, 'down')} disabled={fIdx === planFeatures.length - 1} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveDown size={14}/></button>
+                                  <GripVertical size={16} className="text-white/20 cursor-grab active:cursor-grabbing hover:text-white/50" />
+                                  <span className="text-white/80 text-sm ml-2">{feat}</span>
+                                  <div className="flex items-center gap-1 ml-auto">
                                     <button onClick={() => startEditFeature(fIdx, feat)} type="button" className="text-white/40 hover:text-white ml-1"><Edit2 size={14}/></button>
                                     <button onClick={() => removeFeature(fIdx)} type="button" className="text-red-400 hover:text-red-300 ml-1"><Trash2 size={14}/></button>
                                   </div>
                                 </div>
                               )}
-                            </div>
+                            </Reorder.Item>
                           ))}
-                        </div>
+                        </Reorder.Group>
                         <div className="flex gap-2">
                           <input type="text" placeholder="Yeni özellik yazın..." value={newFeature} onChange={e => setNewFeature(e.target.value)} onKeyDown={e => e.key === 'Enter' && addFeature()} className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-white text-sm" />
                           <button onClick={addFeature} type="button" className="bg-white/10 text-white px-3 border border-white/10 rounded hover:bg-white/20 text-sm">Ekle</button>
@@ -378,13 +389,12 @@ export const AdminPricingManager = () => {
                         <div>
                           <div className="flex items-center gap-2">
                             <h4 className="font-bold text-white">{plan.title}</h4>
-                            {plan.popular && <span className="bg-brand/20 text-brand text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Popüler</span>}
+                            {plan.popular && <span className="bg-brand/20 text-brand text-[10px] px-2 py-0.5 rounded-full font-bold uppercase">Önerilen</span>}
                           </div>
                           <p className="text-xs text-white/50">{plan.desc}</p>
                         </div>
                         <div className="flex items-center gap-1">
-                          <button onClick={() => movePlan(cat.id, planIdx, 'up')} disabled={planIdx === 0} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors disabled:opacity-30"><MoveUp size={14}/></button>
-                          <button onClick={() => movePlan(cat.id, planIdx, 'down')} disabled={planIdx === (cat.plans || []).length - 1} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors disabled:opacity-30"><MoveDown size={14}/></button>
+                          <GripVertical size={18} className="text-white/20 cursor-grab active:cursor-grabbing hover:text-white/50 mr-2" />
                           <button onClick={() => handleEditPlan(cat.id, plan)} className="p-1.5 text-white/40 hover:text-white bg-white/5 rounded transition-colors"><Edit2 size={14}/></button>
                           <button onClick={() => deletePlan(cat.id, plan.id)} className="p-1.5 text-red-400/50 hover:text-red-400 bg-red-400/10 rounded transition-colors"><Trash2 size={14}/></button>
                         </div>
@@ -404,10 +414,11 @@ export const AdminPricingManager = () => {
                       </ul>
                     </div>
                   )}
-                </div>
+                </Reorder.Item>
               ))}
-              
-              {/* Add New Plan Editor */}
+            </Reorder.Group>
+            
+            {/* Add New Plan Editor */}
               {editingPlanId === 'new' && editingPlanCategoryId === cat.id && (
                 <div className="bg-black/40 border border-brand/50 p-4 rounded-xl space-y-4">
                   <div className="grid grid-cols-1 gap-4">
@@ -433,15 +444,15 @@ export const AdminPricingManager = () => {
                   <div className="flex items-center gap-4">
                     <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
                       <input type="checkbox" checked={planPopular} onChange={e => setPlanPopular(e.target.checked)} className="rounded border-white/20 bg-black/50" />
-                      En Çok Tercih Edilen
+                      Önerilen (Sağ üst çapraz şerit)
                     </label>
                   </div>
                   
                   <div className="border border-white/5 rounded-lg p-3 bg-black/20">
                     <p className="text-xs text-white/50 mb-2">Özellikler ({planFeatures.length})</p>
-                    <div className="space-y-2 mb-3">
+                    <Reorder.Group axis="y" values={planFeatures} onReorder={setPlanFeatures} className="space-y-2 mb-3">
                       {planFeatures.map((feat, fIdx) => (
-                        <div key={fIdx} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
+                        <Reorder.Item key={`new-feature-${feat}-${fIdx}`} value={feat} className="flex flex-col gap-1 bg-white/5 px-2 py-1.5 rounded">
                           {editingFeatureIndex === fIdx ? (
                             <div className="flex gap-2 w-full">
                               <input type="text" value={editingFeatureText} onChange={e => setEditingFeatureText(e.target.value)} className="flex-1 bg-black/50 border border-white/20 rounded px-2 py-1 text-white text-sm" autoFocus onKeyDown={e => e.key === 'Enter' && saveEditedFeature()} />
@@ -450,18 +461,17 @@ export const AdminPricingManager = () => {
                             </div>
                           ) : (
                             <div className="flex justify-between items-center w-full">
-                              <span className="text-white/80 text-sm">{feat}</span>
-                              <div className="flex items-center gap-1">
-                                <button onClick={() => moveFeature(fIdx, 'up')} disabled={fIdx === 0} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveUp size={14}/></button>
-                                <button onClick={() => moveFeature(fIdx, 'down')} disabled={fIdx === planFeatures.length - 1} type="button" className="text-white/40 hover:text-white disabled:opacity-30"><MoveDown size={14}/></button>
-                                <button onClick={() => startEditFeature(fIdx, feat)} type="button" className="text-white/40 hover:text-white ml-1"><Edit2 size={14}/></button>
-                                <button onClick={() => removeFeature(fIdx)} type="button" className="text-red-400 hover:text-red-300 ml-1"><Trash2 size={14}/></button>
-                              </div>
+                               <GripVertical size={16} className="text-white/20 cursor-grab active:cursor-grabbing hover:text-white/50" />
+                               <span className="text-white/80 text-sm ml-2">{feat}</span>
+                               <div className="flex items-center gap-1 ml-auto">
+                                 <button onClick={() => startEditFeature(fIdx, feat)} type="button" className="text-white/40 hover:text-white ml-1"><Edit2 size={14}/></button>
+                                 <button onClick={() => removeFeature(fIdx)} type="button" className="text-red-400 hover:text-red-300 ml-1"><Trash2 size={14}/></button>
+                               </div>
                             </div>
                           )}
-                        </div>
+                        </Reorder.Item>
                       ))}
-                    </div>
+                    </Reorder.Group>
                     <div className="flex gap-2">
                       <input type="text" placeholder="Yeni özellik yazın..." value={newFeature} onChange={e => setNewFeature(e.target.value)} onKeyDown={e => e.key === 'Enter' && addFeature()} className="flex-1 bg-white/5 border border-white/10 rounded px-2 py-1.5 text-white text-sm" />
                       <button onClick={addFeature} type="button" className="bg-white/10 text-white px-3 border border-white/10 rounded hover:bg-white/20 text-sm">Ekle</button>
@@ -474,7 +484,6 @@ export const AdminPricingManager = () => {
                   </div>
                 </div>
               )}
-            </div>
           </div>
         ))}
         {categories.length === 0 && (
